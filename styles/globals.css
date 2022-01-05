@@ -1,16 +1,19 @@
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.toggle-bg:after {
+  content: "";
+  @apply absolute top-0.5 left-0.5 bg-white border border-gray-300 rounded-full h-4 w-4 transition shadow-sm;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+input:checked + .toggle-bg:after {
+  transform: translateX(100%);
+  @apply border-white;
 }
 
-* {
-  box-sizing: border-box;
+input:checked + .toggle-bg {
+  @apply bg-blue-600 border-blue-600;
 }
