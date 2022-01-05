@@ -8,6 +8,7 @@ module.exports = {
       colors: {
         lightBg: "#f5f7ff",
         text: "#020d31",
+        textGrayed: "#73798c",
         divider: "#E4E8F4",
         primary: "#2356F7",
         error: "#EA1601",

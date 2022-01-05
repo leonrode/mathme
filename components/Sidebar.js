@@ -3,19 +3,46 @@ import {
   MdOutlineSearch,
   MdBookmark,
   MdAdd,
+  MdMenu,
 } from "react-icons/md";
 
+import MobileDropContent from "./MobileDropContent";
+
+import { useState } from "react";
+
 function Sidebar() {
+  const [showMobileDropdown, setShowMobileDropdown] = useState(false);
+
+  const closeMobileDropdown = () => setShowMobileDropdown(false);
+
   return (
-    <aside className="flex flex-col items-center py-16">
-      <Logo />
-      <Divider />
-      <div className="flex flex-col items-center justify-between h-full">
-        <div className="flex flex-col items-center justify-between h-1/3">
-          <SidebarIcon Icon={MdHomeFilled} hoverText="home" isActive />
-          <SidebarIcon Icon={MdOutlineSearch} hoverText="search" />
-          <SidebarIcon Icon={MdBookmark} hoverText="saved" />
-          <SidebarIcon Icon={MdAdd} hoverText="create" />
+    <aside className="fixed top-0 w-screen lg:static lg:visible lg:flex lg:justify-end lg:w-fit">
+      <div className="fixed top-0 h-16 left-0 w-screen bg-white drop-shadow-md flex items-center justify-between px-4 lg:hidden">
+        <Logo />
+        <div
+          onClick={() => {
+            setShowMobileDropdown(true);
+          }}
+        >
+          <MdMenu size={30} color="#000000" />
+        </div>
+        <div className="absolute left-0 top-0 lg:hidden">
+          <MobileDropContent
+            show={showMobileDropdown}
+            close={closeMobileDropdown}
+          />
+        </div>
+      </div>
+      <div className="hidden lg:h-full lg:items-center lg:flex lg:flex-col lg:justify-between w-1/3 lg:py-16">
+        <div className="flex flex-col h-2/5 items-center">
+          <Logo />
+          <Divider />
+          <div className="flex flex-col items-center justify-between h-full">
+            <SidebarIcon Icon={MdHomeFilled} hoverText="home" isActive />
+            <SidebarIcon Icon={MdOutlineSearch} hoverText="search" />
+            <SidebarIcon Icon={MdBookmark} hoverText="saved" />
+            <SidebarIcon Icon={MdAdd} hoverText="create" />
+          </div>
         </div>
         <div className="group relative">
           <img
@@ -30,11 +57,13 @@ function Sidebar() {
 }
 
 function Logo() {
-  return <h1 className="text-text text-4xl font-bold ">Math me</h1>;
+  return (
+    <h1 className="text-primary text-3xl font-bold lg:text-4xl ">MathMe</h1>
+  );
 }
 
 function Divider() {
-  return <hr className="w-1/2 border-divider m-4"></hr>;
+  return <hr className="hidden lg:block lg:w-1/2 lg:my-4"></hr>;
 }
 
 function SidebarIcon({ Icon, isActive, hoverText }) {
