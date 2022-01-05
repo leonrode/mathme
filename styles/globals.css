@@ -4,16 +4,16 @@
 @tailwind components;
 @tailwind utilities;
 
-.toggle-bg:after {
+.toggler:after {
   content: "";
-  @apply absolute top-0.5 left-0.5 bg-white border border-gray-300 rounded-full h-4 w-4 transition shadow-sm;
+
+  @apply absolute top-0.5 left-0.5 bg-white border border-gray-300 rounded-full h-4 w-4 transition;
 }
 
-input:checked + .toggle-bg:after {
+.toggler:checked {
+  @apply bg-primary;
+}
+
+.toggler:checked::after {
   transform: translateX(100%);
-  @apply border-white;
-}
-
-input:checked + .toggle-bg {
-  @apply bg-blue-600 border-blue-600;
 }

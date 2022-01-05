@@ -10,7 +10,9 @@ import MobileDropContent from "./MobileDropContent";
 
 import { useState } from "react";
 
-function Sidebar() {
+import Link from "next/link";
+
+function Sidebar({ activeIndex }) {
   const [showMobileDropdown, setShowMobileDropdown] = useState(false);
 
   const closeMobileDropdown = () => setShowMobileDropdown(false);
@@ -26,10 +28,11 @@ function Sidebar() {
         >
           <MdMenu size={30} color="#000000" />
         </div>
-        <div className="absolute left-0 top-0 lg:hidden">
+        <div className="absolute left-0 top-0 lg:hidden z-50">
           <MobileDropContent
             show={showMobileDropdown}
             close={closeMobileDropdown}
+            activeIndex={activeIndex}
           />
         </div>
       </div>
@@ -38,10 +41,30 @@ function Sidebar() {
           <Logo />
           <Divider />
           <div className="flex flex-col items-center justify-between h-full">
-            <SidebarIcon Icon={MdHomeFilled} hoverText="home" isActive />
-            <SidebarIcon Icon={MdOutlineSearch} hoverText="search" />
-            <SidebarIcon Icon={MdBookmark} hoverText="saved" />
-            <SidebarIcon Icon={MdAdd} hoverText="create" />
+            <SidebarIcon
+              Icon={MdHomeFilled}
+              hoverText="home"
+              href="/home"
+              isActive={activeIndex === 0}
+            />
+            <SidebarIcon
+              Icon={MdOutlineSearch}
+              hoverText="search"
+              href="/search"
+              isActive={activeIndex === 1}
+            />
+            <SidebarIcon
+              Icon={MdBookmark}
+              hoverText="saved"
+              href="/saved"
+              isActive={activeIndex === 2}
+            />
+            <SidebarIcon
+              Icon={MdAdd}
+              hoverText="create"
+              href="/create"
+              isActive={activeIndex === 3}
+            />
           </div>
         </div>
         <div className="group relative">
@@ -66,15 +89,17 @@ function Divider() {
   return <hr className="hidden lg:block lg:w-1/2 lg:my-4"></hr>;
 }
 
-function SidebarIcon({ Icon, isActive, hoverText }) {
+function SidebarIcon({ Icon, isActive, hoverText, href }) {
   return (
-    <div className="relative group cursor-pointer">
-      <Icon size={35} color={isActive ? "#2356F7" : "#020d31"} />
-      <div className="absolute top-1/2 left-14 px-3 py-1 rounded drop-shadow-md bg-white text-text text-lg -translate-y-1/2 invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-100 ">
-        {hoverText}
-        <span className="before:rotate-45 before:border-white before:border-4 before:absolute before:right-full before:top-1/2 before:-translate-y-1/2 before:translate-x-1/2"></span>
+    <Link href={href}>
+      <div className="relative group cursor-pointer">
+        <Icon size={35} color={isActive ? "#2356F7" : "#020d31"} />
+        <div className="absolute top-1/2 left-14 px-3 py-1 rounded drop-shadow-md bg-white text-text text-lg -translate-y-1/2 invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-100 ">
+          {hoverText}
+          <span className="before:rotate-45 before:border-white before:border-4 before:absolute before:right-full before:top-1/2 before:-translate-y-1/2 before:translate-x-1/2"></span>
+        </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
@@ -93,13 +118,17 @@ function ProfileHoverCard() {
       <h3 className="text-text mt-1 cursor-pointer">Help</h3>
       <div className="flex items-center justify-between mt-1">
         Dark Mode
-        <label
-          for="toggle-example"
-          class="flex items-center cursor-pointer relative ml-8"
-        >
-          <input type="checkbox" id="toggle-example" class="sr-only" />
-          <div class="toggle-bg bg-gray-200 border-2 border-gray-200 h-5 w-9 rounded-full"></div>
-        </label>
+        <div>
+          <input
+            className="toggler relative w-9 ml-4 appearance-none rounded-full float-left h-5 align-top bg-no-repeat bg-contain bg-gray-300 focus:outline-none cursor-pointer shadow-sm transition-all"
+            type="checkbox"
+            role="switch"
+            id="flexSwitchCheckChecked76"
+            onClick={(e) => {
+              console.log(e.target.checked);
+            }}
+          />
+        </div>
       </div>
       <h3 className="text-text mt-1 cursor-pointer">Preferences</h3>
       <hr className="w-full border-divider my-2"></hr>
