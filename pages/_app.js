@@ -1,5 +1,7 @@
 import "../styles/globals.css";
+import "katex/dist/katex.min.css";
 import Head from "next/head";
+
 function MyApp({ Component, pageProps }) {
   return (
     <>

@@ -35,7 +35,7 @@ function MobileDropContent({ show, close, activeIndex }) {
     <div
       className={`${
         show ? "scale-y-100" : "scale-y-0"
-      } top-16 left-0 bg-white border-b-2 border-b-divider w-screen absolute border-t-2 origin-top border-t-divider p-4 transition-all z-5`}
+      } mobile-dropdown top-16 left-0 bg-white border-b-2 border-b-divider w-screen absolute border-t-2 origin-top border-t-divider p-4 transition-all z-[999]`}
       ref={_ref}
     >
       <div className="flex items-center ">

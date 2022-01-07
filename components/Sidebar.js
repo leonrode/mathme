@@ -8,17 +8,24 @@ import {
 
 import MobileDropContent from "./MobileDropContent";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import Link from "next/link";
 
 function Sidebar({ activeIndex }) {
   const [showMobileDropdown, setShowMobileDropdown] = useState(false);
-
+  const [avatarUrl, setAvatarUrl] = useState(null);
+  useEffect(() => {
+    (async () => {
+      const res = await fetch("https://randomuser.me/api/");
+      const data = await res.json();
+      setAvatarUrl(data.results[0].picture.medium);
+    })();
+  }, []);
   const closeMobileDropdown = () => setShowMobileDropdown(false);
 
   return (
-    <aside className="fixed top-0 w-screen lg:static lg:visible lg:flex lg:justify-end lg:w-fit">
+    <aside className="fixed top-0 w-screen lg:static lg:visible lg:flex lg:justify-end lg:w-fit z-10">
       <div className="fixed top-0 h-16 left-0 w-screen bg-white drop-shadow-md flex items-center justify-between px-4 lg:hidden">
         <Logo />
         <div
@@ -67,13 +74,17 @@ function Sidebar({ activeIndex }) {
             />
           </div>
         </div>
-        <div className="group relative">
-          <img
-            src="https://via.placeholder.com/50"
-            className="rounded-full"
-          ></img>
-          <ProfileHoverCard />
-        </div>
+        {avatarUrl && (
+          <div className="group relative">
+            <img
+              src={avatarUrl}
+              width={50}
+              height={50}
+              className="rounded-full"
+            ></img>
+            <ProfileHoverCard avatarUrl={avatarUrl} />
+          </div>
+        )}
       </div>
     </aside>
   );
@@ -103,12 +114,14 @@ function SidebarIcon({ Icon, isActive, hoverText, href }) {
   );
 }
 
-function ProfileHoverCard() {
+function ProfileHoverCard({ avatarUrl }) {
   return (
     <div className="rounded-lg bg-white drop-shadow-md p-4 absolute left-full bottom-1/2 translate-x-2 w-max invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-100 ">
       <div className="flex items-center cursor-pointer">
         <img
-          src="https://via.placeholder.com/25"
+          src={avatarUrl}
+          width={30}
+          height={30}
           className="rounded-full"
         ></img>
         <h3 className="text-text ml-4">Leon Rode</h3>

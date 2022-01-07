@@ -17,3 +17,25 @@
 .toggler:checked::after {
   transform: translateX(100%);
 }
+
+#math-input {
+  height: fit-content;
+  min-height: 40px;
+  margin-left: 1rem;
+  border: 2px solid #73798c;
+  background-color: white;
+  padding: 4px;
+  width: 8rem;
+  border-radius: 8px;
+
+  display: flex;
+  align-items: center;
+}
+
+.mq-editable-field.mq-focused {
+  box-shadow: none !important;
+}
+
+.mobile-dropdown {
+  z-index: 999;
+}
