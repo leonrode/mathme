@@ -16,6 +16,15 @@ module.exports = {
       fontFamily: {
         sans: "Poppins",
       },
+      animation: {
+        fadeIn: "fadeIn 0.25s ease-in-out forwards",
+      },
+      keyframes: {
+        fadeIn: {
+          "0%": { opacity: 0 },
+          "100%": { opacity: 100 },
+        },
+      },
     },
   },
   plugins: [],
