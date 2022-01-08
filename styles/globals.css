@@ -25,7 +25,8 @@
   border: 2px solid #73798c;
   background-color: white;
   padding: 4px;
-  width: 8rem;
+  min-width: 10rem;
+  width: fit-content;
   border-radius: 8px;
 
   display: flex;
@@ -38,4 +39,8 @@
 
 .mobile-dropdown {
   z-index: 999;
+}
+
+.katex * {
+  /* color: #73798c; */
 }

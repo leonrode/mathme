@@ -50,23 +50,23 @@ function MobileDropContent({ show, close, activeIndex }) {
         Icon={MdHomeFilled}
         isActive={activeIndex === 0}
         href="/home"
-        text="home"
+        text="Home"
       />
       <SidebarElement
         Icon={MdOutlineSearch}
-        text="search"
+        text="Search"
         href="/search"
         isActive={activeIndex === 1}
       />
       <SidebarElement
         Icon={MdBookmark}
-        text="saved"
+        text="Saved"
         href="/saved"
         isActive={activeIndex === 2}
       />
       <SidebarElement
         Icon={MdAdd}
-        text="create"
+        text="Create"
         isActive={activeIndex === 3}
         href="/create"
       />

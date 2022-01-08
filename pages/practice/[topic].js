@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import Sidebar from "../../components/Sidebar";
+import Timer from "../../components/Timer";
 
 import { useState, useEffect } from "react";
 
@@ -72,11 +73,17 @@ function TopicPage() {
                 <h3 className="text-text font-bold text-xl">
                   {problem.instructions}
                 </h3>
-                <h3 className="text-primary text-lg ml-4 lg:cursor-pointer">
+                <h3
+                  className="text-primary text-lg ml-4 lg:cursor-pointer"
+                  onClick={async () => {
+                    const newProblem = await fetchNewProblem(topic);
+                    setProblem(newProblem);
+                  }}
+                >
                   skip
                 </h3>
               </div>
-              <h3 className="text-text text-xl">12:39</h3>
+              <Timer />
             </div>
             <div className="flex items-center justify-center w-full lg:w-1/2 my-16 text-2xl lg:my-32">
               <Latex>{`$${problem.latex}$`}</Latex>
@@ -85,11 +92,28 @@ function TopicPage() {
             <div className="flex items-center justify-between w-full lg:w-1/2 ">
               <div className="flex items-center">
                 <Latex>{`$${problem.prompt}$`}</Latex>
-                <EditableMathField
-                  latex={latex}
-                  id="math-input"
-                  onChange={(mathField) => setLatex(mathField.latex())}
-                ></EditableMathField>
+                <div
+                  onKeyPress={async (e) => {
+                    if (e.key === "Enter" && latex !== "") {
+                      const isCorrect = await checkResponse(
+                        topic,
+                        latex,
+                        problem.latex
+                      );
+                      if (isCorrect) {
+                        const newProblem = await fetchNewProblem(topic);
+                        setProblem(newProblem);
+                        setLatex("");
+                      }
+                    }
+                  }}
+                >
+                  <EditableMathField
+                    latex={latex}
+                    id="math-input"
+                    onChange={(mathField) => setLatex(mathField.latex())}
+                  ></EditableMathField>
+                </div>
                 <div
                   className="bg-primary p-2 ml-4 text-white rounded-lg cursor-pointer"
                   onClick={async () => {
@@ -110,12 +134,8 @@ function TopicPage() {
                   Check
                 </div>
               </div>
-              <div className="">
-                <MdHelpOutline
-                  size={35}
-                  color="#2356F7"
-                  className="cursor-pointer"
-                />
+              <div className="text-text hover:text-primary">
+                <MdHelpOutline size={35} className="cursor-pointer" />
               </div>
             </div>
           </div>

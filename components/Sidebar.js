@@ -50,25 +50,25 @@ function Sidebar({ activeIndex }) {
           <div className="flex flex-col items-center justify-between h-full">
             <SidebarIcon
               Icon={MdHomeFilled}
-              hoverText="home"
+              hoverText="Home"
               href="/home"
               isActive={activeIndex === 0}
             />
             <SidebarIcon
               Icon={MdOutlineSearch}
-              hoverText="search"
+              hoverText="Search"
               href="/search"
               isActive={activeIndex === 1}
             />
             <SidebarIcon
               Icon={MdBookmark}
-              hoverText="saved"
+              hoverText="Saved"
               href="/saved"
               isActive={activeIndex === 2}
             />
             <SidebarIcon
               Icon={MdAdd}
-              hoverText="create"
+              hoverText="Create"
               href="/create"
               isActive={activeIndex === 3}
             />
