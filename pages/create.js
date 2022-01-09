@@ -7,6 +7,8 @@ import axios from "axios";
 
 import CreateSearchResult from "../components/CreateSearchResult";
 import AddedTopic from "../components/AddedTopic";
+import MiniSpinner from "../components/MiniSpinner";
+
 function Create() {
   const [results, setResults] = useState([]);
   const [inputPrompt, setInputPrompt] = useState("");
@@ -24,22 +26,22 @@ function Create() {
       const res = await axios.get(`/api/search?prompt=${reqPrompt}`);
       const data = res.data;
       setResults(data.results);
+
       setResultsLoading(false);
     })();
   }, [inputPrompt]);
 
-  const addTopic = (topic) =>
-    setAddedTopics((topics) => {
-      if (!topics.includes(topic)) return [...topics, topic];
-      return topics;
-    });
-  const removeTopic = (topic) =>
+  const addTopic = (topic) => {
+    setAddedTopics((topics) => [...topics, topic]);
+  };
+  const removeTopic = (topic) => {
     setAddedTopics((topics) => topics.filter((_topic) => _topic !== topic));
+  };
   return (
     <div className="flex justify-center w-screen h-screen bg-lightBg overflow-y-auto ">
-      <div className="flex w-5/6 z-0">
-        <Sidebar activeIndex={-1} />
-        <div className="flex flex-col py-24 w-full items-start px-1/2 lg:w-full lg:ml-16 lg:overflow-y-auto lg:px-8">
+      <div className="flex w-full px-4 md:w-5/6 md:px-0 z-0">
+        <Sidebar activeIndex={3} />
+        <div className="flex flex-col py-24 w-full items-start  lg:w-full lg:ml-16 lg:overflow-y-auto lg:px-8">
           <div className="flex items-center">
             <input
               className="text-3xl lg:text-5xl text-text rounded-none font-bold outline-none bg-transparent w-full lg:w-1/2 border-b-textGrayed border-b-2 focus:border-b-primary  transition"
@@ -47,14 +49,26 @@ function Create() {
               placeholder="My New Playlist #55"
             ></input>
             <MdEdit size={30} color="#000000" className=" ml-2 lg:ml-4" />
+            <div className="hidden md:block bg-primary text-white rounded-xl px-4 py-2 font-bold ml-4 text-xl cursor-pointer">
+              Save
+            </div>
           </div>
           <h3 className="text-textGrayed mt-4">by Leon Rode</h3>
-          <div className="lg:w-3/4 w-full flex flex-col mt-4 ">
-            {addedTopics.map((topic) => (
-              <AddedTopic topic={topic} removeHandler={removeTopic} />
+          <div className=" md:hidden bg-primary text-white rounded-xl px-4 py-2 font-bold text-xl cursor-pointer mt-4">
+            Save
+          </div>
+          <div className="w-full flex flex-col lg:w-3/4 mt-4">
+            {addedTopics.map((topic, i) => (
+              <AddedTopic
+                topic={topic}
+                removeHandler={removeTopic}
+                number={i}
+                key={topic.meta.title}
+              />
             ))}
           </div>
-          <h3 className="text-text text-lg mt-8">
+
+          <h3 className="text-text text-lg mt-4 md:mt-8">
             Start by searching for some topics
           </h3>
 
@@ -67,26 +81,7 @@ function Create() {
                 setInputPrompt(e.target.value);
               }}
             />
-            {resultsLoading && (
-              <svg
-                className="animate-spin h-6 w-6 text-primary absolute right-0 mr-3"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="#CDD1DB"
-                  strokeWidth="4"
-                ></circle>
-                <path
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                ></path>
-              </svg>
-            )}
+            {resultsLoading && <MiniSpinner />}
           </div>
           <div className="flex justify-between w-full lg:w-3/4 px-2 md:px-8 my-4 ">
             <div className="flex w-1/2">
@@ -110,5 +105,11 @@ function Create() {
     </div>
   );
 }
+const reorder = (list, startIndex, endIndex) => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
 
+  return result;
+};
 export default Create;

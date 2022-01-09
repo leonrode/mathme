@@ -1,15 +1,20 @@
 import "../styles/globals.css";
 import "katex/dist/katex.min.css";
 import Head from "next/head";
-
-function MyApp({ Component, pageProps }) {
+import { SessionProvider } from "next-auth/react";
+function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   return (
-    <>
-      <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      </Head>
-      <Component {...pageProps} />
-    </>
+    <SessionProvider session={session}>
+      <>
+        <Head>
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+          />
+        </Head>
+        <Component {...pageProps} />
+      </>
+    </SessionProvider>
   );
 }
 
