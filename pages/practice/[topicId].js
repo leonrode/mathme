@@ -17,27 +17,29 @@ const EditableMathField = dynamic(() => import("react-mathquill"), {
   ssr: false,
 });
 
-async function checkResponse(id, responseLatex, questionLatex) {
-  console.log(id, responseLatex, questionLatex);
-  const res = await axios.post("http://localhost:5000/api/verify", {
-    type_id: id,
-    userResponse: responseLatex,
-    questionLatex: questionLatex,
+async function checkResponse(topicId, userResponse, questionLatex) {
+  console.log(topicId, userResponse, questionLatex);
+  const res = await axios.post("/api/verify", {
+    topicId: parseInt(topicId),
+    userResponse,
+    questionLatex,
   });
 
   const { isCorrect } = res.data;
+  console.log(isCorrect);
   return isCorrect;
 }
 
-async function fetchNewProblem(id) {
-  const res = await axios.get(`http://localhost:5000/api/question/${id}`);
+async function fetchNewProblem(topicId) {
+  const res = await axios.get(`/api/question/${parseInt(topicId)}`);
   const data = res.data;
+  console.log(data);
   return data;
 }
 
 function TopicPage() {
   const router = useRouter();
-  const topic = router.query.topic;
+  const topicId = router.query.topicId;
   const [latex, setLatex] = useState("");
   const [problem, setProblem] = useState(null);
 
@@ -46,12 +48,12 @@ function TopicPage() {
       const a = await import("react-mathquill");
       a.addStyles();
 
-      if (topic) {
-        const newProblem = await fetchNewProblem(topic);
+      if (topicId) {
+        const newProblem = await fetchNewProblem(topicId);
         setProblem(newProblem);
       }
     })();
-  }, [topic]);
+  }, [topicId]);
 
   return (
     problem && (
@@ -59,7 +61,7 @@ function TopicPage() {
         <div className="flex w-5/6 z-0">
           <Sidebar activeIndex={-1} />
           <div className="flex flex-col py-24 w-screen items-start px-1/2 lg:w-full lg:ml-16 lg:overflow-y-auto lg:px-8">
-            <Link href="http://localhost:3000/search">
+            <Link href="/search">
               <div className="flex items-center cursor-pointer">
                 <MdChevronLeft size={35} color="#000000" />
                 <h3 className="text-text text-lg lg:text-xl ">
@@ -74,9 +76,9 @@ function TopicPage() {
                   {problem.instructions}
                 </h3>
                 <h3
-                  className="text-primary text-lg ml-4 lg:cursor-pointer"
+                  className="text-primary text-lg ml-4 cursor-pointer"
                   onClick={async () => {
-                    const newProblem = await fetchNewProblem(topic);
+                    const newProblem = await fetchNewProblem(topicId);
                     setProblem(newProblem);
                   }}
                 >
@@ -96,12 +98,12 @@ function TopicPage() {
                   onKeyPress={async (e) => {
                     if (e.key === "Enter" && latex !== "") {
                       const isCorrect = await checkResponse(
-                        topic,
+                        topicId,
                         latex,
                         problem.latex
                       );
                       if (isCorrect) {
-                        const newProblem = await fetchNewProblem(topic);
+                        const newProblem = await fetchNewProblem(topicId);
                         setProblem(newProblem);
                         setLatex("");
                       }
@@ -117,14 +119,14 @@ function TopicPage() {
                 <div
                   className="bg-primary p-2 ml-4 text-white rounded-lg cursor-pointer"
                   onClick={async () => {
-                    const isCorrect = checkResponse(
-                      topic,
+                    const isCorrect = await checkResponse(
+                      topicId,
                       latex,
                       problem.latex
                     );
 
                     if (isCorrect) {
-                      const newProblem = await fetchNewProblem(topic);
+                      const newProblem = await fetchNewProblem(topicId);
                       setProblem(newProblem);
 
                       setLatex("");

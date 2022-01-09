@@ -15,9 +15,7 @@ function Search() {
       } else {
         prompt = searchPrompt;
       }
-      const res = await fetch(
-        `http://localhost:5000/api/search?prompt=${prompt}`
-      );
+      const res = await fetch(`/api/search?prompt=${prompt}`);
       const data = await res.json();
 
       setSearchResults(data.results);

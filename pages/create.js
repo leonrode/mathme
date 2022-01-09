@@ -21,9 +21,7 @@ function Create() {
 
     (async () => {
       setResultsLoading(true);
-      const res = await axios.get(
-        `http://localhost:5000/api/search?prompt=${reqPrompt}`
-      );
+      const res = await axios.get(`/api/search?prompt=${reqPrompt}`);
       const data = res.data;
       setResults(data.results);
       setResultsLoading(false);

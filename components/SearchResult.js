@@ -18,7 +18,7 @@ function SearchResult({ title, example, number, _id }) {
           <Latex>{`$${example}$`}</Latex>
         </div>
         <div className="flex items-center">
-          <Link href={`http://localhost:3000/practice/${_id}`}>
+          <Link href={`/practice/${_id}`}>
             <h3 className="text-primary font-bold hidden cursor-pointer lg:flex lg:items-center">
               Practice{" "}
             </h3>
@@ -33,7 +33,7 @@ function SearchResult({ title, example, number, _id }) {
     </div>
   );
   return isMobile || isTablet ? (
-    <Link href={`http://localhost:3000/practice/${_id}`}>{children}</Link>
+    <Link href={`/practice/${_id}`}>{children}</Link>
   ) : (
     children
   );
