@@ -9,19 +9,22 @@ import {
 import MobileDropContent from "./MobileDropContent";
 
 import { useState, useEffect } from "react";
-
+import { useSession } from "next-auth/react";
 import Link from "next/link";
+
+import { signOut } from "next-auth/react";
 
 function Sidebar({ activeIndex }) {
   const [showMobileDropdown, setShowMobileDropdown] = useState(false);
-  const [avatarUrl, setAvatarUrl] = useState(null);
-  useEffect(() => {
-    (async () => {
-      const res = await fetch("https://randomuser.me/api/");
-      const data = await res.json();
-      setAvatarUrl(data.results[0].picture.medium);
-    })();
-  }, []);
+  const { data: session } = useSession();
+
+  // useEffect(() => {
+  //   (async () => {
+  //     const res = await axios.get(profileImageUrl);
+  //     console.log(res);
+  //   })();
+  // }, []);
+
   const closeMobileDropdown = () => setShowMobileDropdown(false);
 
   return (
@@ -40,6 +43,7 @@ function Sidebar({ activeIndex }) {
             show={showMobileDropdown}
             close={closeMobileDropdown}
             activeIndex={activeIndex}
+            profileImageUrl={session.user.image}
           />
         </div>
       </div>
@@ -74,17 +78,17 @@ function Sidebar({ activeIndex }) {
             />
           </div>
         </div>
-        {avatarUrl && (
-          <div className="group relative">
-            <img
-              src={avatarUrl}
-              width={50}
-              height={50}
-              className="rounded-full"
-            ></img>
-            <ProfileHoverCard avatarUrl={avatarUrl} />
-          </div>
-        )}
+
+        <div className="group relative">
+          <img
+            src={session.user.image}
+            referrerPolicy="no-referrer"
+            width={50}
+            height={50}
+            className="rounded-full"
+          ></img>
+          <ProfileHoverCard profileImageUrl={session.user.image} />
+        </div>
       </div>
     </aside>
   );
@@ -114,12 +118,14 @@ function SidebarIcon({ Icon, isActive, hoverText, href }) {
   );
 }
 
-function ProfileHoverCard({ avatarUrl }) {
+function ProfileHoverCard({ profileImageUrl }) {
+  console.log(profileImageUrl, "hover");
   return (
     <div className="rounded-lg bg-white drop-shadow-md p-4 absolute left-full bottom-1/2 translate-x-2 w-max invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-100 ">
       <div className="flex items-center cursor-pointer">
         <img
-          src={avatarUrl}
+          src={profileImageUrl}
+          referrerPolicy="no-referrer"
           width={30}
           height={30}
           className="rounded-full"
@@ -145,7 +151,12 @@ function ProfileHoverCard({ avatarUrl }) {
       </div>
       <h3 className="text-text mt-1 cursor-pointer">Preferences</h3>
       <hr className="w-full border-divider my-2"></hr>
-      <h3 className="font-bold text-error cursor-pointer">Log out</h3>
+      <h3
+        className="font-bold text-error cursor-pointer"
+        onClick={() => signOut("google", { callbackUrl: "/login" })}
+      >
+        Log out
+      </h3>
     </div>
   );
 }

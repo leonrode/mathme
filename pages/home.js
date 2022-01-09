@@ -1,6 +1,10 @@
 import Sidebar from "../components/Sidebar";
 import TopicCard from "../components/TopicCard";
 import AddNewCard from "../components/AddNewCard";
+
+import { useSession, getSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 export default function Home() {
   return (
     <div className="flex justify-center h-screen w-screen bg-lightBg overflow-auto lg:overflow-clip">
@@ -35,4 +39,20 @@ export default function Home() {
       </div>
     </div>
   );
+}
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: session,
+  };
 }

@@ -2,9 +2,9 @@ import "../styles/globals.css";
 import "katex/dist/katex.min.css";
 import Head from "next/head";
 import { SessionProvider } from "next-auth/react";
-function MyApp({ Component, pageProps: { session, ...pageProps } }) {
+function MyApp({ Component, pageProps }) {
   return (
-    <SessionProvider session={session}>
+    <SessionProvider session={pageProps}>
       <>
         <Head>
           <meta

@@ -26,7 +26,7 @@ function useOutsideDetection(ref, onOutsideDetection) {
   });
 }
 
-function MobileDropContent({ show, close, activeIndex }) {
+function MobileDropContent({ show, close, activeIndex, profileImageUrl }) {
   const _ref = useRef(null);
 
   useOutsideDetection(_ref, close);
@@ -40,8 +40,11 @@ function MobileDropContent({ show, close, activeIndex }) {
     >
       <div className="flex items-center ">
         <img
-          src="https://via.placeholder.com/35"
+          src={profileImageUrl}
+          referrerPolicy="no-referrer"
           className="rounded-full"
+          width={40}
+          height={40}
         ></img>
         <h3 className="text-text font-bold text-xl ml-4">Leon Rode</h3>
       </div>
@@ -99,7 +102,9 @@ function SidebarElement({ Icon, isActive, text, href }) {
     <Link href={href}>
       <div className="flex items-center mt-2">
         <Icon size={35} color={isActive ? "#2356F7" : "#020d31"} />
-        <h3 className="text-text ml-4">{text}</h3>
+        <h3 className={`${isActive ? "text-primary" : "text-text"} ml-4`}>
+          {text}
+        </h3>
       </div>
     </Link>
   );

@@ -13,6 +13,8 @@ import { MdChevronLeft, MdHelpOutline } from "react-icons/md";
 
 import axios from "axios";
 
+import { getSession } from "next-auth/react";
+
 const EditableMathField = dynamic(() => import("react-mathquill"), {
   ssr: false,
 });
@@ -145,6 +147,22 @@ function TopicPage() {
       </div>
     )
   );
+}
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: session,
+  };
 }
 
 export default TopicPage;

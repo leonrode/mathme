@@ -8,7 +8,7 @@ import axios from "axios";
 import CreateSearchResult from "../components/CreateSearchResult";
 import AddedTopic from "../components/AddedTopic";
 import MiniSpinner from "../components/MiniSpinner";
-
+import { getSession } from "next-auth/react";
 function Create() {
   const [results, setResults] = useState([]);
   const [inputPrompt, setInputPrompt] = useState("");
@@ -105,11 +105,20 @@ function Create() {
     </div>
   );
 }
-const reorder = (list, startIndex, endIndex) => {
-  const result = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
 
-  return result;
-};
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: session,
+  };
+}
+
 export default Create;
