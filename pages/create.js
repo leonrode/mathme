@@ -14,6 +14,7 @@ function Create() {
   const [inputPrompt, setInputPrompt] = useState("");
   const [resultsLoading, setResultsLoading] = useState(true);
   const [addedTopics, setAddedTopics] = useState([]);
+  const [playlistTitle, setPlaylistTitle] = useState("");
 
   useEffect(() => {
     let reqPrompt = inputPrompt;
@@ -47,9 +48,13 @@ function Create() {
               className="text-3xl lg:text-5xl text-text rounded-none font-bold outline-none bg-transparent w-full lg:w-1/2 border-b-textGrayed border-b-2 focus:border-b-primary  transition"
               type="text"
               placeholder="My New Playlist #55"
+              onChange={(e) => setPlaylistTitle(e.target.value)}
             ></input>
             <MdEdit size={30} color="#000000" className=" ml-2 lg:ml-4" />
-            <div className="hidden md:block bg-primary text-white rounded-xl px-4 py-2 font-bold ml-4 text-xl cursor-pointer">
+            <div
+              onClick={async () => savePlaylist(playlistTitle, addedTopics)}
+              className="hidden md:block bg-primary text-white rounded-xl px-4 py-2 font-bold ml-4 text-xl cursor-pointer"
+            >
               Save
             </div>
           </div>
@@ -104,6 +109,12 @@ function Create() {
       </div>
     </div>
   );
+}
+
+async function savePlaylist(title, topics) {
+  if (title === "") title = "My New Playlist #55";
+  const res = await axios.post("/api/playlist/create", { title, topics });
+  console.log(res);
 }
 export async function getServerSideProps(context) {
   const session = await getSession(context);

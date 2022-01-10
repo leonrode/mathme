@@ -23,7 +23,7 @@ function useOutsideDetection(ref, onOutsideDetection) {
     return () => {
       document.removeEventListener("mousedown", isOutside);
     };
-  });
+  }, []);
 }
 
 function MobileDropContent({ show, close, activeIndex, profileImageUrl }) {

@@ -1,16 +1,26 @@
 import Sidebar from "../components/Sidebar";
-import TopicCard from "../components/TopicCard";
+import PlaylistCard from "../components/PlaylistCard";
 import AddNewCard from "../components/AddNewCard";
 
 import { useSession, getSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
+import axios from "axios";
 export default function Home() {
+  const [playlists, setPlaylists] = useState([]);
+  useEffect(() => {
+    (async () => {
+      const res = await axios.get("/api/playlist/get");
+      setPlaylists(res.data.playlists);
+    })();
+  }, []);
+
   return (
     <div className="flex justify-center h-screen w-screen bg-lightBg overflow-auto lg:overflow-clip">
-      <div className="flex w-5/6">
+      <div className="flex w-full px-4 md:w-5/6 md:px-0 z-0">
         <Sidebar activeIndex={0} />
-        <div className="flex flex-col py-24 w-screen items-start px-2  lg:w-full lg:ml-16 lg:overflow-y-scroll lg:px-8">
+        <div className="flex flex-col py-24 w-full items-start lg:w-full lg:ml-16 lg:overflow-y-auto lg:px-8">
           <h1 className="text-text text-2xl font-semibold lg:text-4xl">
             Good evening, Leon
           </h1>
@@ -19,22 +29,22 @@ export default function Home() {
             Recently viewed playlists
           </h3>
           <div className="flex flex-col w-full md:grid md:grid-cols-3 md:grid-rows-auto md:gap-8 md:mt-4">
-            <TopicCard />
-            <TopicCard />
-            <TopicCard />
-            <TopicCard />
-            <TopicCard />
+            {playlists.map((playlist) => (
+              <PlaylistCard
+                creator={playlist.creator}
+                title={playlist.title}
+                topics={playlist.topics}
+                _id={playlist.playlistId}
+              />
+            ))}
+
             <AddNewCard />
           </div>
 
           <h3 className="text-textGrayed font-normal text-xl mt-4 ">
             Playlists like yours
           </h3>
-          <div className="flex flex-col w-full md:grid md:grid-cols-3 md:grid-rows-auto md:gap-8 md:mt-4">
-            <TopicCard />
-            <TopicCard />
-            <TopicCard />
-          </div>
+          <div className="flex flex-col w-full md:grid md:grid-cols-3 md:grid-rows-auto md:gap-8 md:mt-4"></div>
         </div>
       </div>
     </div>
