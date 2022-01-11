@@ -1,13 +1,8 @@
-import { MdOutlineMoreVert } from "react-icons/md";
-
-import { isMobile, isTablet } from "react-device-detect";
-
-import Link from "next/link";
-
 import Latex from "react-latex-next";
-
-function SearchResult({ title, example, number, _id }) {
-  const children = (
+import Link from "next/link";
+import { MdOutlineMoreVert } from "react-icons/md";
+function PlaylistItem({ title, example, number, _id }) {
+  return (
     <div className="px-4 w-full bg-white rounded-xl h-16 flex justify-between items-center mt-3 group border-2 border-white hover:border-primary transition">
       <div className="flex w-1/2 pr-2">
         <h3 className="text-textGrayed w-3 text-center">{number}</h3>
@@ -32,11 +27,6 @@ function SearchResult({ title, example, number, _id }) {
       </div>
     </div>
   );
-  return isMobile || isTablet ? (
-    <Link href={`/practice/${_id}`}>{children}</Link>
-  ) : (
-    children
-  );
 }
 
-export default SearchResult;
+export default PlaylistItem;

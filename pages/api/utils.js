@@ -6,10 +6,10 @@ function fetchMeta(topicId) {
   return { title, example };
 }
 
-function verifyProblem(topicId, problem, response) {
+function verifyProblem(topicId, problem, response, stringVersion) {
   console.log(typeof topicId, "type");
   console.log(topicId, content[topicId]);
-  return content[topicId].verify(problem, response);
+  return content[topicId].verify(problem, response, stringVersion);
 }
 
 function generateSearchResults(prompt) {

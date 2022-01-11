@@ -12,6 +12,7 @@ module.exports = {
         divider: "#E4E8F4",
         primary: "#2356F7",
         error: "#EA1601",
+        warning: "#FAD202",
       },
       fontFamily: {
         sans: "Poppins",

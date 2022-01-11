@@ -4,11 +4,12 @@ function handler(req, res) {
   const topicId = req.query.topicId;
 
   try {
-    const { prompt, latex } = content[topicId].generate();
+    const { prompt, latex, stringVersion } = content[topicId].generate();
 
     return res.json({
       prompt: prompt,
       latex: latex,
+      stringVersion,
       title: content[topicId].meta.title,
       instructions: content[topicId].meta.instructions,
     });

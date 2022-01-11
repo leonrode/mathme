@@ -11,10 +11,19 @@ export default function Home() {
   const [playlists, setPlaylists] = useState([]);
   useEffect(() => {
     (async () => {
-      const res = await axios.get("/api/playlist/get");
+      const res = await axios.get("/api/user/playlists");
       setPlaylists(res.data.playlists);
     })();
   }, []);
+
+  const removePlaylist = async (playlistId) => {
+    const res = await axios.post("/api/playlist/delete", { playlistId });
+    if (res.status === 201) {
+      setPlaylists((playlists) =>
+        playlists.filter((playlist) => playlist.playlistId !== playlistId)
+      );
+    }
+  };
 
   return (
     <div className="flex justify-center h-screen w-screen bg-lightBg overflow-auto lg:overflow-clip">
@@ -26,7 +35,7 @@ export default function Home() {
           </h1>
 
           <h3 className="text-textGrayed font-normal text-xl mt-4">
-            Recently viewed playlists
+            Your Playlists
           </h3>
           <div className="flex flex-col w-full md:grid md:grid-cols-3 md:grid-rows-auto md:gap-8 md:mt-4">
             {playlists.map((playlist) => (
@@ -34,17 +43,13 @@ export default function Home() {
                 creator={playlist.creator}
                 title={playlist.title}
                 topics={playlist.topics}
+                toDelete={removePlaylist}
                 _id={playlist.playlistId}
               />
             ))}
 
             <AddNewCard />
           </div>
-
-          <h3 className="text-textGrayed font-normal text-xl mt-4 ">
-            Playlists like yours
-          </h3>
-          <div className="flex flex-col w-full md:grid md:grid-cols-3 md:grid-rows-auto md:gap-8 md:mt-4"></div>
         </div>
       </div>
     </div>

@@ -1,5 +1,6 @@
 import nerdamer from "nerdamer/all";
-
+import algebra from "algebra.js";
+import Algebrite from "algebrite";
 import { randomIntInRange } from "./utils";
 
 const oneStepLinear = {
@@ -109,7 +110,7 @@ const twoStepLinearSimplified = {
 
     let latex = lhs.toTeX() + "=" + rhs.toTeX();
     latex = latex.replace("\\cdot", "");
-    return { latex, prompt };
+    return { latex, prompt, stringVersion: lhs.toString() };
   },
   verify: (question, userResponse) => {
     const n_question = nerdamer.convertFromLaTeX(question);
@@ -148,7 +149,7 @@ const factorQuadraticAOne = {
     let latex = lhs.toTeX();
 
     latex = latex.replace("\\cdot", "");
-    return { prompt, latex };
+    return { prompt, latex, stringVersion: lhs.toString() };
   },
 
   verify: (question, userResponse) => {
@@ -194,7 +195,7 @@ const factorQuadratic = {
 
     latex = latex.replaceAll("\\cdot", "");
 
-    return { latex, prompt };
+    return { latex, prompt, stringVersion: lhs.toString() };
   },
 
   verify: (question, userResponse) => {
@@ -205,10 +206,56 @@ const factorQuadratic = {
   },
 };
 
+const simplifyRationalExpression = {
+  meta: {
+    id: 5,
+    title: "Simplify Rational Expressions",
+    instructions: "Simplify the rational expression",
+    descrption: "Simplify more complex rational expresions",
+    example: "\\frac{x^3-7x^2+12x}{2x^2-8x}",
+    tags: ["Rational Expressions", "Algebra II"],
+  },
+  generate: () => {
+    const symbol = "x";
+    const prompt = "=";
+    let n = nerdamer(symbol);
+    let d = nerdamer(randomIntInRange(-5, 5, [0, 1, -1]));
+
+    n = n.add(randomIntInRange(-5, 5, [0, 1, -1]));
+    n = n.multiply("x");
+    d = d.multiply("x");
+
+    let c = nerdamer(symbol);
+    c = c.add(randomIntInRange(-5, 5, [0, 1, -1]));
+
+    n = n.multiply(c);
+    d = d.multiply(c);
+
+    n = n.expand();
+    d = d.expand();
+
+    let final = n.divide(d);
+
+    let latex = final.toTeX();
+    latex = latex.replaceAll("\\cdot", "");
+    return { latex, prompt, stringVersion: final.toString() };
+  },
+
+  verify: (question, userResponse, questionString) => {
+    // console.log(question, userResponse, questionString);
+    const questionResult = Algebrite.simplify(questionString);
+    const userResult = Algebrite.simplify(
+      nerdamer.convertFromLaTeX(userResponse).toString()
+    );
+    return questionResult.toString() === userResult.toString();
+  },
+};
+
 export default [
   oneStepLinear,
   twoStepLinear,
   twoStepLinearSimplified,
   factorQuadraticAOne,
   factorQuadratic,
+  simplifyRationalExpression,
 ];

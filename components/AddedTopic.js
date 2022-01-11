@@ -2,6 +2,7 @@ import Latex from "react-latex-next";
 import {
   MdDeleteOutline,
   MdSettings,
+  MdOutlineMoreVert,
   MdDragHandle,
   MdDelete,
 } from "react-icons/md";
@@ -29,7 +30,7 @@ function AddedTopic({ topic, removeHandler, number }) {
       <div className="my-2 border-[1px] border-divider w-full"></div>
       <div className="w-full flex items-center ">
         <div className="flex w-1/2">
-          <h3 className="text-text truncate">{topic.meta.title}</h3>
+          <h3 className="text-text truncate font-bold">{topic.meta.title}</h3>
         </div>
         <div className="flex w-1/2 justify-between items-center">
           <div className="text-textGrayed">
@@ -37,7 +38,12 @@ function AddedTopic({ topic, removeHandler, number }) {
           </div>
           <div className="flex items-center">
             {/* <MdSettings color="#000000" size={25} /> */}
-            <h3 className="text-text font-bold ml-2">Options</h3>
+            {/* <h3 className="text-text font-bold ml-2">Options</h3> */}
+            <MdOutlineMoreVert
+              size={25}
+              color="#000000"
+              className="cursor-pointer"
+            />
           </div>
         </div>
       </div>

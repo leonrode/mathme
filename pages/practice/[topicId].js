@@ -19,12 +19,17 @@ const EditableMathField = dynamic(() => import("react-mathquill"), {
   ssr: false,
 });
 
-async function checkResponse(topicId, userResponse, questionLatex) {
-  console.log(topicId, userResponse, questionLatex);
+async function checkResponse(
+  topicId,
+  questionLatex,
+  questionString,
+  userResponse
+) {
   const res = await axios.post("/api/verify", {
     topicId: parseInt(topicId),
-    userResponse,
-    questionLatex,
+    userResponse: userResponse,
+    questionLatex: questionLatex,
+    questionString: questionString,
   });
 
   const { isCorrect } = res.data;
@@ -44,6 +49,7 @@ function TopicPage() {
   const topicId = router.query.topicId;
   const [latex, setLatex] = useState("");
   const [problem, setProblem] = useState(null);
+  const [isChecking, setIsChecking] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -90,7 +96,9 @@ function TopicPage() {
               <Timer />
             </div>
             <div className="flex items-center justify-center w-full lg:w-1/2 my-16 text-2xl lg:my-32">
-              <Latex>{`$${problem.latex}$`}</Latex>
+              <div className="scale-150">
+                <Latex>{`$${problem.latex}$`}</Latex>
+              </div>
             </div>
 
             <div className="flex items-center justify-between w-full lg:w-1/2 ">
@@ -99,16 +107,19 @@ function TopicPage() {
                 <div
                   onKeyPress={async (e) => {
                     if (e.key === "Enter" && latex !== "") {
+                      setIsChecking(true);
                       const isCorrect = await checkResponse(
                         topicId,
-                        latex,
-                        problem.latex
+                        problem.latex,
+                        problem.stringVersion,
+                        latex
                       );
                       if (isCorrect) {
                         const newProblem = await fetchNewProblem(topicId);
                         setProblem(newProblem);
                         setLatex("");
                       }
+                      setIsChecking(false);
                     }
                   }}
                 >
@@ -121,10 +132,12 @@ function TopicPage() {
                 <div
                   className="bg-primary p-2 ml-4 text-white rounded-lg cursor-pointer"
                   onClick={async () => {
+                    setIsChecking(true);
                     const isCorrect = await checkResponse(
                       topicId,
-                      latex,
-                      problem.latex
+                      problem.latex,
+                      problem.stringVersion,
+                      latex
                     );
 
                     if (isCorrect) {
@@ -133,9 +146,31 @@ function TopicPage() {
 
                       setLatex("");
                     }
+                    setIsChecking(false);
                   }}
                 >
-                  Check
+                  {isChecking ? (
+                    <svg
+                      className="animate-spin h-6 w-6 text-primary "
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="#CDD1DB"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                  ) : (
+                    "Check"
+                  )}
                 </div>
               </div>
               <div className="text-text hover:text-primary">

@@ -17,9 +17,10 @@ async function handler(req, res) {
 
   const filter = { _id: new ObjectId(userId) };
 
+  const playlistId = uuidv4();
   const playlistObject = {
     title: title,
-    playlistId: uuidv4(),
+    playlistId: playlistId,
     topics: topics,
     creator: new ObjectId(userId),
     createdAt: Date.now(),
@@ -29,7 +30,7 @@ async function handler(req, res) {
 
   await db.collection("users").updateOne(filter, operation);
 
-  res.status(200).send();
+  res.json({ playlistId: playlistId });
 }
 
 export default handler;

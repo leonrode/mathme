@@ -4,7 +4,7 @@ function CreateSearchResult({ topic, addHandler }) {
   return (
     <div className="w-full bg-white rounded-xl flex items-center px-2 py-3 md:px-8 mb-4">
       <div className="flex w-1/2">
-        <h3 className="text-text  truncate">{topic.meta.title}</h3>
+        <h3 className="text-text font-bold truncate">{topic.meta.title}</h3>
       </div>
       <div className="flex w-1/2 justify-between items-center">
         <div className="text-textGrayed">

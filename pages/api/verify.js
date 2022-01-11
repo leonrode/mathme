@@ -1,9 +1,9 @@
 import { verifyProblem } from "./utils";
 
 function handler(req, res) {
-  const { topicId, questionLatex, userResponse } = req.body;
+  const { topicId, questionLatex, userResponse, questionString } = req.body;
 
-  if (verifyProblem(topicId, questionLatex, userResponse)) {
+  if (verifyProblem(topicId, questionLatex, userResponse, questionString)) {
     console.log("right");
     return res.json({ error: false, isCorrect: true });
   } else {
