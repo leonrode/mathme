@@ -7,11 +7,12 @@ function handler(req, res) {
     const { prompt, latex, stringVersion } = content[topicId].generate();
 
     return res.json({
-      prompt: prompt,
       latex: latex,
       stringVersion,
       title: content[topicId].meta.title,
       instructions: content[topicId].meta.instructions,
+      numFields: content[topicId].meta.numFields,
+      prompts: content[topicId].meta.prompts,
     });
   } catch (e) {
     console.log(e);

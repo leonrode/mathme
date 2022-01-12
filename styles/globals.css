@@ -7,7 +7,7 @@
 .toggler:after {
   content: "";
 
-  @apply absolute top-0.5 left-0.5 bg-white border border-gray-300 rounded-full h-4 w-4 transition;
+  @apply absolute top-0.5 left-0.5 bg-white  border border-gray-300 rounded-full h-4 w-4 transition;
 }
 
 .toggler:checked {
@@ -43,4 +43,25 @@
 
 .katex * {
   /* color: #73798c; */
+}
+
+.react-numeric-input > input {
+  border: 2px solid transparent !important;
+}
+
+.react-numeric-input > input:focus {
+  border-radius: 0;
+
+  border-bottom: 2px solid #2356f7 !important;
+}
+
+.react-numeric-input > b {
+  box-shadow: none !important;
+}
+
+.react-numeric-input > b > i {
+  border-color: transparent transparent #73798c !important;
+}
+.react-numeric-input > b:last-child > i {
+  border-color: #73798c transparent transparent !important;
 }

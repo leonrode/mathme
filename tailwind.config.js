@@ -3,6 +3,7 @@ module.exports = {
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: "class",
   theme: {
     extend: {
       colors: {
@@ -13,6 +14,12 @@ module.exports = {
         primary: "#2356F7",
         error: "#EA1601",
         warning: "#FAD202",
+        darkBg: "#121212",
+        darkText: "#d6d6d6",
+        darkPrimary: "#3e63da",
+        darkDivider: "#282b33",
+        darkElevated: "#1f1f1f",
+        darkError: "#bf382b",
       },
       fontFamily: {
         sans: "Poppins",

@@ -47,8 +47,7 @@ function Search() {
             </h3>
             <div className="flex justify-between w-full px-4 my-4">
               <div className="flex w-1/2">
-                <h3 className="text-textGrayed w-3">#</h3>
-                <h3 className="text-textGrayed ml-4 lg:ml-8">Topic</h3>
+                <h3 className="text-textGrayed">Topic</h3>
               </div>
               <div className="flex w-1/2 justify-start">
                 <h3 className="text-textGrayed">Example</h3>

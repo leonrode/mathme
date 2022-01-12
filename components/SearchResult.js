@@ -10,8 +10,7 @@ function SearchResult({ title, example, number, _id }) {
   const children = (
     <div className="px-4 w-full bg-white rounded-xl h-16 flex justify-between items-center mt-3 group border-2 border-white hover:border-primary transition">
       <div className="flex w-1/2 pr-2">
-        <h3 className="text-textGrayed w-3 text-center">{number}</h3>
-        <h3 className="text-text ml-4 lg:ml-8 truncate">{title}</h3>
+        <h3 className="text-text truncate">{title}</h3>
       </div>
       <div className="flex w-1/2 justify-between">
         <div className="text-textGrayed">

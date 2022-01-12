@@ -1,8 +1,7 @@
 import { useRouter } from "next/router";
-import dynamic from "next/dynamic";
 import Sidebar from "../../components/Sidebar";
 import Timer from "../../components/Timer";
-
+import ProblemInput from "../../components/ProblemInput";
 import { useState, useEffect } from "react";
 
 import Latex from "react-latex-next";
@@ -15,19 +14,16 @@ import axios from "axios";
 
 import { getSession } from "next-auth/react";
 
-const EditableMathField = dynamic(() => import("react-mathquill"), {
-  ssr: false,
-});
-
 async function checkResponse(
   topicId,
   questionLatex,
   questionString,
-  userResponse
+  responseFields
 ) {
   const res = await axios.post("/api/verify", {
     topicId: parseInt(topicId),
-    userResponse: userResponse,
+    responseFields,
+    responseFields,
     questionLatex: questionLatex,
     questionString: questionString,
   });
@@ -47,8 +43,8 @@ async function fetchNewProblem(topicId) {
 function TopicPage() {
   const router = useRouter();
   const topicId = router.query.topicId;
-  const [latex, setLatex] = useState("");
   const [problem, setProblem] = useState(null);
+  const [latexFields, setLatexFields] = useState([]);
   const [isChecking, setIsChecking] = useState(false);
 
   useEffect(() => {
@@ -59,6 +55,7 @@ function TopicPage() {
       if (topicId) {
         const newProblem = await fetchNewProblem(topicId);
         setProblem(newProblem);
+        setLatexFields(new Array(newProblem.prompts.length).fill(""));
       }
     })();
   }, [topicId]);
@@ -101,50 +98,45 @@ function TopicPage() {
               </div>
             </div>
 
-            <div className="flex items-center justify-between w-full lg:w-1/2 ">
-              <div className="flex items-center">
-                <Latex>{`$${problem.prompt}$`}</Latex>
-                <div
-                  onKeyPress={async (e) => {
-                    if (e.key === "Enter" && latex !== "") {
-                      setIsChecking(true);
-                      const isCorrect = await checkResponse(
-                        topicId,
-                        problem.latex,
-                        problem.stringVersion,
-                        latex
+            <div className="flex items-center justify-between w-full lg:w-1/2">
+              <div className="flex items-end">
+                {latexFields.length > 0 && (
+                  <div className="flex flex-col ">
+                    {problem.prompts.map((prompt, i) => {
+                      // console.log(latexFields, i, latexFields[i]);
+                      console.log(latexFields);
+                      return (
+                        <ProblemInput
+                          prompt={prompt}
+                          index={i}
+                          key={i}
+                          _latex={latexFields[i]}
+                          setter={setLatexFields}
+                        />
                       );
-                      if (isCorrect) {
-                        const newProblem = await fetchNewProblem(topicId);
-                        setProblem(newProblem);
-                        setLatex("");
-                      }
-                      setIsChecking(false);
-                    }
-                  }}
-                >
-                  <EditableMathField
-                    latex={latex}
-                    id="math-input"
-                    onChange={(mathField) => setLatex(mathField.latex())}
-                  ></EditableMathField>
-                </div>
+                    })}
+                  </div>
+                )}
+
                 <div
                   className="bg-primary p-2 ml-4 text-white rounded-lg cursor-pointer"
                   onClick={async () => {
                     setIsChecking(true);
+                    // console.log(latexFields);
                     const isCorrect = await checkResponse(
                       topicId,
                       problem.latex,
                       problem.stringVersion,
-                      latex
+                      latexFields
                     );
 
                     if (isCorrect) {
                       const newProblem = await fetchNewProblem(topicId);
                       setProblem(newProblem);
 
-                      setLatex("");
+                      setLatexFields(
+                        new Array(newProblem.prompts.length).fill("")
+                      );
                     }
                     setIsChecking(false);
                   }}
