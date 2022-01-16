@@ -108,7 +108,9 @@ function Logo() {
 }
 
 function Divider() {
-  return <hr className="hidden lg:block lg:w-1/2 lg:my-4"></hr>;
+  return (
+    <hr className="hidden border-divider dark:border-darkDivider lg:block lg:w-1/2 lg:my-4"></hr>
+  );
 }
 
 function SidebarIcon({ Icon, isActive, hoverText, href }) {

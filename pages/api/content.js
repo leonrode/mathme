@@ -174,6 +174,8 @@ const factorQuadratic = {
     description: "Factor a quadratic where a does not equal 1",
     example: "2x^2+10x+12",
     tags: ["Quadratics", "Algebra I", "Factoring"],
+    numFields: 1,
+    prompts: ["="],
   },
 
   generate: () => {
@@ -409,7 +411,7 @@ const absoluteValueEquations = {
   generate: () => {
     const symbol = "x";
 
-    const o = randomIntInRange(-10, 10);
+    const o = randomIntInRange(0, 20);
 
     const lhs = nerdamer.abs(nerdamer(symbol).add(randomIntInRange(-10, 10)));
 

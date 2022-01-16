@@ -11,15 +11,17 @@ function CardOptions({ show, toClose, playlistId, toDelete }) {
     <div
       className={`${
         show ? "visible opacity-100" : "invisible opacity-0"
-      } bg-white rounded-lg absolute p-2 drop-shadow-lg top-0 right-full transition `}
+      } bg-white dark:bg-darkDivider rounded-lg absolute p-2 drop-shadow-lg top-0 right-full transition `}
       ref={_ref}
     >
       <div
         className="flex items-center w-full justify-between cursor-pointer"
         onClick={async () => await toDelete(playlistId)}
       >
-        <MdDeleteOutline className="text-error" size={30} />
-        <h3 className="font-bold text-error ml-2">Delete</h3>
+        <MdDeleteOutline className="text-error dark:text-darkError" size={30} />
+        <h3 className="font-bold text-error dark:text-darkError ml-2">
+          Delete
+        </h3>
       </div>
     </div>
   );

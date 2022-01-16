@@ -22,7 +22,11 @@ function Timer() {
     return () => clearTimeout(timeout);
   }, [seconds]);
 
-  return <h3 className="text-text text-xl">{formatSeconds(seconds)}</h3>;
+  return (
+    <h3 className="text-text dark:text-darkText text-xl">
+      {formatSeconds(seconds)}
+    </h3>
+  );
 }
 
 export default Timer;

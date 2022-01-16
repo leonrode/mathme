@@ -1,3 +1,5 @@
+import Layout from "../components/Layout";
+
 import Sidebar from "../components/Sidebar";
 import PlaylistCard from "../components/PlaylistCard";
 import AddNewCard from "../components/AddNewCard";
@@ -26,33 +28,28 @@ export default function Home() {
   };
 
   return (
-    <div className="flex justify-center h-screen w-screen bg-lightBg overflow-auto lg:overflow-clip">
-      <div className="flex w-full px-4 md:w-5/6 md:px-0 z-0">
-        <Sidebar activeIndex={0} />
-        <div className="flex flex-col py-24 w-full items-start lg:w-full lg:ml-16 lg:overflow-y-auto lg:px-8">
-          <h1 className="text-text text-2xl font-semibold lg:text-4xl">
-            Good evening, Leon
-          </h1>
+    <Layout activeIndex={0}>
+      <h1 className="text-text dark:text-darkText text-2xl font-semibold lg:text-4xl">
+        Good evening, Leon
+      </h1>
 
-          <h3 className="text-textGrayed font-normal text-xl mt-4">
-            Your Playlists
-          </h3>
-          <div className="flex flex-col w-full md:grid md:grid-cols-3 md:grid-rows-auto md:gap-8 md:mt-4">
-            {playlists.map((playlist) => (
-              <PlaylistCard
-                creator={playlist.creator}
-                title={playlist.title}
-                topics={playlist.topics}
-                toDelete={removePlaylist}
-                _id={playlist.playlistId}
-              />
-            ))}
+      <h3 className="text-textGrayed font-normal text-xl mt-4">
+        Your Playlists
+      </h3>
+      <div className="flex flex-col w-full md:grid md:grid-cols-3 md:grid-rows-auto md:gap-8 md:mt-4">
+        {playlists.map((playlist) => (
+          <PlaylistCard
+            creator={playlist.creator}
+            title={playlist.title}
+            topics={playlist.topics}
+            toDelete={removePlaylist}
+            _id={playlist.playlistId}
+          />
+        ))}
 
-            <AddNewCard />
-          </div>
-        </div>
+        <AddNewCard />
       </div>
-    </div>
+    </Layout>
   );
 }
 
