@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import PlaylistItem from "../../components/PlaylistItem";
-
+import Link from "next/link";
 import {
   MdAssignment,
   MdAssessment,
@@ -67,7 +67,13 @@ function PlaylistPage() {
             className="text-primary dark:text-darkPrimary"
             size={30}
           />
-          <span className="font-bold ml-2">Practice All</span>
+          <Link
+            href={`/practice/${playlist.topics[0].topic.id}?playlistId=${
+              playlist.id
+            }&index=${0}`}
+          >
+            <span className="font-bold ml-2 cursor-pointer">Practice All</span>
+          </Link>
         </div>
         <div className="flex items-center mt-4">
           <MdAssessment
@@ -87,10 +93,10 @@ function PlaylistPage() {
         <div className="flex flex-col w-full">
           {playlist.topics.map((topic, i) => (
             <PlaylistItem
-              number={i + 1}
-              title={topic.topic.meta.title}
-              example={topic.topic.meta.example}
-              _id={topic.topic.meta.id}
+              index={i}
+              title={topic.topic.title}
+              example={topic.topic.example}
+              _id={topic.topic.id}
               key={i}
             />
           ))}

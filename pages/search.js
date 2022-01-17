@@ -54,10 +54,10 @@ function Search() {
         <div>
           {searchResults.map((result, index) => (
             <SearchResult
-              title={result.meta.title}
-              example={result.meta.example}
-              key={result.meta.id}
-              _id={result.meta.id}
+              title={result.title}
+              example={result.example}
+              key={result.id}
+              _id={result.id}
               number={index + 1}
             />
           ))}

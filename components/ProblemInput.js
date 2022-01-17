@@ -13,9 +13,11 @@ function ProblemInput({
   _latexList,
   incorrect,
   correct,
+  checkHandler,
+  latex,
 }) {
   console.log(_latexList);
-  const [latex, setLatex] = useState(_latexList[index]);
+  // const [latex, setLatex] = useState(_latexList[index]);
 
   return (
     <div className=" dark:text-text flex items-center ">
@@ -26,6 +28,7 @@ function ProblemInput({
         className={`${
           incorrect ? "animate-wrongFade" : correct ? "animate-rightFade" : ""
         } ml-4 border-[3px] border-transparent rounded-lg`}
+        onKeyDown={(e) => (e.key === "Enter" ? checkHandler() : null)}
       >
         <EditableMathField
           latex={latex}
@@ -36,7 +39,7 @@ function ProblemInput({
               mathField.latex(),
               ...fields.slice(index + 1),
             ]);
-            setLatex("");
+            // setLatex("");
           }}
         ></EditableMathField>
       </div>

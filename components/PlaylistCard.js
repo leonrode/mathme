@@ -15,6 +15,7 @@ function PlaylistCard({ creator, title, topics, _id, toDelete }) {
   const Router = useRouter();
   const dropdownRef = null;
   useEffect(() => {
+    console.log("t", topics, topics.length);
     (async () => {
       const res = await axios.get(`/api/avatar/${creator}`);
       setAvatarUrl(res.data.avatarUrl);
@@ -72,10 +73,9 @@ function PlaylistCard({ creator, title, topics, _id, toDelete }) {
         <hr className="w-full border-divider dark:border-darkDivider my-2"></hr>
         <div className="p-2">
           {topics.map((topic, i) => {
-            console.log(topic);
             return i < 4 ? (
               <h3 className="text-text dark:text-darkText my-1 truncate">
-                {topic.topic.meta.title}
+                {topic.topic.title}
               </h3>
             ) : null;
           })}
@@ -90,7 +90,7 @@ function PlaylistCard({ creator, title, topics, _id, toDelete }) {
       <div>
         <hr className="w-full border-divider dark:border-darkDivider my-2"></hr>
         <h3 className="text-text dark:text-darkText text-center text-sm font-semibold">
-          {topics.length} topics
+          {topics.length} topic{topics.length === 1 ? "" : "s"}
         </h3>
       </div>
     </div>

@@ -1,18 +1,47 @@
 import Latex from "react-latex-next";
 import Link from "next/link";
-import { MdOutlineMoreVert } from "react-icons/md";
-function PlaylistItem({ title, example, number, _id }) {
-  return (
-    <div className="px-4 w-full bg-white dark:bg-darkElevated rounded-xl h-16 flex justify-between items-center mt-3 group border-2 border-white dark:border-darkDivider hover:border-primary dark:hover:border-darkPrimary transition">
-      <div className="flex w-1/2 pr-2">
-        <h3 className="text-textGrayed w-3 text-center">{number}</h3>
+import { MdOutlineMoreVert, MdStar, MdStarOutline } from "react-icons/md";
 
-        <h3 className="text-text dark:text-darkText ml-4 lg:ml-8 truncate">
-          {title}
+import { useState } from "react";
+function PlaylistItem({ title, example, index, _id }) {
+  const [isStarred, setIsStarred] = useState(false);
+  return (
+    <div className="px-4 w-full bg-white dark:bg-darkElevated rounded-xl h-16 flex justify-between items-center mt-3 group border-2 border-transparent hover:border-primary dark:hover:border-darkPrimary transition">
+      <div className="flex items-center w-1/2 pr-2">
+        <h3 className="hidden md:block text-textGrayed w-3 text-center">
+          {index + 1}
         </h3>
+        <div
+          className="md:hidden cursor-pointer"
+          onClick={() => setIsStarred((prev) => !prev)}
+        >
+          {isStarred ? (
+            <MdStar className="text-warning" size={30} />
+          ) : (
+            <MdStarOutline className=" text-warning" size={30} />
+          )}
+        </div>
+        <div className="block md:flex md:items-center  ">
+          <h3 className="text-text dark:text-darkText ml-4 lg:ml-8 truncate">
+            {title}
+          </h3>
+          {isStarred ? (
+            <MdStar
+              className="hidden md:block cursor-pointer text-warning ml-3"
+              size={25}
+              onClick={() => setIsStarred((prev) => !prev)}
+            />
+          ) : (
+            <MdStarOutline
+              className="hidden md:block cursor-pointer text-warning ml-3"
+              size={25}
+              onClick={() => setIsStarred((prev) => !prev)}
+            />
+          )}
+        </div>
       </div>
-      <div className="flex w-1/2 justify-between">
-        <div className="text-textGrayed dark:text-darkText">
+      <div className="flex w-full md:w-1/2 justify-end md:justify-between">
+        <div className="text-textGrayed dark:text-darkText hidden md:block">
           <Latex>{`$${example}$`}</Latex>
         </div>
         <div className="flex items-center">

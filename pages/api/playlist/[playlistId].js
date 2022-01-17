@@ -19,7 +19,7 @@ async function handler(req, res) {
   const user = await db.collection("users").findOne(filter);
   if (user) {
     const matchedPlaylists = user.playlists.filter(
-      (_playlist) => _playlist.playlistId === playlistId
+      (_playlist) => _playlist.id === playlistId
     );
 
     if (matchedPlaylists.length === 0) res.json({ playlist: null });

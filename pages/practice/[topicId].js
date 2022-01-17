@@ -37,7 +37,7 @@ async function checkResponse(
 async function fetchNewProblem(topicId) {
   const res = await axios.get(`/api/question/${parseInt(topicId)}`);
   const data = res.data;
-  console.log(data);
+
   return data;
 }
 
@@ -50,6 +50,17 @@ function TopicPage() {
   const [isChecking, setIsChecking] = useState(false);
   const [incorrect, setIncorrect] = useState(false);
   const [correct, setCorrect] = useState(false);
+
+  const [currentPlaylist, setCurrentPlaylist] = useState(null);
+
+  const [playlistId, setPlaylistId] = useState(null);
+  const [index, setIndex] = useState(null);
+  const [currentTopic, setCurrentTopic] = useState(null);
+  const [nextTopic, setNextTopic] = useState(null);
+  const [noQuestions, setNoQuestions] = useState(null);
+  const [completedNumber, setCompletedNumber] = useState(0);
+  const [correctNumber, setCorrectNumber] = useState(0);
+  const [incorrectNumber, setIncorrectNumber] = useState(0);
   useEffect(() => {
     (async () => {
       const a = await import("react-mathquill");
@@ -72,16 +83,104 @@ function TopicPage() {
     return () => clearTimeout(timeout);
   }, [incorrect, correct]);
 
+  useEffect(() => {
+    const playlistId = router.query.playlistId;
+    const index = router.query.index;
+
+    setIndex(parseInt(index));
+
+    (async () => {
+      if (playlistId) {
+        const res = await axios.get(`/api/playlist/${playlistId}`);
+        const playlist = res.data.playlist;
+        console.log(res.data);
+        const currentTopic = playlist.topics[parseInt(index)];
+        const nextTopic = playlist.topics[parseInt(index) + 1];
+        console.log(parseInt(index) + 1, nextTopic);
+        setCurrentPlaylist(playlist);
+        console.log(currentTopic);
+        setNoQuestions(getNoQuestions(currentTopic));
+        // setNoQuestions(getNoQuestions(currentTopic));
+        // setCurrentTopic(currentTopic);
+        // setNextTopic(nextTopic);
+      }
+    })();
+  }, []);
+
+  const getNoQuestions = (topic) => {
+    if (!topic.isRandom) return topic.noQuestions;
+    return topic.min + Math.floor(Math.random() * (topic.max + 1 - topic.min));
+  };
+  const redirectToNextTopic = () => {
+    setCompletedNumber(0);
+    setIncorrectNumber(0);
+    setCorrectNumber(0);
+    const nextTopic = currentPlaylist.topics[index + 1];
+    if (nextTopic) {
+      router.push(
+        `/practice/${nextTopic.topic.id}?playlistId=${
+          currentPlaylist.id
+        }&index=${index + 1}`
+      );
+    } else {
+      // TODO: finished playlist
+    }
+  };
+
+  const checkProblem = async () => {
+    setIsChecking(true);
+    // console.log(latexFields);
+    const isCorrect = await checkResponse(
+      topicId,
+      problem.latex,
+      problem.stringVersion,
+      latexFields
+    );
+
+    setIsChecking(false);
+
+    if (isCorrect) {
+      setCorrect(true);
+      clearInputs();
+      setCorrectNumber((prev) => prev + 1);
+      if (noQuestions - completedNumber - 1 === 0) {
+        setTimeout(() => redirectToNextTopic(), 500);
+        //return;
+      }
+      const newProblem = await fetchNewProblem(topicId);
+
+      setProblem(newProblem);
+    } else {
+      setIncorrect(true);
+      setIncorrectNumber((prev) => prev + 1);
+      if (completedNumber + 1 === noQuestions) {
+        redirectToNextTopic();
+        return;
+      }
+
+      const newProblem = await fetchNewProblem(topicId);
+
+      setProblem(newProblem);
+    }
+    clearInputs();
+    setCompletedNumber((prev) => prev + 1);
+  };
+
+  const clearInputs = () => {
+    setLatexFields(new Array(problem.prompts.length).fill(""));
+  };
   return (
     problem && (
       <Layout activeIndex={-1}>
-        <Link href="/search">
+        <Link
+          href={currentPlaylist ? `/playlist/${currentPlaylist.id}` : "/search"}
+        >
           <div className="flex items-center cursor-pointer">
             <div className="text-text dark:text-darkText">
               <MdChevronLeft size={35} />
             </div>
             <h3 className="text-text dark:text-darkText text-lg lg:text-xl ">
-              {problem.title}
+              {currentPlaylist ? currentPlaylist.title : problem.title}
             </h3>
           </div>
         </Link>
@@ -92,16 +191,45 @@ function TopicPage() {
               {problem.instructions}
             </h3>
             <h3
-              className="text-primary dark:text-darkPrimary text-lg ml-4 cursor-pointer"
+              className="text-primary dark:text-darkPrimary text-lg ml-4 cursor-pointer select-none"
               onClick={async () => {
+                if (noQuestions - completedNumber - 1 === 0) {
+                  redirectToNextTopic();
+                  return;
+                }
                 const newProblem = await fetchNewProblem(topicId);
                 setProblem(newProblem);
+                setCompletedNumber((prev) => prev + 1);
+                setIncorrectNumber((prev) => prev + 1);
               }}
             >
               skip
             </h3>
           </div>
-          <Timer />
+          {noQuestions && (
+            <div className="flex flex-col items-end">
+              <Timer />
+              <h3 className="text-textGrayed">
+                {noQuestions - completedNumber} remaining
+              </h3>
+
+              <div className="flex items-center">
+                <div className="flex items-center">
+                  <span className="text-success">{correctNumber}</span>
+                  <MdCheck className="text-success" size={15} />
+                </div>
+                <div className="flex items-center ml-2">
+                  <span className="text-error dark:text-darkError">
+                    {incorrectNumber}
+                  </span>
+                  <MdClear
+                    className="text-error dark:text-darkError"
+                    size={15}
+                  />
+                </div>
+              </div>
+            </div>
+          )}
         </div>
         <div className="flex items-center justify-center w-full lg:w-1/2 my-16 text-2xl lg:my-32">
           <div className="scale-150">
@@ -123,8 +251,9 @@ function TopicPage() {
                       key={i}
                       incorrect={incorrect}
                       correct={correct}
-                      _latexList={latexFields}
+                      latex={latexFields[i]}
                       setter={setLatexFields}
+                      checkHandler={async () => await checkProblem()}
                     />
                   );
                 })}
@@ -139,29 +268,7 @@ function TopicPage() {
                   ? "bg-success"
                   : "bg-primary dark:bg-darkPrimary"
               } p-2 ml-4 flex flex-col items-center justify-center text-white rounded-lg cursor-pointer transition duration-500`}
-              onClick={async () => {
-                setIsChecking(true);
-                // console.log(latexFields);
-                const isCorrect = await checkResponse(
-                  topicId,
-                  problem.latex,
-                  problem.stringVersion,
-                  latexFields
-                );
-
-                if (isCorrect) {
-                  const newProblem = await fetchNewProblem(topicId);
-                  clearInputs();
-                  setCorrect(true);
-                  setProblem(newProblem);
-                  // console.log(latexFields);
-
-                  setLatexFields(new Array(newProblem.prompts.length).fill(""));
-                } else {
-                  setIncorrect(true);
-                }
-                setIsChecking(false);
-              }}
+              onClick={async () => await checkProblem()}
             >
               {isChecking ? (
                 <svg

@@ -9,10 +9,10 @@ function handler(req, res) {
     return res.json({
       latex: latex,
       stringVersion,
-      title: content[topicId].meta.title,
-      instructions: content[topicId].meta.instructions,
-      numFields: content[topicId].meta.numFields,
-      prompts: content[topicId].meta.prompts,
+      title: content[topicId].title,
+      instructions: content[topicId].instructions,
+      numFields: content[topicId].numFields,
+      prompts: content[topicId].prompts,
     });
   } catch (e) {
     console.log(e);

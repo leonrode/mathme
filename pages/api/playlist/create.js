@@ -2,7 +2,7 @@ import { getSession } from "next-auth/react";
 
 import clientPromise from "../../../lib/mongodb";
 import { ObjectId } from "mongodb";
-import { v4 as uuidv4 } from "uuid";
+import { randomId } from "../utils";
 async function handler(req, res) {
   const session = await getSession({ req });
 
@@ -17,10 +17,10 @@ async function handler(req, res) {
 
   const filter = { _id: new ObjectId(userId) };
 
-  const playlistId = uuidv4();
+  const playlistId = randomId();
   const playlistObject = {
     title: title,
-    playlistId: playlistId,
+    id: playlistId,
     topics: topics,
     creator: new ObjectId(userId),
     createdAt: Date.now(),

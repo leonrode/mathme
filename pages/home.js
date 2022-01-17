@@ -22,7 +22,7 @@ export default function Home() {
     const res = await axios.post("/api/playlist/delete", { playlistId });
     if (res.status === 201) {
       setPlaylists((playlists) =>
-        playlists.filter((playlist) => playlist.playlistId !== playlistId)
+        playlists.filter((playlist) => playlist.id !== playlistId)
       );
     }
   };
@@ -43,7 +43,7 @@ export default function Home() {
             title={playlist.title}
             topics={playlist.topics}
             toDelete={removePlaylist}
-            _id={playlist.playlistId}
+            _id={playlist.id}
           />
         ))}
 

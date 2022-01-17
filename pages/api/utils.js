@@ -1,6 +1,9 @@
 import content from "./content";
 
 import stringSimilarity from "string-similarity";
+
+import { customAlphabet } from "nanoid";
+const nanoid = customAlphabet("1234567890abcdefABCDEF", 18);
 function fetchMeta(topicId) {
   const { title, example } = content[topicId];
   return { title, example };
@@ -15,12 +18,26 @@ function verifyProblem(topicId, problem, response, stringVersion) {
 function generateSearchResults(prompt) {
   if (prompt === "all") {
     return content.map((topic) => ({
-      meta: topic.meta,
+      id: topic.id,
+      instructions: topic.instructions,
+      title: topic.title,
+      description: topic.description,
+      example: topic.example,
+      tags: topic.tags,
+      numFields: topic.numFields,
+      prompts: topic.prompts,
     }));
   }
   let results = content.map((topic) => ({
-    meta: topic.meta,
-    rating: stringSimilarity.compareTwoStrings(prompt, topic.meta.title),
+    id: topic.id,
+    instructions: topic.instructions,
+    title: topic.title,
+    description: topic.description,
+    example: topic.example,
+    tags: topic.tags,
+    numFields: topic.numFields,
+    prompts: topic.prompts,
+    rating: stringSimilarity.compareTwoStrings(prompt, topic.title),
   }));
 
   results = results.filter((result) => result.rating > 0.0);
@@ -39,4 +56,14 @@ function randomIntInRange(min, max, excludeValues) {
   return value;
 }
 
-export { verifyProblem, fetchMeta, generateSearchResults, randomIntInRange };
+function randomId() {
+  return nanoid();
+}
+
+export {
+  verifyProblem,
+  fetchMeta,
+  generateSearchResults,
+  randomIntInRange,
+  randomId,
+};

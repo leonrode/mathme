@@ -5,12 +5,12 @@ function CreateSearchResult({ topic, addHandler }) {
     <div className="w-full bg-white dark:bg-darkElevated rounded-xl flex items-center px-2 py-3 md:px-8 mb-4 border-2 border-transparent hover:border-primary dark:hover:border-darkPrimary transition">
       <div className="flex w-1/2">
         <h3 className="text-text dark:text-darkText font-bold truncate">
-          {topic.meta.title}
+          {topic.title}
         </h3>
       </div>
       <div className="flex w-1/2 justify-between items-center">
         <div className="text-textGrayed dark:text-darkText">
-          <Latex>{`$${topic.meta.example}$`}</Latex>
+          <Latex>{`$${topic.example}$`}</Latex>
         </div>
 
         <div

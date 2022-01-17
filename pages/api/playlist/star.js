@@ -1,34 +1,24 @@
 import { getSession } from "next-auth/react";
-
+// TODO: DO
 import clientPromise from "../../../lib/mongodb";
 import { ObjectId } from "mongodb";
-
 async function handler(req, res) {
   const session = await getSession({ req });
 
-  if (!session) {
-    res.status(403).send();
-  }
+  if (!session) return res.status(403).send();
+
   const { userId } = session;
-  const { playlistId } = req.body;
 
   const client = await clientPromise;
-
   const db = client.db("myFirstDatabase");
+
   const filter = {
-    _id: ObjectId(userId),
+    _id: new ObjectId(userId),
   };
 
-  const updater = {
-    $pull: {
-      playlists: {
-        id: playlistId,
-      },
-    },
-  };
-  const result = db.collection("users").updateOne(filter, updater);
-
-  res.status(201).send();
+  const user = await db.collection("users").findOne(filter);
+  if (!user.playlists) res.json({ playlists: [] });
+  return res.json({ playlists: user.playlists });
 }
 
 export default handler;

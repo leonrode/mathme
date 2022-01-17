@@ -4,16 +4,14 @@ import Algebrite from "algebrite";
 import { randomIntInRange } from "./utils";
 
 const oneStepLinear = {
-  meta: {
-    id: 0,
-    instructions: "Solve for x",
-    title: "Solve one step linear equations",
-    description: "Solve very basic linear equations.",
-    example: "x+17=34",
-    tags: ["Algebra I"],
-    numFields: 1,
-    prompts: ["x ="],
-  },
+  id: 0,
+  instructions: "Solve for x",
+  title: "Solve one step linear equations",
+  description: "Solve very basic linear equations.",
+  example: "x+17=34",
+  tags: ["Algebra I"],
+  numFields: 1,
+  prompts: ["x ="],
 
   generate: () => {
     const solution = randomIntInRange(-10, 10, [0]);
@@ -39,16 +37,14 @@ const oneStepLinear = {
 };
 
 const twoStepLinear = {
-  meta: {
-    id: 1,
-    title: "Solve two step linear equations",
-    instructions: "Solve for x",
-    description: "Solve more complex linear equations",
-    example: "2(x+5)=10",
-    tags: ["Algebra I", "Linear Equations"],
-    numFields: 1,
-    prompts: ["x ="],
-  },
+  id: 1,
+  title: "Solve two step linear equations",
+  instructions: "Solve for x",
+  description: "Solve more complex linear equations",
+  example: "2(x+5)=10",
+  tags: ["Algebra I", "Linear Equations"],
+  numFields: 1,
+  prompts: ["x ="],
 
   generate: () => {
     const solution = randomIntInRange(-20, 20, [0]);
@@ -82,16 +78,15 @@ const twoStepLinear = {
 };
 
 const twoStepLinearSimplified = {
-  meta: {
-    id: 2,
-    title: "Solve multi-step linear equations",
-    instructions: "Solve for x",
-    description: "Solve multi-step linear equations",
-    example: "2x+10=50",
-    tags: ["Algebra I", "Linear Equations"],
-    numFields: 1,
-    prompts: ["x ="],
-  },
+  id: 2,
+  title: "Solve multi-step linear equations",
+  instructions: "Solve for x",
+  description: "Solve multi-step linear equations",
+  example: "2x+10=50",
+  tags: ["Algebra I", "Linear Equations"],
+  numFields: 1,
+  prompts: ["x ="],
+
   generate: () => {
     const solution = randomIntInRange(-20, 20, [0]);
     const symbol = "x";
@@ -125,16 +120,14 @@ const twoStepLinearSimplified = {
 };
 
 const factorQuadraticAOne = {
-  meta: {
-    id: 3,
-    title: "Factor quadratics where a = 1",
-    instructions: "Factor the quadratic",
-    descrption: "Factor basic quadratics into binomials",
-    example: "x^2 + 5x + 6",
-    tags: ["Quadratics", "Algebra I"],
-    numFields: 1,
-    prompts: ["="],
-  },
+  id: 3,
+  title: "Factor quadratics where a = 1",
+  instructions: "Factor the quadratic",
+  descrption: "Factor basic quadratics into binomials",
+  example: "x^2 + 5x + 6",
+  tags: ["Quadratics", "Algebra I"],
+  numFields: 1,
+  prompts: ["="],
 
   generate: () => {
     const symbol = "x";
@@ -167,16 +160,14 @@ const factorQuadraticAOne = {
 };
 
 const factorQuadratic = {
-  meta: {
-    id: 4,
-    title: "Factor quadratics where a does not equal 1",
-    instructions: "Factor the quadratic",
-    description: "Factor a quadratic where a does not equal 1",
-    example: "2x^2+10x+12",
-    tags: ["Quadratics", "Algebra I", "Factoring"],
-    numFields: 1,
-    prompts: ["="],
-  },
+  id: 4,
+  title: "Factor quadratics where a does not equal 1",
+  instructions: "Factor the quadratic",
+  description: "Factor a quadratic where a does not equal 1",
+  example: "2x^2+10x+12",
+  tags: ["Quadratics", "Algebra I", "Factoring"],
+  numFields: 1,
+  prompts: ["="],
 
   generate: () => {
     const symbol = "x";
@@ -212,16 +203,15 @@ const factorQuadratic = {
 };
 
 const simplifyRationalExpression = {
-  meta: {
-    id: 5,
-    title: "Simplify Rational Expressions",
-    instructions: "Simplify the rational expression",
-    descrption: "Simplify more complex rational expresions",
-    example: "\\frac{x^3-7x^2+12x}{2x^2-8x}",
-    tags: ["Rational Expressions", "Algebra II"],
-    numFields: 1,
-    prompts: ["="],
-  },
+  id: 5,
+  title: "Simplify Rational Expressions",
+  instructions: "Simplify the rational expression",
+  descrption: "Simplify more complex rational expresions",
+  example: "\\frac{x^3-7x^2+12x}{2x^2-8x}",
+  tags: ["Rational Expressions", "Algebra II"],
+  numFields: 1,
+  prompts: ["="],
+
   generate: () => {
     const symbol = "x";
 
@@ -274,16 +264,15 @@ const simplifyRationalExpression = {
 };
 
 const multiplyRationalExpressions = {
-  meta: {
-    id: 6,
-    title: "Multiply Rational Expressions",
-    instructions: "Simplify the rational expression",
-    descrption: "Multiply two rational expressions",
-    example: "\\frac{4x+8}{4x^2-25}\\cdot\\frac{6x+15}{2x^2+4x}",
-    tags: ["Rational Expressions", "Algebra II"],
-    numFields: 1,
-    prompts: ["="],
-  },
+  id: 6,
+  title: "Multiply Rational Expressions",
+  instructions: "Simplify the rational expression",
+  descrption: "Multiply two rational expressions",
+  example: "\\frac{4x+8}{4x^2-25}\\cdot\\frac{6x+15}{2x^2+4x}",
+  tags: ["Rational Expressions", "Algebra II"],
+  numFields: 1,
+  prompts: ["="],
+
   generate: () => {
     const symbol = "x";
 
@@ -343,16 +332,15 @@ const multiplyRationalExpressions = {
 };
 
 const simplifyRationalExpression2 = {
-  meta: {
-    id: 7,
-    title: "(II) Simplify Rational Expressions",
-    instructions: "Simplify the rational expression",
-    descrption: "Divide two rational expressions",
-    example: "\\frac{x^3-2x^2-15x}{3x^2-15x}",
-    tags: ["Rational Expressions", "Algebra II"],
-    numFields: 1,
-    prompts: ["="],
-  },
+  id: 7,
+  title: "(II) Simplify Rational Expressions",
+  instructions: "Simplify the rational expression",
+  descrption: "Divide two rational expressions",
+  example: "\\frac{x^3-2x^2-15x}{3x^2-15x}",
+  tags: ["Rational Expressions", "Algebra II"],
+  numFields: 1,
+  prompts: ["="],
+
   generate: () => {
     const symbol = "x";
 
@@ -397,16 +385,14 @@ const simplifyRationalExpression2 = {
 };
 
 const absoluteValueEquations = {
-  meta: {
-    id: 8,
-    title: "Absolute Value Equations",
-    instructions: "Solve for x",
-    descrption: "Simplify rational expressions",
-    example: "|x+5|=7",
-    numFields: 2,
-    prompts: ["x_1=", "x_2="],
-    tags: ["Absolute Value", "Algebra II"],
-  },
+  id: 8,
+  title: "Absolute Value Equations",
+  instructions: "Solve for x",
+  descrption: "Simplify rational expressions",
+  example: "|x+5|=7",
+  numFields: 2,
+  prompts: ["x_1=", "x_2="],
+  tags: ["Absolute Value", "Algebra II"],
 
   generate: () => {
     const symbol = "x";

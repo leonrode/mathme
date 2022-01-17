@@ -42,7 +42,7 @@ function Create() {
       setIsFetchingPlaylistNo(true);
       const res = await axios.get(`/api/user/playlists`);
       const playlists = res.data.playlists;
-
+      console.log(playlists);
       setPlaylistNo(playlists.length);
       setIsFetchingPlaylistNo(false);
     })();
@@ -150,8 +150,40 @@ function Create() {
           </div>
         </div>
         <h3 className="text-textGrayed mt-4">by Leon Rode</h3>
-        <div className=" md:hidden bg-primary dark:bg-darkPrimary text-white dark:text-darkText rounded-xl px-4 py-2 font-bold text-xl cursor-pointer mt-4">
-          Save
+        <div
+          onClick={async () =>
+            savePlaylist(
+              playlistNo + 1,
+              playlistTitle,
+              addedTopics,
+              setIsSaving,
+              Router
+            )
+          }
+          className=" md:hidden bg-primary dark:bg-darkPrimary text-white dark:text-darkText rounded-xl px-4 py-2 font-bold text-xl cursor-pointer mt-4"
+        >
+          {isSaving ? (
+            <svg
+              className="animate-spin h-6 w-6 text-primary dark:text-darkPrimary "
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="#CDD1DB"
+                strokeWidth="4"
+              ></circle>
+              <path
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+          ) : (
+            "Save"
+          )}
         </div>
         <div className="w-full flex flex-col lg:w-3/4 mt-4">
           {addedTopics.map((topic, i) => (
@@ -195,7 +227,7 @@ function Create() {
           {results.map((result) => (
             <CreateSearchResult
               topic={result}
-              key={result.meta.title}
+              key={result.title}
               addHandler={addTopic}
             />
           ))}
