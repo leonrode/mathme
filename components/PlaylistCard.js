@@ -15,7 +15,7 @@ function PlaylistCard({ creator, title, topics, _id, toDelete }) {
   const Router = useRouter();
   const dropdownRef = null;
   useEffect(() => {
-    console.log("t", topics, topics.length);
+    console.log("t", topics, topics.length, _id);
     (async () => {
       const res = await axios.get(`/api/avatar/${creator}`);
       setAvatarUrl(res.data.avatarUrl);

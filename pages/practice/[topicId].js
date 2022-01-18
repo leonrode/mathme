@@ -93,16 +93,12 @@ function TopicPage() {
       if (playlistId) {
         const res = await axios.get(`/api/playlist/${playlistId}`);
         const playlist = res.data.playlist;
-        console.log(res.data);
         const currentTopic = playlist.topics[parseInt(index)];
         const nextTopic = playlist.topics[parseInt(index) + 1];
-        console.log(parseInt(index) + 1, nextTopic);
+
         setCurrentPlaylist(playlist);
-        console.log(currentTopic);
+        console.log(playlist);
         setNoQuestions(getNoQuestions(currentTopic));
-        // setNoQuestions(getNoQuestions(currentTopic));
-        // setCurrentTopic(currentTopic);
-        // setNextTopic(nextTopic);
       }
     })();
   }, []);
@@ -119,7 +115,7 @@ function TopicPage() {
     if (nextTopic) {
       router.push(
         `/practice/${nextTopic.topic.id}?playlistId=${
-          currentPlaylist.id
+          currentPlaylist._id
         }&index=${index + 1}`
       );
     } else {
@@ -129,7 +125,6 @@ function TopicPage() {
 
   const checkProblem = async () => {
     setIsChecking(true);
-    // console.log(latexFields);
     const isCorrect = await checkResponse(
       topicId,
       problem.latex,
@@ -173,7 +168,9 @@ function TopicPage() {
     problem && (
       <Layout activeIndex={-1}>
         <Link
-          href={currentPlaylist ? `/playlist/${currentPlaylist.id}` : "/search"}
+          href={
+            currentPlaylist ? `/playlist/${currentPlaylist._id}` : "/search"
+          }
         >
           <div className="flex items-center cursor-pointer">
             <div className="text-text dark:text-darkText">

@@ -14,16 +14,11 @@ async function handler(req, res) {
   const db = client.db("myFirstDatabase");
 
   const filter = {
-    _id: new ObjectId(userId),
+    _id: new ObjectId(playlistId),
   };
-  const user = await db.collection("users").findOne(filter);
-  if (user) {
-    const matchedPlaylists = user.playlists.filter(
-      (_playlist) => _playlist.id === playlistId
-    );
-
-    if (matchedPlaylists.length === 0) res.json({ playlist: null });
-    return res.json({ playlist: matchedPlaylists[0] });
+  const playlist = await db.collection("playlists").findOne(filter);
+  if (playlist) {
+    return res.json({ playlist: playlist });
   }
   return res.status(404);
 }

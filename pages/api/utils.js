@@ -3,7 +3,7 @@ import content from "./content";
 import stringSimilarity from "string-similarity";
 
 import { customAlphabet } from "nanoid";
-const nanoid = customAlphabet("1234567890abcdefABCDEF", 18);
+const nanoid = customAlphabet("1234567890abcdefABCDEF", 24);
 function fetchMeta(topicId) {
   const { title, example } = content[topicId];
   return { title, example };

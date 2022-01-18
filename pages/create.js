@@ -51,6 +51,7 @@ function Create() {
   const addTopic = (topic, noQuestions, isRandom, min, max) => {
     const _topic = {
       topic: topic,
+      isStarred: false,
     };
 
     if (isRandom) {

@@ -10,13 +10,11 @@ function ProblemInput({
   prompt,
   index,
   setter,
-  _latexList,
   incorrect,
   correct,
   checkHandler,
   latex,
 }) {
-  console.log(_latexList);
   // const [latex, setLatex] = useState(_latexList[index]);
 
   return (

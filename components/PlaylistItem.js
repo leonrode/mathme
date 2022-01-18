@@ -3,8 +3,8 @@ import Link from "next/link";
 import { MdOutlineMoreVert, MdStar, MdStarOutline } from "react-icons/md";
 
 import { useState } from "react";
-function PlaylistItem({ title, example, index, _id }) {
-  const [isStarred, setIsStarred] = useState(false);
+function PlaylistItem({ title, example, index, toggleStar, starred, _id }) {
+  const [isStarred, setIsStarred] = useState(starred);
   return (
     <div className="px-4 w-full bg-white dark:bg-darkElevated rounded-xl h-16 flex justify-between items-center mt-3 group border-2 border-transparent hover:border-primary dark:hover:border-darkPrimary transition">
       <div className="flex items-center w-1/2 pr-2">
@@ -13,31 +13,42 @@ function PlaylistItem({ title, example, index, _id }) {
         </h3>
         <div
           className="md:hidden cursor-pointer"
-          onClick={() => setIsStarred((prev) => !prev)}
+          onClick={() => {
+            setIsStarred((prev) => !prev);
+            toggleStar(index);
+          }}
         >
           {isStarred ? (
-            <MdStar className="text-warning" size={30} />
+            <MdStar className="text-warning dark:text-darkWarning" size={30} />
           ) : (
-            <MdStarOutline className=" text-warning" size={30} />
+            <MdStarOutline
+              className=" text-warning dark:text-darkWarning"
+              size={30}
+            />
           )}
         </div>
         <div className="block md:flex md:items-center  ">
           <h3 className="text-text dark:text-darkText ml-4 lg:ml-8 truncate">
             {title}
           </h3>
-          {isStarred ? (
-            <MdStar
-              className="hidden md:block cursor-pointer text-warning ml-3"
-              size={25}
-              onClick={() => setIsStarred((prev) => !prev)}
-            />
-          ) : (
-            <MdStarOutline
-              className="hidden md:block cursor-pointer text-warning ml-3"
-              size={25}
-              onClick={() => setIsStarred((prev) => !prev)}
-            />
-          )}
+          <div
+            onClick={() => {
+              setIsStarred((prev) => !prev);
+              toggleStar(index);
+            }}
+          >
+            {isStarred ? (
+              <MdStar
+                className="hidden md:block cursor-pointer text-warning dark:text-darkWarning ml-3"
+                size={25}
+              />
+            ) : (
+              <MdStarOutline
+                className="hidden md:block cursor-pointer text-warning dark:text-darkWarning ml-3"
+                size={25}
+              />
+            )}
+          </div>
         </div>
       </div>
       <div className="flex w-full md:w-1/2 justify-end md:justify-between">

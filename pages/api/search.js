@@ -1,6 +1,14 @@
 import { generateSearchResults } from "./utils";
 
-function handler(req, res) {
+import { getSession } from "next-auth/react";
+
+async function handler(req, res) {
+  const session = await getSession({ req });
+
+  if (!session) {
+    res.status(403).send();
+  }
+
   try {
     const prompt = req.query.prompt;
 

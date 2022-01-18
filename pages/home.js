@@ -14,15 +14,17 @@ export default function Home() {
   useEffect(() => {
     (async () => {
       const res = await axios.get("/api/user/playlists");
+      console.log(res.data.playlists);
       setPlaylists(res.data.playlists);
     })();
   }, []);
 
   const removePlaylist = async (playlistId) => {
+    console.log(playlistId);
     const res = await axios.post("/api/playlist/delete", { playlistId });
     if (res.status === 201) {
       setPlaylists((playlists) =>
-        playlists.filter((playlist) => playlist.id !== playlistId)
+        playlists.filter((playlist) => playlist._id !== playlistId)
       );
     }
   };
@@ -43,7 +45,7 @@ export default function Home() {
             title={playlist.title}
             topics={playlist.topics}
             toDelete={removePlaylist}
-            _id={playlist.id}
+            _id={playlist._id}
           />
         ))}
 

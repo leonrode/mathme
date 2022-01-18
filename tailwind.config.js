@@ -21,6 +21,7 @@ module.exports = {
         darkDivider: "#192857",
         darkElevated: "#101937",
         darkError: "#bf382b",
+        darkWarning: "#E1BD02",
       },
       fontFamily: {
         sans: "Poppins",

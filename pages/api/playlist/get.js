@@ -13,11 +13,11 @@ async function handler(req, res) {
   const db = client.db("myFirstDatabase");
 
   const filter = {
-    _id: new ObjectId(userId),
+    creator: new ObjectId(userId),
   };
-  const user = await db.collection("users").findOne(filter);
-  if (!user.playlists) res.json({ playlists: [] });
-  return res.json({ playlists: user.playlists });
+  const playlists = await db.collection("playlists").find(filter).toArray();
+  if (!playlists) res.json({ playlists: [] });
+  return res.json({ playlists });
 }
 
 export default handler;
