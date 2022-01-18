@@ -1,30 +1,28 @@
 import Layout from "../components/Layout";
 
-import Sidebar from "../components/Sidebar";
 import PlaylistCard from "../components/PlaylistCard";
 import AddNewCard from "../components/AddNewCard";
 
-import { useSession, getSession } from "next-auth/react";
-import { useRouter } from "next/router";
+import { getSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
-import axios from "axios";
+import { getUserPlaylists, deletePlaylist } from "../api/api";
+
 export default function Home() {
   const [playlists, setPlaylists] = useState([]);
+
   useEffect(() => {
     (async () => {
-      const res = await axios.get("/api/user/playlists");
-      console.log(res.data.playlists);
-      setPlaylists(res.data.playlists);
+      const playlists = await getUserPlaylists();
+      setPlaylists(playlists);
     })();
   }, []);
 
-  const removePlaylist = async (playlistId) => {
-    console.log(playlistId);
-    const res = await axios.post("/api/playlist/delete", { playlistId });
-    if (res.status === 201) {
+  const _deletePlaylist = async (id) => {
+    const successful = await deletePlaylist(id);
+    if (successful) {
       setPlaylists((playlists) =>
-        playlists.filter((playlist) => playlist._id !== playlistId)
+        playlists.filter((playlist) => playlist._id !== id)
       );
     }
   };
@@ -44,11 +42,10 @@ export default function Home() {
             creator={playlist.creator}
             title={playlist.title}
             topics={playlist.topics}
-            toDelete={removePlaylist}
+            toDelete={_deletePlaylist}
             _id={playlist._id}
           />
         ))}
-
         <AddNewCard />
       </div>
     </Layout>

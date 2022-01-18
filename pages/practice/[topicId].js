@@ -1,47 +1,31 @@
 import { useRouter } from "next/router";
 import Sidebar from "../../components/Sidebar";
 import Layout from "../../components/Layout";
+import CheckAnswerButton from "../../components/CheckAnswerButton";
 import Timer from "../../components/Timer";
+import TopicStatus from "../../components/TopicStatus";
 import ProblemInput from "../../components/ProblemInput";
+import ProblemLatex from "../../components/ProblemLatex";
 import { useState, useEffect } from "react";
 
 import Latex from "react-latex-next";
 
 import Link from "next/link";
 
-import { MdChevronLeft, MdHelpOutline, MdClear, MdCheck } from "react-icons/md";
+import {
+  MdChevronLeft,
+  MdHelpOutline,
+  MdClear,
+  MdCheck,
+  MdChevronRight,
+} from "react-icons/md";
 
 import axios from "axios";
 
 import { getSession } from "next-auth/react";
 
-async function checkResponse(
-  topicId,
-  questionLatex,
-  questionString,
-  responseFields
-) {
-  const res = await axios.post("/api/verify", {
-    topicId: parseInt(topicId),
-    responseFields,
-    responseFields,
-    questionLatex: questionLatex,
-    questionString: questionString,
-  });
+import { fetchNewProblem, verifyAnswer } from "../../api/api";
 
-  const { isCorrect } = res.data;
-  console.log(isCorrect);
-  return isCorrect;
-}
-
-async function fetchNewProblem(topicId) {
-  const res = await axios.get(`/api/question/${parseInt(topicId)}`);
-  const data = res.data;
-
-  return data;
-}
-
-async function clearInputs(setter) {}
 function TopicPage() {
   const router = useRouter();
   const topicId = router.query.topicId;
@@ -53,10 +37,8 @@ function TopicPage() {
 
   const [currentPlaylist, setCurrentPlaylist] = useState(null);
 
-  const [playlistId, setPlaylistId] = useState(null);
   const [index, setIndex] = useState(null);
-  const [currentTopic, setCurrentTopic] = useState(null);
-  const [nextTopic, setNextTopic] = useState(null);
+
   const [noQuestions, setNoQuestions] = useState(null);
   const [completedNumber, setCompletedNumber] = useState(0);
   const [correctNumber, setCorrectNumber] = useState(0);
@@ -123,9 +105,9 @@ function TopicPage() {
     }
   };
 
-  const checkProblem = async () => {
+  const _verifyAnswer = async () => {
     setIsChecking(true);
-    const isCorrect = await checkResponse(
+    const isCorrect = await verifyAnswer(
       topicId,
       problem.latex,
       problem.stringVersion,
@@ -138,27 +120,35 @@ function TopicPage() {
       setCorrect(true);
       clearInputs();
       setCorrectNumber((prev) => prev + 1);
+
       if (noQuestions - completedNumber - 1 === 0) {
         setTimeout(() => redirectToNextTopic(), 500);
-        //return;
       }
-      const newProblem = await fetchNewProblem(topicId);
-
-      setProblem(newProblem);
     } else {
       setIncorrect(true);
       setIncorrectNumber((prev) => prev + 1);
-      if (completedNumber + 1 === noQuestions) {
+      if (noQuestions - completedNumber - 1 === 0) {
         redirectToNextTopic();
         return;
       }
-
-      const newProblem = await fetchNewProblem(topicId);
-
-      setProblem(newProblem);
     }
+    const newProblem = await fetchNewProblem(topicId);
+
+    setProblem(newProblem);
+
     clearInputs();
     setCompletedNumber((prev) => prev + 1);
+  };
+
+  const skipProblem = async () => {
+    if (noQuestions - completedNumber - 1 === 0) {
+      redirectToNextTopic();
+      return;
+    }
+    const newProblem = await fetchNewProblem(topicId);
+    setProblem(newProblem);
+    setCompletedNumber((prev) => prev + 1);
+    setIncorrectNumber((prev) => prev + 1);
   };
 
   const clearInputs = () => {
@@ -189,16 +179,7 @@ function TopicPage() {
             </h3>
             <h3
               className="text-primary dark:text-darkPrimary text-lg ml-4 cursor-pointer select-none"
-              onClick={async () => {
-                if (noQuestions - completedNumber - 1 === 0) {
-                  redirectToNextTopic();
-                  return;
-                }
-                const newProblem = await fetchNewProblem(topicId);
-                setProblem(newProblem);
-                setCompletedNumber((prev) => prev + 1);
-                setIncorrectNumber((prev) => prev + 1);
-              }}
+              onClick={async () => await skipProblem()}
             >
               skip
             </h3>
@@ -206,32 +187,16 @@ function TopicPage() {
           {noQuestions && (
             <div className="flex flex-col items-end">
               <Timer />
-              <h3 className="text-textGrayed">
-                {noQuestions - completedNumber} remaining
-              </h3>
-
-              <div className="flex items-center">
-                <div className="flex items-center">
-                  <span className="text-success">{correctNumber}</span>
-                  <MdCheck className="text-success" size={15} />
-                </div>
-                <div className="flex items-center ml-2">
-                  <span className="text-error dark:text-darkError">
-                    {incorrectNumber}
-                  </span>
-                  <MdClear
-                    className="text-error dark:text-darkError"
-                    size={15}
-                  />
-                </div>
-              </div>
+              <TopicStatus
+                remaining={noQuestions - completedNumber}
+                correctNumber={correctNumber}
+                incorrectNumber={incorrectNumber}
+              />
             </div>
           )}
         </div>
         <div className="flex items-center justify-center w-full lg:w-1/2 my-16 text-2xl lg:my-32">
-          <div className="scale-150">
-            <Latex>{`$${problem.latex}$`}</Latex>
-          </div>
+          <ProblemLatex latex={problem.latex} />
         </div>
 
         <div className="flex items-center justify-between w-full lg:w-1/2">
@@ -239,8 +204,6 @@ function TopicPage() {
             {latexFields.length > 0 && (
               <div className="flex flex-col ">
                 {problem.prompts.map((prompt, i) => {
-                  // console.log(latexFields, i, latexFields[i]);
-                  // console.log(latexFields);
                   return (
                     <ProblemInput
                       prompt={prompt}
@@ -250,50 +213,14 @@ function TopicPage() {
                       correct={correct}
                       latex={latexFields[i]}
                       setter={setLatexFields}
-                      checkHandler={async () => await checkProblem()}
+                      checkHandler={async () => await _verifyAnswer()}
                     />
                   );
                 })}
               </div>
             )}
 
-            <div
-              className={`${
-                incorrect
-                  ? "bg-error dark:bg-darkError"
-                  : correct
-                  ? "bg-success"
-                  : "bg-primary dark:bg-darkPrimary"
-              } p-2 ml-4 flex flex-col items-center justify-center text-white rounded-lg cursor-pointer transition duration-500`}
-              onClick={async () => await checkProblem()}
-            >
-              {isChecking ? (
-                <svg
-                  className="animate-spin h-6 w-6 text-primary dark:text-darkPrimary"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="#CDD1DB"
-                    strokeWidth="4"
-                  ></circle>
-                  <path
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
-              ) : incorrect ? (
-                <MdClear className="text-darkText" size={25} />
-              ) : correct ? (
-                <MdCheck className="text-darkText" size={25} />
-              ) : (
-                "Check"
-              )}
-            </div>
+            <CheckAnswerButton correct={correct} incorrect={incorrect} />
           </div>
           <div className="text-text dark:text-darkText hover:text-primary dark:hover:text-darkPrimary">
             <MdHelpOutline size={35} className="cursor-pointer" />

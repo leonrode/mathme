@@ -1,7 +1,7 @@
-function MiniSpinner({ spin }) {
+function SearchSpinner() {
   return (
     <svg
-      className="animate-spin h-6 w-6 text-primary absolute right-0 mr-3"
+      className="animate-spin absolute right-4 top-1/2 -translate-y-1/2 h-6 w-6 text-primary dark:text-darkPrimary "
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
@@ -15,4 +15,4 @@ function MiniSpinner({ spin }) {
   );
 }
 
-export default MiniSpinner;
+export default SearchSpinner;
