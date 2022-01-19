@@ -15,11 +15,9 @@ const options = {
       session.session.userId = session.user.id;
       return session.session;
     },
-    // redirect({ url, baseUrl }) {
-    //   if (url.startsWith(baseUrl)) return url;
-    //   else if (url.startsWith("/")) return new URL(url, baseUrl).toString();
-    //   return baseUrl;
-    // },
+    redirect: async ({ url, baseUrl }) => {
+      return "/home";
+    },
   },
   secret: process.env.AUTH_SECRET,
 };
