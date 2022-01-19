@@ -15,10 +15,6 @@ export default NextAuth({
       session.session.userId = session.user.id;
       return session.session;
     },
-
-    signIn: ({ user, account, profile, email, credentials }) => {
-      return true;
-    },
     // redirect({ url, baseUrl }) {
     //   if (url.startsWith(baseUrl)) return url;
     //   else if (url.startsWith("/")) return new URL(url, baseUrl).toString();
