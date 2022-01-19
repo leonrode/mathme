@@ -144,6 +144,7 @@ function Create() {
         >
           {isSaving ? <Spinner /> : "Save"}
         </div>
+
         <div className="w-full flex flex-col lg:w-11/12 mt-4">
           {addedTopics.map((topic, i) => (
             <AddedTopic
