@@ -19,10 +19,10 @@ export default NextAuth({
     signIn: ({ user, account, profile, email, credentials }) => {
       return true;
     },
-    redirect({ url, baseUrl }) {
-      if (url.startsWith(baseUrl)) return url;
-      else if (url.startsWith("/")) return new URL(url, baseUrl).toString();
-      return baseUrl;
-    },
+    // redirect({ url, baseUrl }) {
+    //   if (url.startsWith(baseUrl)) return url;
+    //   else if (url.startsWith("/")) return new URL(url, baseUrl).toString();
+    //   return baseUrl;
+    // },
   },
 });
