@@ -15,9 +15,9 @@ const options = {
       session.session.userId = session.user.id;
       return session.session;
     },
-    redirect: async ({ url, baseUrl }) => {
-      return "/home";
-    },
+    // redirect: async ({ url, baseUrl }) => {
+    //   return "/home";
+    // },
   },
   secret: process.env.AUTH_SECRET,
 };
