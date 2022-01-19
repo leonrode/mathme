@@ -4,7 +4,7 @@ import SearchBar from "../components/SearchBar";
 import { useState, useEffect } from "react";
 import { getSession } from "next-auth/react";
 import Layout from "../components/Layout";
-import { searchTopics } from "../api/api.js";
+import { searchTopics } from "../_api/api.js";
 function Search() {
   const [searchResults, setSearchResults] = useState([]);
   const [searchPrompt, setSearchPrompt] = useState("");

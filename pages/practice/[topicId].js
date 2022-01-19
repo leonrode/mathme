@@ -24,7 +24,7 @@ import axios from "axios";
 
 import { getSession } from "next-auth/react";
 
-import { fetchNewProblem, verifyAnswer } from "../../api/api";
+import { fetchNewProblem, verifyAnswer } from "../../_api/api";
 
 function TopicPage() {
   const router = useRouter();

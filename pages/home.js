@@ -6,7 +6,7 @@ import AddNewCard from "../components/AddNewCard";
 import { getSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
-import { getUserPlaylists, deletePlaylist } from "../api/api";
+import { getUserPlaylists, deletePlaylist } from "../_api/api";
 
 export default function Home() {
   const [playlists, setPlaylists] = useState([]);

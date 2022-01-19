@@ -15,7 +15,7 @@ import {
   MdStar,
 } from "react-icons/md";
 
-import { savePlaylist } from "../../api/api";
+import { savePlaylist } from "../../_api/api";
 function PlaylistPage() {
   const [playlist, setPlaylist] = useState(null);
   const [creator, setCreator] = useState(null);
