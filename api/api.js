@@ -24,7 +24,7 @@ const deletePlaylist = async (playlistId) => {
   return false;
 };
 
-const savePlaylist = async (number, title, topics) => {
+const createPlaylist = async (number, title, topics) => {
   if (title === "") title = `My Playlist #${number}`;
 
   const result = await axios.post("/api/playlist/create", { title, topics });
@@ -32,6 +32,14 @@ const savePlaylist = async (number, title, topics) => {
   return result.data.playlistId;
 };
 
+const savePlaylist = async (id, title, topics) => {
+  const result = await axios.post("/api/playlist/save", {
+    playlistId: id,
+    title,
+    topics,
+  });
+  return true;
+};
 const fetchNewProblem = async (topicId) => {
   const result = await axios.get(`/api/question/${parseInt(topicId)}`);
   const data = result.data;
@@ -60,6 +68,7 @@ export {
   searchTopics,
   getUserPlaylists,
   deletePlaylist,
+  createPlaylist,
   savePlaylist,
   fetchNewProblem,
   verifyAnswer,

@@ -1,3 +1,5 @@
+import { MdCheck, MdClear } from "react-icons/md";
+
 function TopicStatus({ remaining, correctNumber, incorrectNumber }) {
   return (
     <>

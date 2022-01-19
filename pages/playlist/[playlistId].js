@@ -15,6 +15,7 @@ import {
   MdStar,
 } from "react-icons/md";
 
+import { savePlaylist } from "../../api/api";
 function PlaylistPage() {
   const [playlist, setPlaylist] = useState(null);
   const [creator, setCreator] = useState(null);
@@ -32,7 +33,7 @@ function PlaylistPage() {
     })();
   }, []);
 
-  const toggleStar = (index) => {
+  const toggleStar = async (index) => {
     let topic = playlist.topics[index];
 
     if (topic.isStarred) topic.isStarred = false;
@@ -46,16 +47,8 @@ function PlaylistPage() {
         ...playlist.topics.slice(index + 1),
       ],
     };
-    savePlaylist(newState);
+    await savePlaylist(newState._id, newState.title, newState.topics);
     setPlaylist(newState);
-  };
-  const savePlaylist = async (playlistState) => {
-    const res = await axios.post("/api/playlist/save", {
-      playlistId: playlistState._id,
-      title: playlistState.title,
-      topics: playlistState.topics,
-    });
-    console.log(res);
   };
 
   const countStarredTopics = () => {
@@ -139,7 +132,7 @@ function PlaylistPage() {
               example={topic.topic.example}
               _id={topic.topic.id}
               starred={topic.isStarred}
-              toggleStar={toggleStar}
+              toggleStar={async (index) => await toggleStar(index)}
               key={i}
             />
           ))}
