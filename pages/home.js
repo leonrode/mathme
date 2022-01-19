@@ -44,6 +44,7 @@ export default function Home() {
             topics={playlist.topics}
             toDelete={_deletePlaylist}
             _id={playlist._id}
+            key={playlist._id}
           />
         ))}
         <AddNewCard />
