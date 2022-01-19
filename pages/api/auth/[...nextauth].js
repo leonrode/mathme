@@ -21,4 +21,5 @@ export default NextAuth({
     //   return baseUrl;
     // },
   },
+  secret: process.env.AUTH_SECRET,
 });
