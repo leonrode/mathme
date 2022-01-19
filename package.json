@@ -9,7 +9,6 @@
   },
   "dependencies": {
     "@next-auth/mongodb-adapter": "^1.0.1",
-    "@prisma/client": "^3.7.0",
     "algebra.js": "^0.2.6",
     "algebrite": "^1.4.0",
     "axios": "^0.24.0",
