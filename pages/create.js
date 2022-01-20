@@ -11,7 +11,7 @@ import AddedTopic from "../components/AddedTopic";
 
 import { getSession } from "next-auth/react";
 
-import { searchTopics, getUserPlaylists, createPlaylist } from "../api/api";
+import { searchTopics, getUserPlaylists, createPlaylist } from "../_api/api";
 function Create() {
   const [results, setResults] = useState([]);
   const [inputPrompt, setInputPrompt] = useState("");
