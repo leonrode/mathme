@@ -3,13 +3,16 @@ import Layout from "../components/Layout";
 import PlaylistCard from "../components/PlaylistCard";
 import AddNewCard from "../components/AddNewCard";
 
-import { getSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
 import { getUserPlaylists, deletePlaylist } from "../_api/api";
 
+import { generateTimeOfDay } from "../lib/helpers";
+
 export default function Home() {
   const [playlists, setPlaylists] = useState([]);
+  const { data: session } = useSession();
 
   useEffect(() => {
     (async () => {
@@ -30,7 +33,7 @@ export default function Home() {
   return (
     <Layout activeIndex={0}>
       <h1 className="text-text dark:text-darkText text-2xl font-semibold lg:text-4xl">
-        Good evening, Leon
+        Good {generateTimeOfDay()}, {session.user.name.split(" ")[0]}
       </h1>
 
       <h3 className="text-textGrayed font-normal text-xl mt-4">

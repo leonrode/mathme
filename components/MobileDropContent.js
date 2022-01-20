@@ -7,7 +7,7 @@ import {
 } from "react-icons/md";
 
 import { useEffect, useRef } from "react";
-
+import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 function useOutsideDetection(ref, onOutsideDetection) {
@@ -98,7 +98,12 @@ function MobileDropContent({ show, close, activeIndex, profileImageUrl }) {
         </div>
         <h3 className="text-text dark:text-darkText mt-2">Preferences</h3>
         <hr className="w-1/2 border-y-divider dark:border-y-darkDivider border-t-2 my-4"></hr>
-        <h3 className="text-error font-semibold ">Log out</h3>
+        <h3
+          className="text-error font-semibold "
+          onClick={() => signOut("google", { callbackUrl: "/login" })}
+        >
+          Log out
+        </h3>
       </div>
       <div
         className={`${

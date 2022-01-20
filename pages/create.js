@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import CreateSearchResult from "../components/CreateSearchResult";
 import AddedTopic from "../components/AddedTopic";
 
-import { getSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 
 import { searchTopics, getUserPlaylists, createPlaylist } from "../_api/api";
 function Create() {
@@ -22,6 +22,8 @@ function Create() {
 
   const [playlistNo, setPlaylistNo] = useState(null);
   const Router = useRouter();
+
+  const { data: session } = useSession();
 
   useEffect(() => {
     (async () => {
@@ -142,7 +144,16 @@ function Create() {
             {isSaving ? <Spinner /> : "Save"}
           </div>
         </div>
-        <h3 className="text-textGrayed mt-4">by Leon Rode</h3>
+        <div className="flex items-center mt-4">
+          <h3 className="text-textGrayed ">by {session.user.name}</h3>
+          <img
+            src={session.user.image}
+            referrerPolicy="no-referrer"
+            className="rounded-full ml-2"
+            width={25}
+            height={25}
+          />
+        </div>
         <div
           onClick={async () => await _createPlaylist()}
           className=" md:hidden bg-primary dark:bg-darkPrimary text-white dark:text-darkText rounded-xl px-4 py-2 font-bold text-xl cursor-pointer mt-4"

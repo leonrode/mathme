@@ -1,4 +1,4 @@
-import { MdOutlineMoreVert } from "react-icons/md";
+import { MdOutlineMoreVert, MdStar } from "react-icons/md";
 
 import CardOptions from "./CardOptions";
 
@@ -7,15 +7,13 @@ import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { countStarredTopics } from "../lib/helpers";
 function PlaylistCard({ creator, title, topics, _id, toDelete }) {
-  // console.log(topics);
-  const { data: session } = useSession();
   const [avatarUrl, setAvatarUrl] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
   const Router = useRouter();
-  const dropdownRef = null;
+
   useEffect(() => {
-    console.log("t", topics, topics.length, _id);
     (async () => {
       const res = await axios.get(`/api/avatar/${creator}`);
       setAvatarUrl(res.data.avatarUrl);
@@ -27,9 +25,6 @@ function PlaylistCard({ creator, title, topics, _id, toDelete }) {
   return (
     <div
       onClick={(e) => {
-        console.log(
-          isInSubTree(document.getElementsByClassName("linker")[0], e.target)
-        );
         if (
           !isInSubTree(document.getElementsByClassName("linker")[0], e.target)
         )
@@ -74,9 +69,17 @@ function PlaylistCard({ creator, title, topics, _id, toDelete }) {
         <div className="p-2">
           {topics.map((topic, i) => {
             return i < 4 ? (
-              <h3 className="text-text dark:text-darkText my-1 truncate">
-                {topic.topic.title}
-              </h3>
+              <div className="flex items-center">
+                {topic.isStarred ? (
+                  <MdStar
+                    className="text-warning dark:text-darkWarning mr-1"
+                    size={15}
+                  />
+                ) : null}
+                <h3 className="text-text dark:text-darkText my-1 truncate">
+                  {topic.topic.title}
+                </h3>
+              </div>
             ) : null;
           })}
 
@@ -89,9 +92,17 @@ function PlaylistCard({ creator, title, topics, _id, toDelete }) {
       </div>
       <div>
         <hr className="w-full border-divider dark:border-darkDivider my-2"></hr>
-        <h3 className="text-text dark:text-darkText text-center text-sm font-semibold">
-          {topics.length} topic{topics.length === 1 ? "" : "s"}
-        </h3>
+        <div className="flex items-center justify-center">
+          <h3 className="text-text dark:text-darkText text-center text-sm font-semibold">
+            {topics.length} topic{topics.length === 1 ? "" : "s"}
+          </h3>
+          <div className="flex items-center ml-2">
+            <h3 className="text-warning dark:text-darkWarning text-center text-sm font-semibold">
+              {countStarredTopics(topics)}
+            </h3>
+            <MdStar size={15} className="text-warning dark:text-darkWarning" />
+          </div>
+        </div>
       </div>
     </div>
   );
