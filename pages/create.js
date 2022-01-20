@@ -59,6 +59,7 @@ function Create() {
       isStarred: false,
     };
 
+    console.log(_topic);
     if (isRandom) {
       _topic.randomNumberOfQs = true;
       _topic.randomMin = min;
@@ -70,23 +71,15 @@ function Create() {
     setAddedTopics((topics) => [...topics, _topic]);
   };
 
-  const setTopicStarred = (index, isStarred) => {
-    const _topic = { ...addedTopics[index] };
-
-    _topic.isStarred = isStarred;
-    setAddedTopics((topics) => [
-      ...addedTopics.slice(0, index),
-      _topic,
-      ...addedTopics.slice(index + 1),
-    ]);
-  };
-
   const changeHandler = (index, newObject) => {
-    setAddedTopics((topics) => [
-      ...topics.slice(0, index),
+    console.log("c", newObject);
+    const newTopics = [
+      ...addedTopics.slice(0, index),
       newObject,
-      ...topics.slice(index + 1),
-    ]);
+      ...addedTopics.slice(index + 1),
+    ];
+    console.log(newTopics);
+    setAddedTopics(newTopics);
   };
 
   const removeTopic = (index) => {
@@ -96,24 +89,36 @@ function Create() {
     ]);
   };
 
+  const toggleTopicStar = (index) => {
+    const _topic = { ...addedTopics[index] };
+    _topic.isStarred = !_topic.isStarred;
+
+    const newTopics = [
+      ...addedTopics.slice(0, index),
+      _topic,
+      ...addedTopics.slice(index + 1),
+    ];
+    setAddedTopics(newTopics);
+  };
+
   const moveTopicUp = (index) => {
     if (index !== 0) {
-      setAddedTopics((topics) => [
-        ...topics.slice(0, index - 1),
-        topics[index],
-        topics[index - 1],
-        ...topics.slice(index + 1),
-      ]);
+      const original = [...addedTopics];
+      const temp = addedTopics[index - 1];
+      original[index - 1] = original[index];
+      original[index] = temp;
+
+      setAddedTopics(original);
     }
   };
   const moveTopicDown = (index) => {
     if (index !== addedTopics.length - 1) {
-      setAddedTopics((topics) => [
-        ...topics.slice(0, index),
-        topics[index + 1],
-        topics[index],
-        ...topics.slice(index + 2),
-      ]);
+      const original = [...addedTopics];
+      const temp = addedTopics[index + 1];
+      original[index + 1] = original[index];
+      original[index] = temp;
+
+      setAddedTopics(original);
     }
   };
 
@@ -153,7 +158,8 @@ function Create() {
               changeHandler={changeHandler}
               moveUpHandler={moveTopicUp}
               moveDownHandler={moveTopicDown}
-              onStarHandler={setTopicStarred}
+              toggleStar={toggleTopicStar}
+              isStarred={topic.isStarred}
               index={i}
               isLast={i === addedTopics.length - 1}
               key={i}

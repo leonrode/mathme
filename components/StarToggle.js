@@ -1,23 +1,18 @@
 import { useState } from "react";
 
 import { MdStar, MdStarOutline } from "react-icons/md";
-function StarToggle({ _onChange }) {
-  const [isStarred, setIsStarred] = useState(false);
+function StarToggle({ isStarred, index }) {
+  console.log("star", index, isStarred);
   return (
-    <div
-      onClick={() => {
-        _onChange(!isStarred);
-        setIsStarred((prev) => !prev);
-      }}
-    >
+    <div>
       {isStarred ? (
         <MdStar
-          className="hidden md:block cursor-pointer text-warning dark:text-darkWarning ml-3"
+          className="cursor-pointer text-warning dark:text-darkWarning"
           size={25}
         />
       ) : (
         <MdStarOutline
-          className="hidden md:block cursor-pointer text-warning dark:text-darkWarning ml-3"
+          className=" cursor-pointer text-warning dark:text-darkWarning"
           size={25}
         />
       )}
