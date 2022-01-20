@@ -1,7 +1,7 @@
 import { signIn } from "next-auth/react";
 import { useTheme } from "next-themes";
 import GoogleIcon from "../components/GoogleIcon";
-import DiscordIcon from "../components/DiscordICon";
+import DiscordIcon from "../components/DiscordIcon";
 import {
   MdOutlineNightlight,
   MdOutlineWbSunny,
