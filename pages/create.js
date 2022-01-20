@@ -118,7 +118,7 @@ function Create() {
   };
 
   return (
-    playlistNo && (
+    playlistNo !== null && (
       <Layout activeIndex={3}>
         <div className="flex items-center">
           <input
