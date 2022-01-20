@@ -1,8 +1,9 @@
 import Layout from "../components/Layout";
 
 import PlaylistCard from "../components/PlaylistCard";
+import SkPlaylistCard from "../components/skeletons/SkPlaylistCard";
 import AddNewCard from "../components/AddNewCard";
-
+import Spinner from "../components/Spinner";
 import { getSession, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
@@ -11,7 +12,7 @@ import { getUserPlaylists, deletePlaylist } from "../_api/api";
 import { generateTimeOfDay } from "../lib/helpers";
 
 export default function Home() {
-  const [playlists, setPlaylists] = useState([]);
+  const [playlists, setPlaylists] = useState(null);
   const { data: session } = useSession();
 
   useEffect(() => {
@@ -40,16 +41,26 @@ export default function Home() {
         Your Playlists
       </h3>
       <div className="flex flex-col w-full md:grid md:grid-cols-3 md:grid-rows-auto md:gap-8 md:mt-4">
-        {playlists.map((playlist) => (
-          <PlaylistCard
-            creator={playlist.creator}
-            title={playlist.title}
-            topics={playlist.topics}
-            toDelete={_deletePlaylist}
-            _id={playlist._id}
-            key={playlist._id}
-          />
-        ))}
+        {playlists ? (
+          playlists.map((playlist) => (
+            <PlaylistCard
+              creator={playlist.creator}
+              title={playlist.title}
+              topics={playlist.topics}
+              toDelete={_deletePlaylist}
+              _id={playlist._id}
+              key={playlist._id}
+            />
+          ))
+        ) : (
+          <>
+            <SkPlaylistCard />
+            <SkPlaylistCard />
+            <SkPlaylistCard />
+            <SkPlaylistCard />
+            <SkPlaylistCard />
+          </>
+        )}
         <AddNewCard />
       </div>
     </Layout>

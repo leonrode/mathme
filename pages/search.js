@@ -1,4 +1,5 @@
 import SearchResult from "../components/SearchResult";
+import SkSearchResult from "../components/skeletons/SkSearchResult";
 import SearchBar from "../components/SearchBar";
 // import SearchSpinner from "../components/Spinner";
 import { useState, useEffect } from "react";
@@ -6,7 +7,7 @@ import { getSession } from "next-auth/react";
 import Layout from "../components/Layout";
 import { searchTopics } from "../_api/api.js";
 function Search() {
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState(null);
   const [searchPrompt, setSearchPrompt] = useState("");
   const [resultsLoading, setResultsLoading] = useState(true);
 
@@ -41,15 +42,27 @@ function Search() {
           </div>
         </div>
         <div>
-          {searchResults.map((result, index) => (
-            <SearchResult
-              title={result.title}
-              example={result.example}
-              key={result.id}
-              _id={result.id}
-              number={index + 1}
-            />
-          ))}
+          {searchResults ? (
+            searchResults.map((result, index) => (
+              <SearchResult
+                title={result.title}
+                example={result.example}
+                key={result.id}
+                _id={result.id}
+                number={index + 1}
+              />
+            ))
+          ) : (
+            <>
+              <SkSearchResult />
+              <SkSearchResult />
+              <SkSearchResult />
+              <SkSearchResult />
+              <SkSearchResult />
+              <SkSearchResult />
+              <SkSearchResult />
+            </>
+          )}
         </div>
       </div>
     </Layout>

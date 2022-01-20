@@ -7,13 +7,14 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
 import CreateSearchResult from "../components/CreateSearchResult";
+import SkCreateSearchResult from "../components/skeletons/SkCreateSearchResult";
 import AddedTopic from "../components/AddedTopic";
 
 import { getSession, useSession } from "next-auth/react";
 
 import { searchTopics, getUserPlaylists, createPlaylist } from "../_api/api";
 function Create() {
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState(null);
   const [inputPrompt, setInputPrompt] = useState("");
   const [resultsLoading, setResultsLoading] = useState(true);
   const [addedTopics, setAddedTopics] = useState([]);
@@ -195,13 +196,22 @@ function Create() {
           </div>
         </div>
         <div className="flex flex-col w-full lg:w-11/12 mt-2">
-          {results.map((result) => (
-            <CreateSearchResult
-              topic={result}
-              key={result.title}
-              addHandler={addTopic}
-            />
-          ))}
+          {results ? (
+            results.map((result) => (
+              <CreateSearchResult
+                topic={result}
+                key={result.title}
+                addHandler={addTopic}
+              />
+            ))
+          ) : (
+            <>
+              <SkCreateSearchResult />
+              <SkCreateSearchResult />
+              <SkCreateSearchResult />
+              <SkCreateSearchResult />
+            </>
+          )}
         </div>
       </Layout>
     )

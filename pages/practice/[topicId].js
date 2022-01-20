@@ -220,7 +220,11 @@ function TopicPage() {
               </div>
             )}
 
-            <CheckAnswerButton correct={correct} incorrect={incorrect} />
+            <CheckAnswerButton
+              correct={correct}
+              incorrect={incorrect}
+              verifyHandler={_verifyAnswer}
+            />
           </div>
           <div className="text-text dark:text-darkText hover:text-primary dark:hover:text-darkPrimary">
             <MdHelpOutline size={35} className="cursor-pointer" />

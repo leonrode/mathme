@@ -27,7 +27,7 @@ function DesktopAddedTopic({
   const [isRandom, setIsRandom] = useState(false);
   const [noQuestions, setNoQuestions] = useState(DEFAULT_NO_QUESTIONS);
 
-  const [min, setMin] = useState(0);
+  const [min, setMin] = useState(1);
   const [max, setMax] = useState(10);
 
   useEffect(() => {
@@ -141,6 +141,7 @@ function DesktopAddedTopic({
             <NumericInput
               className="bg-transparent outline-none transition ml-2 border-none border-b-2 border-b-white focus:border-b-primary w-20 "
               placeholder="from"
+              min={1}
               onChange={(value) => {
                 setMin(value);
               }}
