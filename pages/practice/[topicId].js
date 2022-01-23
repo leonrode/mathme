@@ -339,6 +339,7 @@ function TopicPage() {
             {completedQuestions.map((problem, index) => (
               <SummaryQuestion
                 index={index}
+                key={index}
                 isLast={index === completedQuestions.length - 1}
                 problemLatex={problem.latex}
                 userResponses={problem.userResponses}
