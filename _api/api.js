@@ -9,6 +9,14 @@ const searchTopics = async (prompt) => {
   return data.results;
 };
 
+const getPlaylist = async (playlistId) => {
+  const result = await axios.get(`/api/playlist/${playlistId}`);
+
+  const data = result.data;
+
+  return data.playlist;
+};
+
 const getUserPlaylists = async () => {
   const result = await axios.get("/api/user/playlists");
 
@@ -47,6 +55,15 @@ const fetchNewProblem = async (topicId) => {
   return data;
 };
 
+const fetchProblems = async (topicId, count) => {
+  const result = await axios.get(
+    `/api/question/${parseInt(topicId)}?count=${parseInt(count)}`
+  );
+  const data = result.data;
+
+  return data;
+};
+
 const verifyAnswer = async (
   topicId,
   questionLatex,
@@ -66,10 +83,12 @@ const verifyAnswer = async (
 };
 export {
   searchTopics,
+  getPlaylist,
   getUserPlaylists,
   deletePlaylist,
   createPlaylist,
   savePlaylist,
   fetchNewProblem,
+  fetchProblems,
   verifyAnswer,
 };

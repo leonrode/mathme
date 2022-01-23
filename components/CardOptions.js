@@ -1,9 +1,9 @@
-import { MdDeleteOutline } from "react-icons/md";
+import { MdDeleteOutline, MdOutlineEdit } from "react-icons/md";
 
 import { useRef, useEffect } from "react";
 
 import axios from "axios";
-function CardOptions({ show, toClose, playlistId, toDelete }) {
+function CardOptions({ show, toClose, playlistId, toDelete, toEdit }) {
   const _ref = useRef(null);
 
   useOutsideDetection(_ref, toClose);
@@ -15,7 +15,14 @@ function CardOptions({ show, toClose, playlistId, toDelete }) {
       ref={_ref}
     >
       <div
-        className="flex items-center w-full justify-between cursor-pointer"
+        className="flex items-center w-full justify-start cursor-pointer hover:bg-gray-700 transition rounded-md p-[1px]"
+        onClick={() => toEdit(playlistId)}
+      >
+        <MdOutlineEdit className="text-text dark:text-darkText" size={30} />
+        <h3 className="font-bold text-text dark:text-darkText ml-2">Edit</h3>
+      </div>
+      <div
+        className="flex items-center w-full justify-start cursor-pointer  mt-2 hover:bg-gray-700 transition rounded-md p-[1px]"
         onClick={async () => await toDelete(playlistId)}
       >
         <MdDeleteOutline className="text-error dark:text-darkError" size={30} />
@@ -41,11 +48,6 @@ function useOutsideDetection(ref, onOutsideDetection) {
       document.removeEventListener("mousedown", isOutside);
     };
   });
-}
-
-async function deletePlaylist(playlistId) {
-  const res = await axios.post("/api/playlist/delete", { playlistId });
-  console.log(res);
 }
 
 export default CardOptions;

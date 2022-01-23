@@ -22,20 +22,26 @@ function MobileAddedTopic({
   toggleStar,
   changeHandler,
   isStarred,
+  isRandom,
+  noQuestions,
+  min,
+  max,
   objectConstructor,
 }) {
-  const [isRandom, setIsRandom] = useState(false);
-  const [noQuestions, setNoQuestions] = useState(DEFAULT_NO_QUESTIONS);
+  const [_isRandom, setIsRandom] = useState(!!isRandom);
+  const [_noQuestions, setNoQuestions] = useState(
+    noQuestions ? noQuestions : DEFAULT_NO_QUESTIONS
+  );
 
-  const [min, setMin] = useState(0);
-  const [max, setMax] = useState(10);
+  const [_min, setMin] = useState(min ? min : 1);
+  const [_max, setMax] = useState(max ? max : 10);
 
   useEffect(() => {
     changeHandler(
       index,
-      objectConstructor(topic, isRandom, noQuestions, min, max, isStarred)
+      objectConstructor(topic, _isRandom, _noQuestions, _min, _max, isStarred)
     );
-  }, [isRandom, noQuestions, min, max]);
+  }, [_isRandom, _noQuestions, _min, _max]);
 
   return (
     <div className="w-full bg-white dark:bg-darkElevated rounded-xl px-2 py-3 mb-4 border-transparent transition border-2 hover:border-primary hover:dark:border-darkPrimary">
@@ -44,22 +50,7 @@ function MobileAddedTopic({
           <div className="flex items-center">
             <span className="text-grayed ">{index + 1}</span>
             <span className="h-6 border-x-[1px] border-x-divider dark:border-x-darkDivider ml-2"></span>
-            {/* <div className="mx-2" onClick={() => toggleStar(index)}>
-            <div>
-              {isStarred ? (
-                <MdStar
-                  className="cursor-pointer text-warning dark:text-darkWarning"
-                  size={25}
-                />
-              ) : (
-                <MdStarOutline
-                  className=" cursor-pointer text-warning dark:text-darkWarning"
-                  size={25}
-                />
-              )}
-            </div>
-          </div> */}
-            {/* <div onClick={() => toggleStar(index)}>{isStarred.toString()}</div> */}
+
             <h3 className="text-text dark:text-darkText truncate font-bold ml-2">
               {topic.title}
             </h3>
@@ -68,13 +59,13 @@ function MobileAddedTopic({
             <Latex>{`$${topic.example}$`}</Latex>
           </div>
           <div className="ml-6">
-            <div className="w-full border-y-2 my-2 border-divider dark:border-x-divider" />
+            <div className="w-full border-y-[1px] my-2 border-divider dark:border-darkDivider" />
           </div>
           <div className="w-full flex flex-col ml-6">
             <div className="flex items-center mt-1 justify-between w-3/4">
               <h5
                 className={`${
-                  isRandom ? "text-textGrayed" : "text-text dark:text-darkText"
+                  _isRandom ? "text-textGrayed" : "text-text dark:text-darkText"
                 } transition`}
               >
                 # questions
@@ -85,7 +76,7 @@ function MobileAddedTopic({
                 placeholder="#"
                 min={1}
                 defaultValue={DEFAULT_NO_QUESTIONS}
-                disabled={isRandom}
+                disabled={_isRandom}
                 onChange={(value) => {
                   setNoQuestions(value);
                 }}
@@ -100,7 +91,7 @@ function MobileAddedTopic({
               <h5 className="text-text dark:text-darkText  mr-2">random</h5>
               <input
                 type="checkbox"
-                defaultChecked={isRandom}
+                defaultChecked={_isRandom}
                 onChange={(e) => {
                   setIsRandom(e.target.checked);
                 }}
@@ -108,7 +99,7 @@ function MobileAddedTopic({
 
               <div
                 className={`flex-col ml-2  items-center ${
-                  isRandom ? "flex" : "hidden"
+                  _isRandom ? "flex" : "hidden"
                 }`}
               >
                 <NumericInput
@@ -117,6 +108,7 @@ function MobileAddedTopic({
                   onChange={(value) => {
                     setMin(value);
                   }}
+                  defaultValue={_min}
                   onKeyDown={(e) =>
                     e.key === "Backspace" || e.key === "Delete"
                       ? true
@@ -127,7 +119,8 @@ function MobileAddedTopic({
                   <NumericInput
                     className="bg-transparent outline-none transition border-none border-b-2 border-b-white focus:border-b-primary w-28 "
                     placeholder="to"
-                    min={min}
+                    min={_min}
+                    defaultValue={_max}
                     onChange={(value) => {
                       setMax(value);
                     }}
@@ -174,8 +167,6 @@ function MobileAddedTopic({
           </div>
         </div>
       </div>
-
-      {/* <div className="my-4 border-[1px] border-divider dark:border-darkDivider w-full"></div> */}
     </div>
   );
 }

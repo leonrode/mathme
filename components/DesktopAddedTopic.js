@@ -22,20 +22,26 @@ function DesktopAddedTopic({
   toggleStar,
   changeHandler,
   isStarred,
+  isRandom,
+  noQuestions,
+  min,
+  max,
   objectConstructor,
 }) {
-  const [isRandom, setIsRandom] = useState(false);
-  const [noQuestions, setNoQuestions] = useState(DEFAULT_NO_QUESTIONS);
+  const [_isRandom, setIsRandom] = useState(!!isRandom);
+  const [_noQuestions, setNoQuestions] = useState(
+    noQuestions ? noQuestions : DEFAULT_NO_QUESTIONS
+  );
 
-  const [min, setMin] = useState(1);
-  const [max, setMax] = useState(10);
+  const [_min, setMin] = useState(min ? min : 1);
+  const [_max, setMax] = useState(max ? max : 10);
 
   useEffect(() => {
     changeHandler(
       index,
-      objectConstructor(topic, isRandom, noQuestions, min, max, isStarred)
+      objectConstructor(topic, _isRandom, _noQuestions, _min, _max, isStarred)
     );
-  }, [isRandom, noQuestions, min, max]);
+  }, [_isRandom, _noQuestions, _min, _max]);
 
   return (
     <div className="w-full bg-white dark:bg-darkElevated rounded-xl px-4 py-3 mb-4 border-transparent transition border-2 hover:border-primary hover:dark:border-darkPrimary">
@@ -58,7 +64,6 @@ function DesktopAddedTopic({
               )}
             </div>
           </div>
-          {/* <div onClick={() => toggleStar(index)}>{isStarred.toString()}</div> */}
           <h3 className="text-text dark:text-darkText truncate font-bold ">
             {topic.title}
           </h3>
@@ -104,7 +109,7 @@ function DesktopAddedTopic({
         <div className="flex items-center">
           <h5
             className={`${
-              isRandom ? "text-textGrayed" : "text-text dark:text-darkText"
+              _isRandom ? "text-textGrayed" : "text-text dark:text-darkText"
             } transition`}
           >
             # questions
@@ -113,8 +118,8 @@ function DesktopAddedTopic({
             className="bg-transparent outline-none transition ml-2 border-none border-b-2 focus:border-b-primary w-16 "
             placeholder="#"
             min={1}
-            defaultValue={DEFAULT_NO_QUESTIONS}
-            disabled={isRandom}
+            defaultValue={noQuestions}
+            disabled={_isRandom}
             onChange={(value) => {
               setNoQuestions(value);
             }}
@@ -129,19 +134,20 @@ function DesktopAddedTopic({
           <h5 className="text-text dark:text-darkText  ml-4 mr-2">random</h5>
           <input
             type="checkbox"
-            defaultChecked={isRandom}
+            defaultChecked={_isRandom}
             onChange={(e) => {
               setIsRandom(e.target.checked);
             }}
           />
 
           <div
-            className={`flex-row items-center ${isRandom ? "flex" : "hidden"}`}
+            className={`flex-row items-center ${_isRandom ? "flex" : "hidden"}`}
           >
             <NumericInput
               className="bg-transparent outline-none transition ml-2 border-none border-b-2 border-b-white focus:border-b-primary w-20 "
               placeholder="from"
               min={1}
+              defaultValue={_min}
               onChange={(value) => {
                 setMin(value);
               }}
@@ -155,7 +161,8 @@ function DesktopAddedTopic({
               <NumericInput
                 className="bg-transparent outline-none transition border-none border-b-2 border-b-white focus:border-b-primary w-20 "
                 placeholder="to"
-                min={min}
+                min={_min}
+                defaultValue={_max}
                 onChange={(value) => {
                   setMax(value);
                 }}

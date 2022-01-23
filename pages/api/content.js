@@ -25,7 +25,7 @@ const oneStepLinear = {
     rhs = rhs.add(value);
 
     const latex = lhs.toTeX() + "=" + rhs.toTeX();
-    return { latex };
+    return { solution, latex };
   },
   verify: (question, userResponse) => {
     const n_question = nerdamer.convertFromLaTeX(question);

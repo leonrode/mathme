@@ -62,6 +62,7 @@ function PlaylistCard({ creator, title, topics, _id, toDelete }) {
                 toDelete(_id);
                 setShowDropdown(false);
               }}
+              toEdit={() => Router.push(`/create?playlistId=${_id}`)}
             />
           </div>
         </div>

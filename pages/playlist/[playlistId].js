@@ -13,6 +13,7 @@ import {
   MdOutlineIosShare,
   MdOutlineFileDownload,
   MdStar,
+  MdOutlineEdit,
 } from "react-icons/md";
 
 import { savePlaylist } from "../../_api/api";
@@ -83,6 +84,11 @@ function PlaylistPage() {
           <MdOutlineFileDownload
             className="text-text  dark:text-darkText ml-4"
             size={25}
+          />
+          <MdOutlineEdit
+            className="text-text dark:text-darkText ml-4"
+            size={25}
+            onClick={() => Router.push(`/create?playlistId=${playlist._id}`)}
           />
         </div>
         <h6 className="text-textGrayed font-bold mt-4">Study</h6>

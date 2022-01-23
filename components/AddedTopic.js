@@ -19,11 +19,15 @@ function AddedTopic({
   moveDownHandler,
   toggleStar,
   isStarred,
+  isRandom,
+  noQuestions,
+  min,
+  max,
   isLast,
   index,
 }) {
   const DEFAULT_NO_QUESTIONS = 10;
-
+  console.log(isRandom, noQuestions, min, max);
   return (
     <>
       <div className="hidden md:block">
@@ -38,6 +42,10 @@ function AddedTopic({
           changeHandler={changeHandler}
           toggleStar={toggleStar}
           isStarred={isStarred}
+          isRandom={isRandom}
+          noQuestions={noQuestions}
+          min={min}
+          max={max}
           objectConstructor={constructObject}
         />
       </div>
@@ -53,6 +61,10 @@ function AddedTopic({
           changeHandler={changeHandler}
           toggleStar={toggleStar}
           isStarred={isStarred}
+          isRandom={isRandom}
+          noQuestions={noQuestions}
+          min={min}
+          max={max}
           objectConstructor={constructObject}
         />
       </div>

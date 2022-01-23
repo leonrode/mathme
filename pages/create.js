@@ -12,7 +12,13 @@ import AddedTopic from "../components/AddedTopic";
 
 import { getSession, useSession } from "next-auth/react";
 
-import { searchTopics, getUserPlaylists, createPlaylist } from "../_api/api";
+import {
+  searchTopics,
+  getPlaylist,
+  getUserPlaylists,
+  savePlaylist,
+  createPlaylist,
+} from "../_api/api";
 function Create() {
   const [results, setResults] = useState(null);
   const [inputPrompt, setInputPrompt] = useState("");
@@ -39,6 +45,15 @@ function Create() {
 
   useEffect(() => {
     (async () => {
+      if (Router.query.playlistId) {
+        const playlist = await getPlaylist(Router.query.playlistId);
+
+        const { title, topics } = playlist;
+        console.log(title);
+        setPlaylistTitle(title);
+        setAddedTopics(topics);
+      }
+
       const playlists = await getUserPlaylists();
 
       setPlaylistNo(playlists.length);
@@ -47,13 +62,21 @@ function Create() {
 
   const _createPlaylist = async () => {
     setIsSaving(true);
-    const playlistId = await createPlaylist(
-      playlistNo + 1,
-      playlistTitle,
-      addedTopics
-    );
-    setIsSaving(false);
-    Router.push(`/playlist/${playlistId}`);
+
+    if (Router.query.playlistId) {
+      // if is editing playlist
+      await savePlaylist(Router.query.playlistId, playlistTitle, addedTopics);
+      setIsSaving(false);
+      Router.push(`/playlist/${Router.query.playlistId}`);
+    } else {
+      const playlistId = await createPlaylist(
+        playlistNo + 1,
+        playlistTitle,
+        addedTopics
+      );
+      setIsSaving(false);
+      Router.push(`/playlist/${playlistId}`);
+    }
   };
 
   const addTopic = (topic, noQuestions, isRandom, min, max) => {
@@ -64,24 +87,22 @@ function Create() {
 
     console.log(_topic);
     if (isRandom) {
-      _topic.randomNumberOfQs = true;
-      _topic.randomMin = min;
-      _topic.randomMax = max;
+      _topic.isRandom = true;
+      _topic.min = min;
+      _topic.max = max;
     } else {
-      _topic.randomNumberOfQs = false;
+      _topic.isRandom = false;
       _topic.noQuestions = noQuestions;
     }
     setAddedTopics((topics) => [...topics, _topic]);
   };
 
   const changeHandler = (index, newObject) => {
-    console.log("c", newObject);
     const newTopics = [
       ...addedTopics.slice(0, index),
       newObject,
       ...addedTopics.slice(index + 1),
     ];
-    console.log(newTopics);
     setAddedTopics(newTopics);
   };
 
@@ -132,6 +153,7 @@ function Create() {
           <input
             className="text-3xl lg:text-5xl text-text dark:text-darkText rounded-none font-bold outline-none bg-transparent w-full lg:w-3/4 border-b-textGrayed border-b-2 focus:border-b-primary focus:dark:border-b-darkPrimary dark:placeholder:text-textGrayed  transition"
             type="text"
+            defaultValue={playlistTitle}
             placeholder={`My Playlist #${playlistNo + 1}`}
             onChange={(e) => setPlaylistTitle(e.target.value)}
           ></input>
@@ -172,6 +194,10 @@ function Create() {
               moveDownHandler={moveTopicDown}
               toggleStar={toggleTopicStar}
               isStarred={topic.isStarred}
+              noQuestions={topic.noQuestions}
+              isRandom={topic.isRandom}
+              min={topic.min}
+              max={topic.max}
               index={i}
               isLast={i === addedTopics.length - 1}
               key={i}
