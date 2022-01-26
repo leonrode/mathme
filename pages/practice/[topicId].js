@@ -313,6 +313,7 @@ function TopicPage() {
             <div className="flex items-center mt-2">
               {problems[problemIndex].buttons.map((button, index) => (
                 <div
+                  key={index}
                   onClick={() =>
                     latexFields[activeFieldIndex].write(button.cmd)
                   }
