@@ -8,6 +8,7 @@ function handler(req, res) {
       let questions = [];
       for (let i = 0; i < count; i++) {
         const { latex, stringVersion, solution } = content[topicId].generate();
+
         questions.push({
           latex: latex,
           stringVersion,
@@ -17,8 +18,10 @@ function handler(req, res) {
           instructions: content[topicId].instructions,
           numFields: content[topicId].numFields,
           prompts: content[topicId].prompts,
+          buttons: content[topicId].buttons,
         });
       }
+      console.log(questions);
       return res.json({
         questions: questions,
         warning: "Yes, you can see the solution, but that defeats the point :)",
@@ -35,6 +38,7 @@ function handler(req, res) {
         instructions: content[topicId].instructions,
         numFields: content[topicId].numFields,
         prompts: content[topicId].prompts,
+        buttons: content[topicId].buttons,
         warning: "Yes, you can see the solution, but that defeats the point :)",
       });
     }

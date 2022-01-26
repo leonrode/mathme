@@ -4,21 +4,20 @@ import stringSimilarity from "string-similarity";
 
 import { customAlphabet } from "nanoid";
 const nanoid = customAlphabet("1234567890abcdefABCDEF", 24);
+
 function fetchMeta(topicId) {
   const { title, example } = content[topicId];
   return { title, example };
 }
 
 function verifyProblem(topicId, problem, response, stringVersion) {
-  console.log(typeof topicId, "type");
-  console.log(topicId, content[topicId]);
   return content[topicId].verify(problem, response, stringVersion);
 }
 
 function generateSearchResults(prompt) {
   if (prompt === "all") {
-    return content.map((topic) => ({
-      id: topic.id,
+    return content.map((topic, index) => ({
+      id: index,
       instructions: topic.instructions,
       title: topic.title,
       description: topic.description,
@@ -28,8 +27,8 @@ function generateSearchResults(prompt) {
       prompts: topic.prompts,
     }));
   }
-  let results = content.map((topic) => ({
-    id: topic.id,
+  let results = content.map((topic, index) => ({
+    id: index,
     instructions: topic.instructions,
     title: topic.title,
     description: topic.description,

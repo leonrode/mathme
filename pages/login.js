@@ -15,6 +15,9 @@ import { getErrorMessage } from "../lib/oauth";
 function Login() {
   const { theme, setTheme } = useTheme();
   const [errorMessage, setErrorMessage] = useState(null);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
   const router = useRouter();
 
   useEffect(() => {
@@ -45,6 +48,29 @@ function Login() {
           Unlock unlimited, fast-paced math practice for free.
         </h3>
         <div className="w-16 border-y-[1px] border-divider dark:border-darkDivider my-4" />
+        <h3>Log in using username &amp; password</h3>
+
+        <label htmlFor="username">Username</label>
+        <input
+          onChange={(e) => setUsername(e.target.value)}
+          type="text"
+          name="username"
+          placeholder="epicmathstudent123"
+        />
+        <label htmlFor="password">Password</label>
+        <input
+          onChange={(e) => setPassword(e.target.value)}
+          type="password"
+          name="password"
+        />
+
+        <div
+          onClick={() =>
+            signIn("credentials", { username: username, password: password })
+          }
+        >
+          Log in
+        </div>
         <h3 className="text-text dark:text-darkText font-bold">
           Log in using a provider below
         </h3>
@@ -53,12 +79,6 @@ function Login() {
           Icon={GoogleIcon}
           text="Sign in with Google"
           providerId="google"
-        />
-        <div className="my-2" />
-        <ProviderButton
-          Icon={DiscordIcon}
-          text="Sign in with Discord"
-          providerId="discord"
         />
       </div>
     </div>

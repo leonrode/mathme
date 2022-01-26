@@ -36,7 +36,8 @@ function TopicPage() {
   const [problemIndex, setProblemIndex] = useState(0);
 
   const [latexFields, setLatexFields] = useState([]);
-
+  const [numFields, setNumFields] = useState(0);
+  const [activeFieldIndex, setActiveFieldIndex] = useState(0);
   const [isChecking, setIsChecking] = useState(false);
 
   const [incorrect, setIncorrect] = useState(false);
@@ -61,12 +62,13 @@ function TopicPage() {
 
       if (topicId) {
         const problems = await fetchProblems(topicId, noQuestions);
-
+        console.log(problems.questions);
         setProblems(problems.questions);
-
-        setLatexFields(
-          new Array(problems.questions[0].prompts.length).fill("")
-        );
+        setNumFields(problems.questions[0].numFields);
+        console.log(problems.questions[0].prompts);
+        // setLatexFields(
+        //   new Array(problems.questions[0].prompts.length).fill("")
+        // );
       }
     })();
   }, [topicId]);
@@ -79,7 +81,9 @@ function TopicPage() {
 
     return () => clearTimeout(timeout);
   }, [incorrect, correct]);
-
+  useEffect(() => {
+    console.log(latexFields);
+  }, [latexFields]);
   useEffect(() => {
     const playlistId = router.query.playlistId;
     const index = router.query.index;
@@ -128,14 +132,20 @@ function TopicPage() {
       topicId,
       problems[problemIndex].latex,
       problems[problemIndex].stringVersion,
-      latexFields
+      latexFields.map((field) => {
+        console.log(field);
+        return field.latex();
+      })
     );
     setCompletedQuestions((questions) => [
       ...questions,
       {
         isCorrect: isCorrect,
         latex: problems[problemIndex].latex,
-        userResponses: [...latexFields],
+        userResponses: latexFields.map((field) => {
+          console.log("field", field.latex());
+          return field.latex();
+        }),
         solution: problems[problemIndex].solution,
       },
     ]);
@@ -155,7 +165,7 @@ function TopicPage() {
     } else {
       setIncorrect(true);
       setIncorrectNumber((prev) => prev + 1);
-      if (noQuestions - completedNumber - 1 === 0) {
+      if (currentPlaylist && noQuestions - completedNumber - 1 === 0) {
         setTimeout(() => setShowTopicSummary(true), 500);
         return;
       }
@@ -210,7 +220,9 @@ function TopicPage() {
   };
 
   const clearInputs = () => {
-    setLatexFields(new Array(problems[problemIndex].prompts.length).fill(""));
+    // setLatexFields((fields) => ));
+    console.log(latexFields);
+    latexFields.forEach((field) => field.latex(""));
   };
   return (
     problems && (
@@ -264,7 +276,7 @@ function TopicPage() {
 
             <div className="flex items-center justify-between w-full lg:w-1/2">
               <div className="flex items-center">
-                {latexFields.length > 0 && (
+                {numFields > 0 && (
                   <div className="flex flex-col ">
                     {problems[problemIndex].prompts.map((prompt, i) => {
                       return (
@@ -272,9 +284,13 @@ function TopicPage() {
                           prompt={prompt}
                           index={i}
                           key={i}
+                          isActive={activeFieldIndex === i}
+                          setActive={(index) => setActiveFieldIndex(index)}
+                          setInactive={(index) => setActiveFieldIndex(0)}
                           incorrect={incorrect}
                           correct={correct}
-                          latex={latexFields[i]}
+                          latex={latexFields[i] ? latexFields[i].latex() : ""}
+                          // latex=""
                           setter={setLatexFields}
                           checkHandler={async () => await _verifyAnswer()}
                         />
@@ -293,6 +309,20 @@ function TopicPage() {
               <div className="text-text dark:text-darkText hover:text-primary dark:hover:text-darkPrimary">
                 <MdHelpOutline size={35} className="cursor-pointer" />
               </div>
+            </div>
+            <div className="flex items-center mt-2">
+              {problems[problemIndex].buttons.map((button, index) => (
+                <div
+                  onClick={() =>
+                    latexFields[activeFieldIndex].write(button.cmd)
+                  }
+                  className={`${
+                    index !== 0 ? "ml-2" : ""
+                  } w-10 h-10 bg-primary dark:bg-darkPrimary rounded-lg flex items-center justify-center`}
+                >
+                  <Latex>{`$${button.ui}$`}</Latex>
+                </div>
+              ))}
             </div>
           </>
         )}

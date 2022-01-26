@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
 
 const EditableMathField = dynamic(() => import("react-mathquill"), {
@@ -14,9 +14,22 @@ function ProblemInput({
   correct,
   checkHandler,
   latex,
+  isActive,
+  setActive,
+  setInactive,
 }) {
-  // const [latex, setLatex] = useState(_latexList[index]);
+  // const [_latex, setLatex] = useState(latex);
+  const [field, setField] = useState(null);
 
+  useEffect(() => {
+    if (field) {
+      setter((fields) => [
+        ...fields.slice(0, index),
+        field,
+        ...fields.slice(index),
+      ]);
+    }
+  }, [field]);
   return (
     <div className=" dark:text-text flex items-center ">
       <div className="text-text dark:text-darkText">
@@ -31,14 +44,9 @@ function ProblemInput({
         <EditableMathField
           latex={latex}
           id="math-input"
-          onChange={(mathField) => {
-            setter((fields) => [
-              ...fields.slice(0, index),
-              mathField.latex(),
-              ...fields.slice(index + 1),
-            ]);
-            // setLatex("");
-          }}
+          mathquillDidMount={(field) => setField(field)}
+          onFocus={() => setActive(index)}
+          onBlur={() => setInactive(index)}
         ></EditableMathField>
       </div>
     </div>

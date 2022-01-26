@@ -73,7 +73,6 @@ const verifyAnswer = async (
   const result = await axios.post("/api/verify", {
     topicId,
     responseFields,
-    responseFields,
     questionLatex,
     questionString,
   });
@@ -81,6 +80,14 @@ const verifyAnswer = async (
   const { isCorrect } = result.data;
   return isCorrect;
 };
+
+const signUp = async (username, password) => {
+  const result = await axios.post("/api/auth/signup", { username, password });
+
+  if (result.status === 201) return true;
+  return false;
+};
+
 export {
   searchTopics,
   getPlaylist,
@@ -91,4 +98,5 @@ export {
   fetchNewProblem,
   fetchProblems,
   verifyAnswer,
+  signUp,
 };

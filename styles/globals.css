@@ -22,17 +22,21 @@
 
 #math-input {
   height: fit-content;
-  min-height: 40px;
+  min-height: 45px;
   /* margin-left: 1rem; */
   /* border: 2px solid #73798c; */
   background-color: white;
-  padding: 4px;
+  padding: 5px;
   min-width: 10rem;
   width: fit-content;
   border-radius: 8px;
 
   display: flex;
   align-items: center;
+}
+
+sup {
+  top: -0.3em !important;
 }
 
 .mq-editable-field.mq-focused {
