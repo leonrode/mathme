@@ -70,7 +70,7 @@ function PlaylistCard({ creator, title, topics, _id, toDelete }) {
         <div className="p-2">
           {topics.map((topic, i) => {
             return i < 4 ? (
-              <div className="flex items-center">
+              <div className="flex items-center" key={i}>
                 {topic.isStarred ? (
                   <MdStar
                     className="text-warning dark:text-darkWarning mr-1"
