@@ -26,7 +26,13 @@ function useOutsideDetection(ref, onOutsideDetection) {
   }, []);
 }
 
-function MobileDropContent({ show, close, activeIndex, profileImageUrl }) {
+function MobileDropContent({
+  show,
+  close,
+  activeIndex,
+  name,
+  profileImageUrl,
+}) {
   const _ref = useRef(null);
 
   useOutsideDetection(_ref, close);
@@ -49,7 +55,7 @@ function MobileDropContent({ show, close, activeIndex, profileImageUrl }) {
             height={40}
           ></img>
           <h3 className="text-text dark:text-darkText font-bold text-xl ml-4">
-            Leon Rode
+            {name}
           </h3>
         </div>
         <hr className="w-1/2 border-y-divider dark:border-y-darkDivider border-t-2 mt-4"></hr>

@@ -58,7 +58,7 @@ sup {
 .react-numeric-input > input:focus {
   border-radius: 0;
 
-  border-bottom: 2px solid #2356f7 !important;
+  border-bottom: 2px solid #ae3077 !important;
 }
 
 .react-numeric-input > b {

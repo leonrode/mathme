@@ -1,4 +1,4 @@
-import { MdOutlineMoreVert, MdStar } from "react-icons/md";
+import { MdOutlineMoreVert, MdStar, MdStarOutline } from "react-icons/md";
 
 import CardOptions from "./CardOptions";
 
@@ -8,9 +8,19 @@ import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { countStarredTopics } from "../lib/helpers";
-function PlaylistCard({ creator, title, topics, _id, toDelete }) {
+import { starPlaylist } from "../_api/api";
+function PlaylistCard({
+  creator,
+  toToggleStar,
+  isStarred,
+  title,
+  topics,
+  _id,
+  toDelete,
+}) {
   const [avatarUrl, setAvatarUrl] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
+  const clickableClasses = [`linker-${_id}`, `star-${_id}`];
   const Router = useRouter();
 
   useEffect(() => {
@@ -26,7 +36,11 @@ function PlaylistCard({ creator, title, topics, _id, toDelete }) {
     <div
       onClick={(e) => {
         if (
-          !isInSubTree(document.getElementsByClassName("linker")[0], e.target)
+          clickableClasses
+            .map((c) =>
+              isInSubTree(document.getElementsByClassName(c)[0], e.target)
+            )
+            .every((e) => e === false)
         )
           Router.push(`/playlist/${_id}`);
       }}
@@ -41,11 +55,23 @@ function PlaylistCard({ creator, title, topics, _id, toDelete }) {
             width={30}
             height={30}
           ></img>
-          <h2 className="text-text dark:text-darkText text-xl ml-2 font-bold">
-            {title}
-          </h2>
+          <div className="flex items-center">
+            <div className={`star-${_id} `}>
+              <div
+                onClick={async () => {
+                  await toToggleStar(_id);
+                }}
+                className={`text-warning dark:text-darkWarning`}
+              >
+                {isStarred ? <MdStar size={20} /> : <MdStarOutline size={20} />}
+              </div>
+            </div>
+            <h2 className="text-text dark:text-darkText text-xl ml-2 font-bold">
+              {title}
+            </h2>
+          </div>
 
-          <div className="relative linker">
+          <div className={`relative linker-${_id}`}>
             <div className="text-primary dark:text-darkPrimary">
               <MdOutlineMoreVert
                 size={30}

@@ -7,7 +7,7 @@ import Spinner from "../components/Spinner";
 import { getSession, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
-import { getUserPlaylists, deletePlaylist } from "../_api/api";
+import { getUserPlaylists, deletePlaylist, starPlaylist } from "../_api/api";
 
 import { generateTimeOfDay } from "../lib/helpers";
 
@@ -31,6 +31,13 @@ export default function Home() {
     }
   };
 
+  const _starPlaylist = async (id) => {
+    await starPlaylist(id);
+    const newPlaylists = await getUserPlaylists();
+    console.log(newPlaylists);
+    setPlaylists(newPlaylists);
+  };
+
   return (
     <Layout activeIndex={0}>
       <h1 className="text-text dark:text-darkText text-2xl font-semibold lg:text-4xl">
@@ -46,6 +53,8 @@ export default function Home() {
             <PlaylistCard
               creator={playlist.creator}
               title={playlist.title}
+              isStarred={playlist.isStarred}
+              toToggleStar={_starPlaylist}
               topics={playlist.topics}
               toDelete={_deletePlaylist}
               _id={playlist._id}

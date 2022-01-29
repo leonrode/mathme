@@ -47,6 +47,7 @@ function Sidebar({ activeIndex }) {
             show={showMobileDropdown}
             close={closeMobileDropdown}
             activeIndex={activeIndex}
+            name={session.user.name}
             profileImageUrl={session.user.image}
           />
         </div>
@@ -92,7 +93,10 @@ function Sidebar({ activeIndex }) {
             height={50}
             className="rounded-full"
           ></img>
-          <ProfileHoverCard profileImageUrl={session.user.image} />
+          <ProfileHoverCard
+            name={session.user.name}
+            profileImageUrl={session.user.image}
+          />
         </div>
       </div>
     </aside>
@@ -102,7 +106,7 @@ function Sidebar({ activeIndex }) {
 function Logo() {
   return (
     <h1 className="text-primary text-3xl font-bold lg:text-4xl dark:text-darkPrimary">
-      MathMe
+      Mazzle
     </h1>
   );
 }
@@ -126,7 +130,7 @@ function SidebarIcon({ Icon, isActive, hoverText, href }) {
         >
           <Icon size={35} />
         </div>
-        <div className="absolute top-1/2 left-14 px-3 py-1 rounded drop-shadow-md bg-white dark:bg-darkElevated text-text dark:text-darkText text-lg -translate-y-1/2 invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-100 ">
+        <div className="absolute top-1/2 left-14 px-3 py-1 rounded drop-shadow-md bg-white dark:bg-darkDoubleElevated text-text dark:text-darkText text-lg -translate-y-1/2 invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-100 ">
           {hoverText}
           <span className="before:rotate-45 before:border-white before:dark:border-darkElevated before:border-4 before:absolute before:right-full before:top-1/2 before:-translate-y-1/2 before:translate-x-1/2"></span>
         </div>
@@ -135,7 +139,7 @@ function SidebarIcon({ Icon, isActive, hoverText, href }) {
   );
 }
 
-function ProfileHoverCard({ profileImageUrl }) {
+function ProfileHoverCard({ name, profileImageUrl }) {
   const { theme, setTheme } = useTheme();
   return (
     <div className="rounded-lg bg-white dark:bg-darkElevated drop-shadow-md p-4 absolute left-full bottom-1/2 translate-x-2 w-max invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-100 ">
@@ -147,7 +151,7 @@ function ProfileHoverCard({ profileImageUrl }) {
           height={30}
           className="rounded-full"
         ></img>
-        <h3 className="text-text dark:text-darkText ml-4">Leon Rode</h3>
+        <h3 className="text-text dark:text-darkText ml-4">{name}</h3>
       </div>
       <hr className="w-full border-divider dark:border-darkDivider my-2"></hr>
       <h3 className="font-bold text-primary dark:text-darkPrimary cursor-pointer">

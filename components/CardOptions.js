@@ -11,7 +11,7 @@ function CardOptions({ show, toClose, playlistId, toDelete, toEdit }) {
     <div
       className={`${
         show ? "visible opacity-100" : "invisible opacity-0"
-      } bg-white dark:bg-darkDivider rounded-lg absolute p-2 drop-shadow-lg top-0 right-full transition `}
+      } bg-white dark:bg-darkDoubleElevated rounded-lg absolute p-2 drop-shadow-lg top-0 right-full transition `}
       ref={_ref}
     >
       <div

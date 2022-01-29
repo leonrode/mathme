@@ -1,17 +1,26 @@
 # Math-me
 
-## Color palette
+## Things to do until launch
 
-- Blue #2356F7
-- Orange #F3AC0C
-- Success #64BC26
-- Error #EA1601
-- Warning #FAD202
-- Text #020d31
-- Text Grayed #73798c
-- Background #f5f7ff
+Goal: September 2022
 
-### Element colors
-
-- Divider #CDD1DB
-- Dropdown Background #
+- [ ] study only starred topics
+- [ ] customize studying options
+  - [ ] mix all questions together
+- [ ] share playlist
+- [ ] add topic to playlist from search screen
+- [ ] end of playlist summary (per topic summary)
+- [ ] star playlists (have them show up as starred playlists on the home screen)
+- [ ] fix dropdown on PlaylistCard bugs
+- [ ] profile card dynamic name and pfp
+- [ ] _implement categories/tagging of topcis for analytics/collections(?)_
+- [ ] email login (magic link)
+  - [ ] setup service provider
+  - [ ] setup next auth provider
+- [ ] analytics page
+  - [ ] rank best topics
+  - [ ] show best categories
+- [ ] upgraded plan
+  - [ ] features
+    - [ ] generate worksheets with key
+    - [ ] smart tester (ask the student more of topics they are less proficient in)

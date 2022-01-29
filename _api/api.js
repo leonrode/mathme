@@ -48,6 +48,15 @@ const savePlaylist = async (id, title, topics) => {
   });
   return true;
 };
+
+const starPlaylist = async (playlistId) => {
+  const result = await axios.post("/api/playlist/star", {
+    playlistId: playlistId,
+  });
+
+  return true;
+};
+
 const fetchNewProblem = async (topicId) => {
   const result = await axios.get(`/api/question/${parseInt(topicId)}`);
   const data = result.data;
@@ -95,6 +104,7 @@ export {
   deletePlaylist,
   createPlaylist,
   savePlaylist,
+  starPlaylist,
   fetchNewProblem,
   fetchProblems,
   verifyAnswer,

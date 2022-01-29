@@ -17,7 +17,6 @@ async function handler(req, res) {
     _id: new ObjectId(playlistId),
   };
   const playlist = await db.collection("playlists").findOne(filter);
-  console.log(playlist);
   if (playlist) {
     return res.json({ playlist: playlist });
   }

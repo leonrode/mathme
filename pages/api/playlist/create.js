@@ -23,6 +23,7 @@ async function handler(req, res) {
     topics: topics,
     creator: new ObjectId(userId),
     createdAt: Date.now(),
+    isStarred: false,
   };
 
   await db.collection("playlists").insertOne(playlistObject);

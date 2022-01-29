@@ -1,5 +1,5 @@
 import { getSession } from "next-auth/react";
-// TODO: DO
+
 import clientPromise from "../../../lib/mongodb";
 import { ObjectId } from "mongodb";
 async function handler(req, res) {
@@ -12,13 +12,21 @@ async function handler(req, res) {
   const client = await clientPromise;
   const db = client.db("myFirstDatabase");
 
+  const { playlistId } = req.body;
+
   const filter = {
-    _id: new ObjectId(userId),
+    _id: new ObjectId(playlistId),
   };
 
-  const user = await db.collection("users").findOne(filter);
-  if (!user.playlists) res.json({ playlists: [] });
-  return res.json({ playlists: user.playlists });
+  console.log(playlistId);
+
+  const playlist = await db.collection("playlists").findOne(filter);
+  if (!playlist) return res.status(400).send();
+  await db
+    .collection("playlists")
+    .updateOne(filter, { $set: { isStarred: !playlist.isStarred } });
+
+  return res.status(201).send();
 }
 
 export default handler;
