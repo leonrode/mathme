@@ -62,6 +62,7 @@ function Create() {
 
   const _createPlaylist = async () => {
     if (addedTopics.length === 0) return;
+
     setIsSaving(true);
     if (Router.query.playlistId) {
       // if is editing playlist
