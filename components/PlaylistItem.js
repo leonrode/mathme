@@ -51,8 +51,8 @@ function PlaylistItem({ title, example, index, toggleStar, starred, _id }) {
           </div>
         </div>
       </div>
-      <div className="flex w-full md:w-1/2 justify-end md:justify-between">
-        <div className="text-textGrayed dark:text-darkText hidden md:block">
+      <div className="flex w-full md:w-1/2 justify-end md:justify-between ">
+        <div className="text-textGrayed dark:text-darkText hidden md:block z-[1]">
           <Latex>{`$${example}$`}</Latex>
         </div>
         <div className="flex items-center">

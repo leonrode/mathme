@@ -25,6 +25,7 @@ module.exports = {
         darkDoubleElevated: "#44132E",
         darkError: "#bf382b",
         darkWarning: "#E1BD02",
+        opaqueBlack: "rgba(0, 0, 0, 0.75)",
       },
       fontFamily: {
         sans: "Poppins",

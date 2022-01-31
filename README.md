@@ -10,8 +10,9 @@ Goal: September 2022
 - [ ] share playlist
 - [ ] add topic to playlist from search screen
 - [ ] end of playlist summary (per topic summary)
-- [ ] star playlists (have them show up as starred playlists on the home screen)
-- [ ] fix dropdown on PlaylistCard bugs
+- [x] star playlists
+- [ ] have starred playlists show up on home screen
+- [x] fix dropdown on PlaylistCard bugs
 - [ ] profile card dynamic name and pfp
 - [ ] _implement categories/tagging of topcis for analytics/collections(?)_
 - [ ] email login (magic link)

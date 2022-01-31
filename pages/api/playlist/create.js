@@ -16,7 +16,7 @@ async function handler(req, res) {
   const db = client.db("myFirstDatabase");
 
   const playlistId = randomId();
-
+  console.log(playlistId);
   const playlistObject = {
     title: title,
     _id: new ObjectId(playlistId),

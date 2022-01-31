@@ -6,6 +6,9 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import PlaylistItem from "../../components/PlaylistItem";
 import Link from "next/link";
+
+import SharePlaylistModal from "../../components/SharePlaylistModal";
+
 import {
   MdAssignment,
   MdAssessment,
@@ -20,6 +23,7 @@ import { savePlaylist } from "../../_api/api";
 function PlaylistPage() {
   const [playlist, setPlaylist] = useState(null);
   const [creator, setCreator] = useState(null);
+
   const Router = useRouter();
   useEffect(() => {
     (async () => {
@@ -77,10 +81,11 @@ function PlaylistPage() {
             />
             <span className="font-bold ml-2">{creator.name}</span>
           </div>
-          <MdOutlineIosShare
+          {/* <MdOutlineIosShare
             className="text-text dark:text-darkText ml-4"
             size={25}
-          />
+          /> */}
+          <SharePlaylistModal _id={playlist._id} />
           <MdOutlineFileDownload
             className="text-text  dark:text-darkText ml-4"
             size={25}
