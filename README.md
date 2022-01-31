@@ -1,4 +1,4 @@
-# Math-me
+# Mazzle
 
 ## Things to do until launch
 
@@ -8,6 +8,8 @@ Goal: September 2022
 - [ ] customize studying options
   - [ ] mix all questions together
 - [ ] share playlist
+  - [x] implement modal
+  - [ ] copy link buttton
 - [ ] add topic to playlist from search screen
 - [ ] end of playlist summary (per topic summary)
 - [x] star playlists
