@@ -4,6 +4,7 @@
 
 Goal: September 2022
 
+- [ ] *fix mobile dropdown/latex overlaps*
 - [x] study only starred topics
 - [ ] refactor topic page
   - [ ] build out components
