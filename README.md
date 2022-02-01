@@ -7,9 +7,9 @@ Goal: September 2022
 - [ ] study only starred topics
 - [ ] customize studying options
   - [ ] mix all questions together
-- [ ] share playlist
+- [x] share playlist
   - [x] implement modal
-  - [ ] copy link buttton
+  - [x] copy link buttton
 - [ ] add topic to playlist from search screen
 - [ ] end of playlist summary (per topic summary)
 - [x] star playlists

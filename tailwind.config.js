@@ -25,6 +25,7 @@ module.exports = {
         darkDoubleElevated: "#44132E",
         darkError: "#bf382b",
         darkWarning: "#E1BD02",
+        rgbaTransparent: "rgba(0, 0, 0, 0.0)",
         opaqueBlack: "rgba(0, 0, 0, 0.75)",
       },
       fontFamily: {
@@ -32,6 +33,8 @@ module.exports = {
       },
       animation: {
         fadeIn: "fadeIn 0.25s ease-in-out forwards",
+        modalFadeIn: "modalFadeIn 0.2s linear forwards",
+        slideDown: "slideDown 0.2s ease-in-out forwards",
         wrongFade: "wrongFade 0.5s linear",
         rightFade: "rightFade 0.5s linear",
         turnRed: "turnRed 0.5s linear",
@@ -41,6 +44,14 @@ module.exports = {
         fadeIn: {
           "0%": { opacity: 0 },
           "100%": { opacity: 100 },
+        },
+        modalFadeIn: {
+          "0%": { backgroundColor: "rgba(0, 0, 0, 0.0)" },
+          "100%": { backgroundColor: "rgba(0, 0, 0, 0.75)" },
+        },
+        slideDown: {
+          "0%": { marginBottom: "50px" },
+          "100%": { marginBottom: "0px" },
         },
         // wrongShake: {
         //   "0%": { border: "3px solid #bf382b", backgroundColor: "#bf382b" },
