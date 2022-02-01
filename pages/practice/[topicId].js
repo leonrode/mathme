@@ -7,6 +7,9 @@ import TopicStatus from "../../components/TopicStatus";
 import ProblemInput from "../../components/ProblemInput";
 import ProblemLatex from "../../components/ProblemLatex";
 import SummaryQuestion from "../../components/SummaryQuestion";
+
+import TopicSummary from "../../components/TopioSummary";
+
 import { useState, useEffect } from "react";
 
 import Latex from "react-latex-next";
@@ -20,6 +23,8 @@ import {
   MdCheck,
   MdChevronRight,
   MdKeyboardArrowDown,
+  MdStar,
+  MdStarOutline,
 } from "react-icons/md";
 
 import axios from "axios";
@@ -51,15 +56,14 @@ function TopicPage() {
 
   const [index, setIndex] = useState(null);
 
+  const [isStarredTopic, setIsStarredTopic] = useState(false);
+
   const [noQuestions, setNoQuestions] = useState(10);
   const [completedNumber, setCompletedNumber] = useState(0);
   const [correctNumber, setCorrectNumber] = useState(0);
   const [incorrectNumber, setIncorrectNumber] = useState(0);
   useEffect(() => {
     (async () => {
-      const a = await import("react-mathquill");
-      a.addStyles();
-
       if (topicId) {
         const problems = await fetchProblems(topicId, noQuestions);
         console.log(problems.questions);
@@ -81,16 +85,20 @@ function TopicPage() {
 
     return () => clearTimeout(timeout);
   }, [incorrect, correct]);
-  useEffect(() => {
-    console.log(latexFields);
-  }, [latexFields]);
+
   useEffect(() => {
     const playlistId = router.query.playlistId;
     const index = router.query.index;
 
+    const starred = router.query.starred;
+    setIsStarredTopic(!!starred);
+
     setIndex(parseInt(index));
 
     (async () => {
+      const a = await import("react-mathquill");
+      a.addStyles();
+
       if (playlistId) {
         const res = await axios.get(`/api/playlist/${playlistId}`);
         const playlist = res.data.playlist;
@@ -108,12 +116,44 @@ function TopicPage() {
     if (!topic.isRandom) return topic.noQuestions;
     return topic.min + Math.floor(Math.random() * (topic.max + 1 - topic.min));
   };
-  const redirectToNextTopic = () => {
+
+  const nextTopic = () => {
     setCompletedNumber(0);
     setIncorrectNumber(0);
     setCorrectNumber(0);
     setShowTopicSummary(false);
+    console.log("next topic called");
+    if (isStarredTopic) {
+      const nextTopics = currentPlaylist.topics.slice(index + 1);
+      console.log("is starred topc");
+      const nextStarredTopics = nextTopics.filter((topic) => topic.isStarred);
+
+      let nextTopicIndex;
+      for (let i = index + 1; i < currentPlaylist.topics.length; i++) {
+        if (currentPlaylist.topics[i].isStarred) {
+          nextTopicIndex = i;
+          break;
+        }
+      }
+
+      if (nextTopicIndex) {
+        console.log(
+          "next topic",
+          nextTopicIndex,
+          currentPlaylist.topics[nextTopicIndex]
+        );
+        router.push(
+          `/practice/${currentPlaylist.topics[nextTopicIndex].topic.id}?playlistId=${currentPlaylist._id}&index=${nextTopicIndex}&starred=true`
+        );
+
+        return;
+      } else {
+        // TODO: finished starred playlist
+      }
+    }
+
     const nextTopic = currentPlaylist.topics[index + 1];
+
     if (nextTopic) {
       router.push(
         `/practice/${nextTopic.topic.id}?playlistId=${
@@ -225,163 +265,139 @@ function TopicPage() {
     latexFields.forEach((field) => field.latex(""));
   };
   return (
-    problems && (
-      <Layout activeIndex={-1}>
-        <Link
-          href={
-            currentPlaylist ? `/playlist/${currentPlaylist._id}` : "/search"
-          }
-        >
-          <div className="flex items-center cursor-pointer">
-            <div className="text-text dark:text-darkText">
-              <MdChevronLeft size={35} />
-            </div>
-            <h3 className="text-text dark:text-darkText text-lg lg:text-xl ">
-              {currentPlaylist
-                ? currentPlaylist.title
-                : problems[problemIndex].title}
-            </h3>
-          </div>
-        </Link>
-
-        {!showTopicSummary && (
-          <>
-            <div className="flex items-center justify-between mt-16 w-full lg:w-1/2">
-              <div className="flex items-center">
-                <h3 className="text-text dark:text-darkText font-bold text-xl">
-                  {problems[problemIndex].instructions}
-                </h3>
-                <h3
-                  className="text-primary dark:text-darkPrimary text-lg ml-4 cursor-pointer select-none"
-                  onClick={() => skipProblem()}
-                >
-                  skip
-                </h3>
+    <Layout activeIndex={-1}>
+      {problems && (
+        <>
+          <Link
+            href={
+              currentPlaylist ? `/playlist/${currentPlaylist._id}` : "/search"
+            }
+          >
+            <div className="flex items-center cursor-pointer">
+              <div className="text-text dark:text-darkText">
+                <MdChevronLeft size={35} />
               </div>
+              <h3 className="text-text dark:text-darkText text-lg lg:text-xl ">
+                {currentPlaylist
+                  ? currentPlaylist.title
+                  : problems[problemIndex].title}
+              </h3>
+            </div>
+          </Link>
 
-              <div className="flex flex-col items-end">
-                <Timer />
-                {currentPlaylist && (
-                  <TopicStatus
-                    remaining={noQuestions - completedNumber}
-                    correctNumber={correctNumber}
-                    incorrectNumber={incorrectNumber}
+          {!showTopicSummary && (
+            <>
+              <h5 className="text-textGrayed mt-8 mb-2">Up now</h5>
+              <div className="flex items-center mb-8">
+                {isStarredTopic ? (
+                  <MdStar
+                    className="text-warning dark:text-darkWarning"
+                    size={30}
                   />
-                )}
-              </div>
-            </div>
-            <div className="flex items-center justify-center w-full lg:w-1/2 my-16 text-2xl lg:my-32">
-              <ProblemLatex latex={problems[problemIndex].latex} />
-            </div>
-
-            <div className="flex items-center justify-between w-full lg:w-1/2">
-              <div className="flex items-center">
-                {numFields > 0 && (
-                  <div className="flex flex-col ">
-                    {problems[problemIndex].prompts.map((prompt, i) => {
-                      return (
-                        <ProblemInput
-                          prompt={prompt}
-                          index={i}
-                          key={i}
-                          isActive={activeFieldIndex === i}
-                          setActive={(index) => setActiveFieldIndex(index)}
-                          setInactive={(index) => setActiveFieldIndex(0)}
-                          incorrect={incorrect}
-                          correct={correct}
-                          latex={latexFields[i] ? latexFields[i].latex() : ""}
-                          // latex=""
-                          setter={setLatexFields}
-                          checkHandler={async () => await _verifyAnswer()}
-                        />
-                      );
-                    })}
-                  </div>
-                )}
-
-                <CheckAnswerButton
-                  correct={correct}
-                  incorrect={incorrect}
-                  isChecking={isChecking}
-                  verifyHandler={_verifyAnswer}
-                />
-              </div>
-              <div className="text-text dark:text-darkText hover:text-primary dark:hover:text-darkPrimary">
-                <MdHelpOutline size={35} className="cursor-pointer" />
-              </div>
-            </div>
-            <div className="flex items-center mt-2">
-              {problems[problemIndex].buttons.map((button, index) => (
-                <div
-                  key={index}
-                  onClick={() =>
-                    latexFields[activeFieldIndex].write(button.cmd)
-                  }
+                ) : null}
+                <h1
                   className={`${
-                    index !== 0 ? "ml-2" : ""
-                  } w-10 h-10 bg-primary dark:bg-darkPrimary rounded-lg flex items-center justify-center`}
+                    isStarredTopic ? "ml-2" : ""
+                  } text-2xl font-bold `}
                 >
-                  <Latex>{`$${button.ui}$`}</Latex>
+                  {problems[problemIndex].title}
+                </h1>
+              </div>
+              <div className="flex items-center justify-between w-full lg:w-1/2">
+                <div className="flex items-center">
+                  <h3 className="text-text dark:text-darkText font-bold text-xl">
+                    {problems[problemIndex].instructions}
+                  </h3>
+                  <h3
+                    className="text-primary dark:text-darkPrimary text-lg ml-4 cursor-pointer select-none"
+                    onClick={() => skipProblem()}
+                  >
+                    skip
+                  </h3>
                 </div>
-              ))}
-            </div>
-          </>
-        )}
-        {showTopicSummary && (
-          <div className="mt-4 w-full md:w-3/4">
-            <h1 className="text-textGrayed">Topic Summary</h1>
-            <div className="flex items-center">
-              <h3 className="text-3xl font-bold mt-2">
-                {currentPlaylist.topics[index].topic.title}
-              </h3>
-            </div>
-            <div className="flex items-center mt-2">
-              {/* percentage */}
-              <h3 className="font-bold text-lg">
-                {Math.floor((correctNumber / noQuestions) * 100)}%
-              </h3>
 
-              <h3 className="text-lg ml-4 text-success dark:text-darkSuccess flex items-center">
-                {correctNumber}
-
-                <MdCheck size={20} />
-              </h3>
-              <h3 className="ml-2 text-lg text-error dark:text-darkError flex items-center">
-                {incorrectNumber}
-
-                <MdClear size={20} />
-              </h3>
-            </div>
-            <div className="flex items-center mt-2">
-              <div
-                onClick={restartTopic}
-                className="cursor-pointer bg-transparent border-2 border-primary dark:border-darkPrimary w-fit p-2 text-sm rounded-md text-center"
-              >
-                Restart topic
+                <div className="flex flex-col items-end">
+                  <Timer />
+                  {currentPlaylist && (
+                    <TopicStatus
+                      remaining={noQuestions - completedNumber}
+                      correctNumber={correctNumber}
+                      incorrectNumber={incorrectNumber}
+                    />
+                  )}
+                </div>
               </div>
-              <div
-                onClick={redirectToNextTopic}
-                className="cursor-pointer ml-2 bg-primary border-2 border-transparent dark:bg-darkPrimary w-fit p-2 text-sm rounded-md text-center"
-              >
-                Continue
+              <div className="flex items-center justify-center w-full lg:w-1/2 my-16 text-2xl lg:my-32">
+                <ProblemLatex latex={problems[problemIndex].latex} />
               </div>
-            </div>
-            <h3 className="text-textGrayed my-4">Review Questions</h3>
-            {completedQuestions.map((problem, index) => (
-              <SummaryQuestion
-                index={index}
-                key={index}
-                isLast={index === completedQuestions.length - 1}
-                problemLatex={problem.latex}
-                userResponses={problem.userResponses}
-                solution={problem.solution}
-                isCorrect={problem.isCorrect}
-              />
-            ))}
-          </div>
-        )}
-      </Layout>
-    )
+
+              <div className="flex items-center justify-between w-full lg:w-1/2">
+                <div className="flex items-center">
+                  {numFields > 0 && (
+                    <div className="flex flex-col ">
+                      {problems[problemIndex].prompts.map((prompt, i) => {
+                        return (
+                          <ProblemInput
+                            prompt={prompt}
+                            index={i}
+                            key={i}
+                            isActive={activeFieldIndex === i}
+                            setActive={(index) => setActiveFieldIndex(index)}
+                            setInactive={(index) => setActiveFieldIndex(0)}
+                            incorrect={incorrect}
+                            correct={correct}
+                            latex={latexFields[i] ? latexFields[i].latex() : ""}
+                            // latex=""
+                            setter={setLatexFields}
+                            checkHandler={async () => await _verifyAnswer()}
+                          />
+                        );
+                      })}
+                    </div>
+                  )}
+
+                  <CheckAnswerButton
+                    correct={correct}
+                    incorrect={incorrect}
+                    isChecking={isChecking}
+                    verifyHandler={_verifyAnswer}
+                  />
+                </div>
+                <div className="text-text dark:text-darkText hover:text-primary dark:hover:text-darkPrimary">
+                  <MdHelpOutline size={35} className="cursor-pointer" />
+                </div>
+              </div>
+              <div className="flex items-center mt-2">
+                {problems[problemIndex].buttons.map((button, index) => (
+                  <div
+                    key={index}
+                    onClick={() =>
+                      latexFields[activeFieldIndex].write(button.cmd)
+                    }
+                    className={`${
+                      index !== 0 ? "ml-2" : ""
+                    } w-10 h-10 bg-primary dark:bg-darkPrimary rounded-lg flex items-center justify-center`}
+                  >
+                    <Latex>{`$${button.ui}$`}</Latex>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+          {showTopicSummary && (
+            <TopicSummary
+              correctNumber={correctNumber}
+              incorrectNumber={incorrectNumber}
+              topicTitle={problems[problemIndex].title}
+              noQuestions={noQuestions}
+              completedQuestions={completedQuestions}
+              toRestart={restartTopic}
+              toNextTopic={nextTopic}
+            />
+          )}
+        </>
+      )}
+    </Layout>
   );
 }
 

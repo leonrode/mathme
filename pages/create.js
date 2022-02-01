@@ -148,100 +148,102 @@ function Create() {
   };
 
   return (
-    playlistNo !== null && (
-      <Layout activeIndex={3}>
-        <div className="flex items-center">
-          <input
-            className="text-3xl lg:text-5xl text-text dark:text-darkText rounded-none font-bold outline-none bg-transparent w-full lg:w-3/4 border-b-textGrayed border-b-2 focus:border-b-primary focus:dark:border-b-darkPrimary dark:placeholder:text-textGrayed  transition"
-            type="text"
-            defaultValue={playlistTitle}
-            placeholder={`My Playlist #${playlistNo + 1}`}
-            onChange={(e) => setPlaylistTitle(e.target.value)}
-          ></input>
-          <div className="text-text dark:text-darkText ml-2 lg:ml-4">
-            <MdEdit size={30} />
+    <Layout activeIndex={3}>
+      {playlistNo !== null && (
+        <>
+          <div className="flex items-center">
+            <input
+              className="text-3xl lg:text-5xl text-text dark:text-darkText rounded-none font-bold outline-none bg-transparent w-full lg:w-3/4 border-b-textGrayed border-b-2 focus:border-b-primary focus:dark:border-b-darkPrimary dark:placeholder:text-textGrayed  transition"
+              type="text"
+              defaultValue={playlistTitle}
+              placeholder={`My Playlist #${playlistNo + 1}`}
+              onChange={(e) => setPlaylistTitle(e.target.value)}
+            ></input>
+            <div className="text-text dark:text-darkText ml-2 lg:ml-4">
+              <MdEdit size={30} />
+            </div>
+            <div
+              onClick={async () => await _createPlaylist()}
+              className="hidden md:block bg-primary dark:bg-darkPrimary text-white rounded-xl px-4 py-2 font-bold ml-4 text-xl cursor-pointer "
+            >
+              {isSaving ? <Spinner /> : "Save"}
+            </div>
+          </div>
+          <div className="flex items-center mt-4">
+            <h3 className="text-textGrayed ">by {session.user.name}</h3>
+            <img
+              src={session.user.image}
+              referrerPolicy="no-referrer"
+              className="rounded-full ml-2"
+              width={25}
+              height={25}
+            />
           </div>
           <div
             onClick={async () => await _createPlaylist()}
-            className="hidden md:block bg-primary dark:bg-darkPrimary text-white rounded-xl px-4 py-2 font-bold ml-4 text-xl cursor-pointer "
+            className=" md:hidden bg-primary dark:bg-darkPrimary text-white dark:text-darkText rounded-xl px-4 py-2 font-bold text-xl cursor-pointer mt-4"
           >
             {isSaving ? <Spinner /> : "Save"}
           </div>
-        </div>
-        <div className="flex items-center mt-4">
-          <h3 className="text-textGrayed ">by {session.user.name}</h3>
-          <img
-            src={session.user.image}
-            referrerPolicy="no-referrer"
-            className="rounded-full ml-2"
-            width={25}
-            height={25}
-          />
-        </div>
-        <div
-          onClick={async () => await _createPlaylist()}
-          className=" md:hidden bg-primary dark:bg-darkPrimary text-white dark:text-darkText rounded-xl px-4 py-2 font-bold text-xl cursor-pointer mt-4"
-        >
-          {isSaving ? <Spinner /> : "Save"}
-        </div>
 
-        <div className="w-full flex flex-col lg:w-11/12 mt-4">
-          {addedTopics.map((topic, i) => (
-            <AddedTopic
-              topic={topic.topic}
-              removeHandler={removeTopic}
-              changeHandler={changeHandler}
-              moveUpHandler={moveTopicUp}
-              moveDownHandler={moveTopicDown}
-              toggleStar={toggleTopicStar}
-              isStarred={topic.isStarred}
-              noQuestions={topic.noQuestions}
-              isRandom={topic.isRandom}
-              min={topic.min}
-              max={topic.max}
-              index={i}
-              isLast={i === addedTopics.length - 1}
-              key={i}
-            />
-          ))}
-        </div>
-
-        <h3 className="text-text dark:text-darkText text-lg mt-4 md:mt-8">
-          Start by searching for some topics
-        </h3>
-        <div className="mt-4"></div>
-        <SearchBar
-          _onChange={(prompt) => setInputPrompt(prompt)}
-          isSearching={resultsLoading}
-        />
-        <div className="flex justify-between w-full lg:w-11/12 px-2 md:px-8 my-4 ">
-          <div className="flex w-1/2">
-            <h3 className="text-textGrayed ">Topic</h3>
-          </div>
-          <div className="flex w-1/2 justify-start">
-            <h3 className="text-textGrayed">Example</h3>
-          </div>
-        </div>
-        <div className="flex flex-col w-full lg:w-11/12 mt-2">
-          {results ? (
-            results.map((result) => (
-              <CreateSearchResult
-                topic={result}
-                key={result.title}
-                addHandler={addTopic}
+          <div className="w-full flex flex-col lg:w-11/12 mt-4">
+            {addedTopics.map((topic, i) => (
+              <AddedTopic
+                topic={topic.topic}
+                removeHandler={removeTopic}
+                changeHandler={changeHandler}
+                moveUpHandler={moveTopicUp}
+                moveDownHandler={moveTopicDown}
+                toggleStar={toggleTopicStar}
+                isStarred={topic.isStarred}
+                noQuestions={topic.noQuestions}
+                isRandom={topic.isRandom}
+                min={topic.min}
+                max={topic.max}
+                index={i}
+                isLast={i === addedTopics.length - 1}
+                key={i}
               />
-            ))
-          ) : (
-            <>
-              <SkCreateSearchResult />
-              <SkCreateSearchResult />
-              <SkCreateSearchResult />
-              <SkCreateSearchResult />
-            </>
-          )}
-        </div>
-      </Layout>
-    )
+            ))}
+          </div>
+
+          <h3 className="text-text dark:text-darkText text-lg mt-4 md:mt-8">
+            Start by searching for some topics
+          </h3>
+          <div className="mt-4"></div>
+          <SearchBar
+            _onChange={(prompt) => setInputPrompt(prompt)}
+            isSearching={resultsLoading}
+          />
+          <div className="flex justify-between w-full lg:w-11/12 px-2 md:px-8 my-4 ">
+            <div className="flex w-1/2">
+              <h3 className="text-textGrayed ">Topic</h3>
+            </div>
+            <div className="flex w-1/2 justify-start">
+              <h3 className="text-textGrayed">Example</h3>
+            </div>
+          </div>
+          <div className="flex flex-col w-full lg:w-11/12 mt-2">
+            {results ? (
+              results.map((result) => (
+                <CreateSearchResult
+                  topic={result}
+                  key={result.title}
+                  addHandler={addTopic}
+                />
+              ))
+            ) : (
+              <>
+                <SkCreateSearchResult />
+                <SkCreateSearchResult />
+                <SkCreateSearchResult />
+                <SkCreateSearchResult />
+              </>
+            )}
+          </div>
+        </>
+      )}
+    </Layout>
   );
 }
 

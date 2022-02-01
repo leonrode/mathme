@@ -4,7 +4,10 @@
 
 Goal: September 2022
 
-- [ ] study only starred topics
+- [x] study only starred topics
+- [ ] refactor topic page
+  - [ ] build out components
+  - [ ] refactor process functions
 - [ ] customize studying options
   - [ ] mix all questions together
 - [x] share playlist

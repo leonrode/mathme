@@ -67,9 +67,9 @@ export default [
       return { latex };
     },
 
-    verify: (question, userResponse) => {
+    verify: (question, userResponses, questionString) => {
       const n_question = nerdamer.convertFromLaTeX(question);
-      const n_response = nerdamer.convertFromLaTeX(userResponse);
+      const n_response = nerdamer.convertFromLaTeX(userResponses[0]);
 
       const solutions = n_question.solveFor("x");
       return n_response.eq(solutions);
