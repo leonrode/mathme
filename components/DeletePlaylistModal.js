@@ -2,9 +2,11 @@ import Modal from "./Modal";
 
 import { useState } from "react";
 import { MdDeleteOutline, MdClear } from "react-icons/md";
-function DeletePlaylistModal() {
+import { deletePlaylist } from "../_api/api";
+import { useRouter } from "next/router";
+function DeletePlaylistModal({ playlistId }) {
   const [show, setShow] = useState(false);
-
+  const router = useRouter();
   return (
     <>
       {show && (
@@ -19,10 +21,19 @@ function DeletePlaylistModal() {
           </div>
 
           <div className="flex items-center mt-8">
-            <div className="rounded-lg border-2 border-transparent bg-error dark:bg-darkError px-8 py-2 cursor-pointer">
+            <div
+              onClick={async () => {
+                await deletePlaylist(playlistId);
+                router.push("/home");
+              }}
+              className="rounded-lg border-2 border-transparent bg-error dark:bg-darkError px-8 py-2 cursor-pointer"
+            >
               Yes
             </div>
-            <div className="rounded-lg border-2 border-text dark:border-darkText px-8 py-2 ml-8 cursor-pointer">
+            <div
+              onClick={() => setShow(false)}
+              className="rounded-lg border-2 border-text dark:border-darkText px-8 py-2 ml-8 cursor-pointer"
+            >
               No
             </div>
           </div>
