@@ -42,7 +42,7 @@ function Sidebar({ activeIndex }) {
             <MdMenu size={30} />
           </div>
         </div>
-        <div className="absolute left-0 top-0 lg:hidden z-50">
+        <div className="fixed left-0 top-0 lg:hidden z-[999]">
           <MobileDropContent
             show={showMobileDropdown}
             close={closeMobileDropdown}

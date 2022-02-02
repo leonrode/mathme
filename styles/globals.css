@@ -52,7 +52,7 @@ sup {
 /* color: #73798c; */
 
 .katex * {
-  z-index: 10;
+  z-index: 0;
 }
 .react-numeric-input > input {
   border: 2px solid transparent !important;

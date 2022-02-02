@@ -20,7 +20,7 @@ function PlaylistCard({
 }) {
   const [avatarUrl, setAvatarUrl] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
-  const clickableClasses = [`linker-${_id}`, `star-${_id}`];
+  const clickableClasses = [`star-${_id}`];
   const Router = useRouter();
 
   useEffect(() => {
@@ -71,26 +71,7 @@ function PlaylistCard({
             </h2>
           </div>
 
-          <div className={`relative linker-${_id}`}>
-            <div className="text-primary dark:text-darkPrimary">
-              <MdOutlineMoreVert
-                size={30}
-                className="cursor-pointer hover:bg-divider dark:hover:bg-darkDivider transition rounded-sm"
-                onClick={() => setShowDropdown(true)}
-              />
-            </div>
-
-            <CardOptions
-              show={showDropdown}
-              toClose={closeDropdown}
-              playlistId={_id}
-              toDelete={() => {
-                toDelete(_id);
-                setShowDropdown(false);
-              }}
-              toEdit={() => Router.push(`/create?playlistId=${_id}`)}
-            />
-          </div>
+          <div className={`w-[30px]`}></div>
         </div>
         <hr className="w-full border-divider dark:border-darkDivider my-2"></hr>
         <div className="p-2">

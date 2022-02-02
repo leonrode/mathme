@@ -7,7 +7,7 @@ import TopicStatus from "../../components/TopicStatus";
 import ProblemInput from "../../components/ProblemInput";
 import ProblemLatex from "../../components/ProblemLatex";
 import SummaryQuestion from "../../components/SummaryQuestion";
-
+import ProblemButton from "../../components/ProblemButton";
 import TopicSummary from "../../components/TopioSummary";
 
 import { useState, useEffect } from "react";
@@ -62,22 +62,20 @@ function TopicPage() {
   const [completedNumber, setCompletedNumber] = useState(0);
   const [correctNumber, setCorrectNumber] = useState(0);
   const [incorrectNumber, setIncorrectNumber] = useState(0);
+
   useEffect(() => {
     (async () => {
       if (topicId) {
         const problems = await fetchProblems(topicId, noQuestions);
-        console.log(problems.questions);
         setProblems(problems.questions);
         setNumFields(problems.questions[0].numFields);
-        console.log(problems.questions[0].prompts);
-        // setLatexFields(
-        //   new Array(problems.questions[0].prompts.length).fill("")
-        // );
       }
     })();
   }, [topicId]);
 
   useEffect(() => {
+    // to allow the animations to play, wait to
+    // reverse the states
     const timeout = setTimeout(() => {
       setIncorrect(false);
       setCorrect(false);
@@ -369,17 +367,14 @@ function TopicPage() {
               </div>
               <div className="flex items-center mt-2">
                 {problems[problemIndex].buttons.map((button, index) => (
-                  <div
+                  <ProblemButton
                     key={index}
-                    onClick={() =>
+                    index={index}
+                    toClick={() =>
                       latexFields[activeFieldIndex].write(button.cmd)
                     }
-                    className={`${
-                      index !== 0 ? "ml-2" : ""
-                    } w-10 h-10 bg-primary dark:bg-darkPrimary rounded-lg flex items-center justify-center`}
-                  >
-                    <Latex>{`$${button.ui}$`}</Latex>
-                  </div>
+                    content={button.ui}
+                  />
                 ))}
               </div>
             </>
