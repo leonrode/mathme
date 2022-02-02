@@ -8,7 +8,7 @@ import PlaylistItem from "../../components/PlaylistItem";
 import Link from "next/link";
 
 import SharePlaylistModal from "../../components/SharePlaylistModal";
-import DeletePlaylistModal from "../../components/DeletePlaylist";
+import DeletePlaylistModal from "../../components/DeletePlaylistModal";
 import {
   MdAssignment,
   MdAssessment,
