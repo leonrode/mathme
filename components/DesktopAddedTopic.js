@@ -69,7 +69,7 @@ function DesktopAddedTopic({
           </h3>
         </div>
         <div className="flex flex-row items-center">
-          <div className="text-textGrayed dark:text-darkText justify-center min-w-fit  mt-0 ml-4">
+          <div className="text-textGrayed dark:text-darkText justify-center min-w-fit md:hidden lg:block mt-0 ml-4">
             <Latex>{`$${topic.example}$`}</Latex>
           </div>
         </div>

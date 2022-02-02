@@ -6,7 +6,7 @@ import { useState } from "react";
 function PlaylistItem({ title, example, index, toggleStar, starred, _id }) {
   const [isStarred, setIsStarred] = useState(starred);
   return (
-    <div className="px-4 -z-10 w-full bg-white dark:bg-darkElevated rounded-xl h-16 flex justify-between items-center mt-3 group border-2 border-transparent hover:border-primary dark:hover:border-darkPrimary transition">
+    <div className="px-4 w-full bg-white dark:bg-darkElevated rounded-xl h-16 flex justify-between items-center mt-3 group border-2 border-transparent hover:border-primary dark:hover:border-darkPrimary transition">
       <div className="flex items-center w-1/2 pr-2">
         <h3 className="hidden md:block text-textGrayed w-3 text-center">
           {index + 1}
@@ -52,9 +52,10 @@ function PlaylistItem({ title, example, index, toggleStar, starred, _id }) {
         </div>
       </div>
       <div className="flex w-full md:w-1/2 justify-end md:justify-between">
-        <div className="text-textGrayed dark:text-darkText hidden md:block ">
+        <div className="text-textGrayed dark:text-darkText hidden lg:block z-0">
           <Latex>{`$${example}$`}</Latex>
         </div>
+        <div className="w-16 hidden md:block"></div>
         <div className="flex items-center">
           <Link href={`/practice/${_id}`}>
             <h3 className="text-primary dark:text-darkPrimary font-bold hidden cursor-pointer lg:flex lg:items-center ">

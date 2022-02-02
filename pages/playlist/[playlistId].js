@@ -8,7 +8,7 @@ import PlaylistItem from "../../components/PlaylistItem";
 import Link from "next/link";
 
 import SharePlaylistModal from "../../components/SharePlaylistModal";
-
+import DeletePlaylistModal from "../../components/DeletePlaylist";
 import {
   MdAssignment,
   MdAssessment,
@@ -90,6 +90,7 @@ function PlaylistPage() {
               size={25}
               onClick={() => Router.push(`/create?playlistId=${playlist._id}`)}
             />
+            <DeletePlaylistModal />
           </div>
           <h6 className="text-textGrayed font-bold mt-4">Study</h6>
           <div className="flex items-center mt-2">

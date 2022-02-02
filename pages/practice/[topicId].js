@@ -293,11 +293,7 @@ function TopicPage() {
                     size={30}
                   />
                 ) : null}
-                <h1
-                  className={`${
-                    isStarredTopic ? "ml-2" : ""
-                  } text-2xl font-bold `}
-                >
+                <h1 className={`${isStarredTopic ? "ml-2" : ""} text-md   `}>
                   {problems[problemIndex].title}
                 </h1>
               </div>
@@ -325,7 +321,7 @@ function TopicPage() {
                   )}
                 </div>
               </div>
-              <div className="flex items-center justify-center w-full lg:w-1/2 my-16 text-2xl lg:my-32">
+              <div className="flex items-center justify-center w-full lg:w-1/2 my-16 text-2xl lg:my-16">
                 <ProblemLatex latex={problems[problemIndex].latex} />
               </div>
 

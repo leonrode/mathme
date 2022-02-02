@@ -55,7 +55,7 @@ function MobileAddedTopic({
               {topic.title}
             </h3>
           </div>
-          <div className="text-textGrayed dark:text-darkText justify-center min-w-fit  mt-2 ml-6">
+          <div className="text-textGrayed dark:text-darkText justify-center min-w-fit hidden mt-2 ml-6">
             <Latex>{`$${topic.example}$`}</Latex>
           </div>
           <div className="ml-6">
