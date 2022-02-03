@@ -5,6 +5,7 @@
 Goal: September 2022
 
 - [ ] _fix mobile dropdown/latex overlaps_
+- [ ] content answers undefined
 - [x] study only starred topics
 - [ ] refactor topic page
   - [ ] build out components
@@ -19,7 +20,7 @@ Goal: September 2022
 - [x] star playlists
 - [ ] have starred playlists show up on home screen
 - [x] fix dropdown on PlaylistCard bugs
-- [ ] profile card dynamic name and pfp
+- [x] profile card dynamic name and pfp
 - [ ] _implement categories/tagging of topcis for analytics/collections(?)_
 - [ ] email login (magic link)
   - [ ] setup service provider

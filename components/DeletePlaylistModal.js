@@ -1,12 +1,16 @@
 import Modal from "./Modal";
 
+import Spinner from "./Spinner";
+
 import { useState } from "react";
 import { MdDeleteOutline, MdClear } from "react-icons/md";
 import { deletePlaylist } from "../_api/api";
 import { useRouter } from "next/router";
 function DeletePlaylistModal({ playlistId }) {
   const [show, setShow] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const router = useRouter();
+
   return (
     <>
       {show && (
@@ -23,12 +27,14 @@ function DeletePlaylistModal({ playlistId }) {
           <div className="flex items-center mt-8">
             <div
               onClick={async () => {
+                setIsDeleting(true);
                 await deletePlaylist(playlistId);
+                setIsDeleting(false);
                 router.push("/home");
               }}
               className="rounded-lg border-2 border-transparent bg-error dark:bg-darkError px-8 py-2 cursor-pointer"
             >
-              Yes
+              {isDeleting ? <Spinner /> : "Yes"}
             </div>
             <div
               onClick={() => setShow(false)}

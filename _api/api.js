@@ -34,7 +34,7 @@ const deletePlaylist = async (playlistId) => {
 
 const createPlaylist = async (number, title, topics) => {
   if (title === "") title = `My Playlist #${number}`;
-
+  console.log(topics);
   const result = await axios.post("/api/playlist/create", { title, topics });
 
   return result.data.playlistId;

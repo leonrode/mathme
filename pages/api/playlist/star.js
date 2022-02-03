@@ -14,11 +14,12 @@ async function handler(req, res) {
 
   const { playlistId } = req.body;
 
+  // const filter = {
+  //   _id: new ObjectId(playlistId),
+  // };
   const filter = {
-    _id: new ObjectId(playlistId),
+    slug: playlistId,
   };
-
-  console.log(playlistId);
 
   const playlist = await db.collection("playlists").findOne(filter);
   if (!playlist) return res.status(400).send();

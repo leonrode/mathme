@@ -22,7 +22,6 @@ import {
 function Create() {
   const [results, setResults] = useState(null);
   const [inputPrompt, setInputPrompt] = useState("");
-  const [resultsLoading, setResultsLoading] = useState(true);
   const [addedTopics, setAddedTopics] = useState([]);
   const [playlistTitle, setPlaylistTitle] = useState("");
   const [isSaving, setIsSaving] = useState(false);
@@ -34,12 +33,8 @@ function Create() {
 
   useEffect(() => {
     (async () => {
-      setResultsLoading(true);
-
       const results = await searchTopics(inputPrompt);
       setResults(results);
-
-      setResultsLoading(false);
     })();
   }, [inputPrompt]);
 
@@ -211,15 +206,12 @@ function Create() {
             Start by searching for some topics
           </h3>
           <div className="mt-4"></div>
-          <SearchBar
-            _onChange={(prompt) => setInputPrompt(prompt)}
-            isSearching={resultsLoading}
-          />
+          <SearchBar _onChange={(prompt) => setInputPrompt(prompt)} />
           <div className="flex justify-between w-full lg:w-11/12 px-2 md:px-8 my-4 ">
             <div className="flex w-1/2">
               <h3 className="text-textGrayed ">Topic</h3>
             </div>
-            <div className="flex w-1/2 justify-start">
+            <div className="w-1/2 justify-start hidden lg:block">
               <h3 className="text-textGrayed">Example</h3>
             </div>
           </div>

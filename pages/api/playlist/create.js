@@ -19,7 +19,8 @@ async function handler(req, res) {
   console.log(playlistId);
   const playlistObject = {
     title: title,
-    _id: new ObjectId(playlistId),
+    _id: new ObjectId(),
+    slug: playlistId,
     topics: topics,
     creator: new ObjectId(userId),
     createdAt: Date.now(),

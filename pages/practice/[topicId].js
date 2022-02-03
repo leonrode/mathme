@@ -141,7 +141,7 @@ function TopicPage() {
           currentPlaylist.topics[nextTopicIndex]
         );
         router.push(
-          `/practice/${currentPlaylist.topics[nextTopicIndex].topic.id}?playlistId=${currentPlaylist._id}&index=${nextTopicIndex}&starred=true`
+          `/practice/${currentPlaylist.topics[nextTopicIndex].topic.id}?playlistId=${currentPlaylist.slug}&index=${nextTopicIndex}&starred=true`
         );
 
         return;
@@ -155,7 +155,7 @@ function TopicPage() {
     if (nextTopic) {
       router.push(
         `/practice/${nextTopic.topic.id}?playlistId=${
-          currentPlaylist._id
+          currentPlaylist.slug
         }&index=${index + 1}`
       );
     } else {
@@ -165,6 +165,7 @@ function TopicPage() {
 
   const _verifyAnswer = async () => {
     if (isChecking) return; // prevent spamming
+    if (!latexFields.every((field) => field.latex() !== "")) return;
     setIsChecking(true);
     const isCorrect = await verifyAnswer(
       topicId,
@@ -268,7 +269,7 @@ function TopicPage() {
         <>
           <Link
             href={
-              currentPlaylist ? `/playlist/${currentPlaylist._id}` : "/search"
+              currentPlaylist ? `/playlist/${currentPlaylist.slug}` : "/search"
             }
           >
             <div className="flex items-center cursor-pointer">

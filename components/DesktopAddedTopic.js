@@ -114,11 +114,27 @@ function DesktopAddedTopic({
           >
             # questions
           </h5>
-          <NumericInput
+          {/* <NumericInput
             className="bg-transparent outline-none transition ml-2 border-none border-b-2 focus:border-b-primary w-16 "
             placeholder="#"
             min={1}
             defaultValue={noQuestions}
+            disabled={_isRandom}
+            onChange={(value) => {
+              setNoQuestions(value);
+            }}
+            onKeyDown={(e) =>
+              e.key === "Backspace" || e.key === "Delete"
+                ? true
+                : !isNaN(Number(e.key))
+            }
+          /> */}
+          <input
+            className=" bg-transparent outline-none transition ml-2 border-none border-b-2 focus:border-b-primary w-24 "
+            placeholder="#"
+            type="number"
+            min={1}
+            defaultValue={DEFAULT_NO_QUESTIONS}
             disabled={_isRandom}
             onChange={(value) => {
               setNoQuestions(value);
@@ -143,7 +159,7 @@ function DesktopAddedTopic({
           <div
             className={`flex-row items-center ${_isRandom ? "flex" : "hidden"}`}
           >
-            <NumericInput
+            {/* <NumericInput
               className="bg-transparent outline-none transition ml-2 border-none border-b-2 border-b-white focus:border-b-primary w-20 "
               placeholder="from"
               min={1}
@@ -156,9 +172,40 @@ function DesktopAddedTopic({
                   ? true
                   : !isNaN(Number(e.key))
               }
+            /> */}
+            <input
+              className="bg-transparent outline-none transition ml-2 border-none border-b-2 border-b-white focus:border-b-primary w-20 "
+              placeholder="from"
+              type="number"
+              min={1}
+              defaultValue={_min}
+              onChange={(value) => {
+                setMin(value);
+              }}
+              onKeyDown={(e) =>
+                e.key === "Backspace" || e.key === "Delete"
+                  ? true
+                  : !isNaN(Number(e.key))
+              }
             />
+
             <div className="ml-2 ">
-              <NumericInput
+              {/* <NumericInput
+                className="bg-transparent outline-none transition border-none border-b-2 border-b-white focus:border-b-primary w-20 "
+                placeholder="to"
+                min={_min}
+                defaultValue={_max}
+                onChange={(value) => {
+                  setMax(value);
+                }}
+                onKeyDown={(e) =>
+                  e.key === "Backspace" || e.key === "Delete"
+                    ? true
+                    : !isNaN(Number(e.key))
+                }
+              /> */}
+              <input
+                type="number"
                 className="bg-transparent outline-none transition border-none border-b-2 border-b-white focus:border-b-primary w-20 "
                 placeholder="to"
                 min={_min}

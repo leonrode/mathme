@@ -14,7 +14,8 @@ async function handler(req, res) {
   const db = client.db("myFirstDatabase");
 
   const filter = {
-    _id: new ObjectId(playlistId),
+    slug: playlistId,
+    // _id: new ObjectId(playlistId),
   };
   const playlist = await db.collection("playlists").findOne(filter);
   if (playlist) {

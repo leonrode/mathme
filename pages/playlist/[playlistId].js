@@ -28,8 +28,9 @@ function PlaylistPage() {
   useEffect(() => {
     (async () => {
       const { playlistId } = Router.query;
-      const playlistRes = await axios.get(`/api/playlist/${playlistId}`);
 
+      const playlistRes = await axios.get(`/api/playlist/${playlistId}`);
+      console.log(playlistRes.data.playlist);
       const creatorId = playlistRes.data.playlist.creator;
       const creatorRes = await axios.get(`/api/user/${creatorId}`);
       setPlaylist(playlistRes.data.playlist);
@@ -80,7 +81,7 @@ function PlaylistPage() {
               />
               <span className="font-bold ml-2">{creator.name}</span>
             </div>
-            <SharePlaylistModal _id={playlist._id} />
+            <SharePlaylistModal _id={playlist.slug} />
             <MdOutlineFileDownload
               className="text-text  dark:text-darkText ml-4"
               size={25}
@@ -88,9 +89,9 @@ function PlaylistPage() {
             <MdOutlineEdit
               className="text-text dark:text-darkText ml-4"
               size={25}
-              onClick={() => Router.push(`/create?playlistId=${playlist._id}`)}
+              onClick={() => Router.push(`/create?playlistId=${playlist.slug}`)}
             />
-            <DeletePlaylistModal playlistId={playlist._id} />
+            <DeletePlaylistModal playlistId={playlist.slug} />
           </div>
           <h6 className="text-textGrayed font-bold mt-4">Study</h6>
           <div className="flex items-center mt-2">
@@ -100,7 +101,7 @@ function PlaylistPage() {
             />
             <Link
               href={`/practice/${playlist.topics[0].topic.id}?playlistId=${
-                playlist._id
+                playlist.slug
               }&index=${0}`}
             >
               <span className="font-bold ml-2 cursor-pointer">
@@ -121,7 +122,7 @@ function PlaylistPage() {
               size={30}
             />
             <Link
-              href={`/practice/${playlist.topics[0].topic.id}?playlistId=${playlist._id}&index=0&starred=true`}
+              href={`/practice/${playlist.topics[0].topic.id}?playlistId=${playlist.slug}&index=0&starred=true`}
             >
               <span
                 className={`${

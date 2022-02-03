@@ -64,7 +64,7 @@ export default [
 
       const latex = lhs.toTeX() + "=" + rhs.toTeX();
 
-      return { latex };
+      return { solution, latex };
     },
 
     verify: (question, userResponses, questionString) => {
@@ -106,7 +106,7 @@ export default [
 
       let latex = lhs.toTeX() + "=" + rhs.toTeX();
       latex = latex.replace("\\cdot", "");
-      return { latex, stringVersion: lhs.toString() };
+      return { solution, latex, stringVersion: lhs.toString() };
     },
     verify: (question, userResponse) => {
       const n_question = nerdamer.convertFromLaTeX(question);
@@ -142,7 +142,8 @@ export default [
       let latex = lhs.toTeX();
 
       latex = latex.replace("\\cdot", "");
-      return { latex, stringVersion: lhs.toString() };
+      const solution = `(${first_factor})(${second_factor})`;
+      return { solution, latex, stringVersion: lhs.toString() };
     },
 
     verify: (question, userResponse) => {
@@ -173,7 +174,7 @@ export default [
       let second_factor = nerdamer(symbol);
 
       let first_m = randomIntInRange(-5, 5, [0, 1]);
-
+      const before = first_factor;
       first_factor = first_factor.multiply(first_m);
 
       first_factor = first_factor.add(first);
@@ -184,8 +185,8 @@ export default [
       let latex = lhs.toTeX();
 
       latex = latex.replaceAll("\\cdot", "");
-
-      return { latex, stringVersion: lhs.toString() };
+      const solution = `${first_m}(${before})(${second_factor})`;
+      return { solution, latex, stringVersion: lhs.toString() };
     },
 
     verify: (question, userResponse) => {

@@ -14,10 +14,12 @@ async function handler(req, res) {
   const client = await clientPromise;
   const db = client.db("myFirstDatabase");
 
+  // const filter = {
+  //   _id: new ObjectId(playlistId),
+  // };
   const filter = {
-    _id: new ObjectId(playlistId),
+    slug: playlistId,
   };
-
   const result = await db.collection("playlists").deleteOne(filter);
 
   res.status(201).send();

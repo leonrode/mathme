@@ -15,8 +15,8 @@ async function handler(req, res) {
   const client = await clientPromise;
   const db = client.db("myFirstDatabase");
 
-  const filter = { _id: new ObjectId(playlistId) };
-
+  // const filter = { _id: new ObjectId(playlistId) };
+  const filter = { slug: playlistId };
   const operation = { $set: { topics: topics, title: title } };
 
   await db.collection("playlists").updateOne(filter, operation);

@@ -56,6 +56,8 @@ sup {
 }
 .react-numeric-input > input {
   border: 2px solid transparent !important;
+  position: relative;
+  /* z-index: kkc; */
 }
 
 .react-numeric-input > input:focus {
@@ -65,10 +67,12 @@ sup {
 }
 
 .react-numeric-input > b {
+  display: none;
   box-shadow: none !important;
 }
 
 .react-numeric-input > b > i {
+  z-index: 0;
   border-color: transparent transparent #73798c !important;
 }
 .react-numeric-input > b:last-child > i {
