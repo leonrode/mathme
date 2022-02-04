@@ -46,7 +46,7 @@ function DeletePlaylistModal({ playlistId }) {
         </Modal>
       )}
       <MdDeleteOutline
-        className="text-error dark:text-darkError ml-2 cursor-pointer"
+        className="text-error dark:text-darkError ml-4 cursor-pointer"
         size={25}
         onClick={() => setShow(true)}
       />

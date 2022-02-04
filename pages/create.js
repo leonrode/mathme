@@ -1,7 +1,7 @@
 import Layout from "../components/Layout";
 import SearchBar from "../components/SearchBar";
 import Spinner from "../components/Spinner";
-import { MdEdit } from "react-icons/md";
+import { MdEdit, MdArrowForward } from "react-icons/md";
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
@@ -154,14 +154,18 @@ function Create() {
               placeholder={`My Playlist #${playlistNo + 1}`}
               onChange={(e) => setPlaylistTitle(e.target.value)}
             ></input>
-            <div className="text-text dark:text-darkText ml-2 lg:ml-4">
+            <div className="hidden lg:block text-text dark:text-darkText ml-2 lg:ml-4">
               <MdEdit size={30} />
             </div>
             <div
               onClick={async () => await _createPlaylist()}
-              className="hidden md:block bg-primary dark:bg-darkPrimary text-white rounded-xl px-4 py-2 font-bold ml-4 text-xl cursor-pointer "
+              className="block md:block bg-primary dark:bg-darkPrimary text-white rounded-xl p-2 font-bold ml-4 text-xl cursor-pointer "
             >
-              {isSaving ? <Spinner /> : "Save"}
+              {isSaving ? (
+                <Spinner />
+              ) : (
+                <MdArrowForward className="text-darkText" size={30} />
+              )}
             </div>
           </div>
           <div className="flex items-center mt-4">
@@ -174,12 +178,16 @@ function Create() {
               height={25}
             />
           </div>
-          <div
+          {/* <div
             onClick={async () => await _createPlaylist()}
             className=" md:hidden bg-primary dark:bg-darkPrimary text-white dark:text-darkText rounded-xl px-4 py-2 font-bold text-xl cursor-pointer mt-4"
           >
-            {isSaving ? <Spinner /> : "Save"}
-          </div>
+            {isSaving ? (
+              <Spinner />
+            ) : (
+              <MdArrowForward className="text-darkText" size={30} />
+            )}
+          </div> */}
 
           <div className="w-full flex flex-col lg:w-11/12 mt-4">
             {addedTopics.map((topic, i) => (

@@ -47,17 +47,12 @@ export default function Home() {
       <h3 className="text-textGrayed font-normal text-xl mt-4">
         Your Playlists
       </h3>
-      <div className="flex flex-col w-full md:grid md:grid-cols-3 md:grid-rows-auto md:gap-8 md:mt-4">
+      <div className="flex flex-col items-center w-full md:grid md:grid-cols-3 md:grid-rows-auto md:gap-8 md:mt-4">
         {playlists ? (
           playlists.map((playlist) => (
             <PlaylistCard
-              creator={playlist.creator}
-              title={playlist.title}
-              isStarred={playlist.isStarred}
+              playlist={playlist}
               toToggleStar={_starPlaylist}
-              topics={playlist.topics}
-              toDelete={_deletePlaylist}
-              _id={playlist._id}
               key={playlist._id}
             />
           ))

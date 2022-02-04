@@ -1,37 +1,24 @@
-import { MdOutlineMoreVert, MdStar, MdStarOutline } from "react-icons/md";
+import { MdStar, MdStarOutline } from "react-icons/md";
 
-import CardOptions from "./CardOptions";
-
-import { useSession } from "next-auth/react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { countStarredTopics } from "../lib/helpers";
-import { starPlaylist } from "../_api/api";
-function PlaylistCard({
-  creator,
-  toToggleStar,
-  isStarred,
-  title,
-  topics,
-  _id,
-  toDelete,
-}) {
+
+function PlaylistCard({ playlist, toToggleStar }) {
   const [avatarUrl, setAvatarUrl] = useState(null);
-  const [showDropdown, setShowDropdown] = useState(false);
-  const clickableClasses = [`star-${_id}`];
+  const clickableClasses = [`star-${playlist.slug}`];
+
   const Router = useRouter();
 
   useEffect(() => {
     (async () => {
-      const res = await axios.get(`/api/avatar/${creator}`);
+      const res = await axios.get(`/api/avatar/${playlist.creator}`);
       setAvatarUrl(res.data.avatarUrl);
     })();
   }, []);
 
-  const closeDropdown = () => setShowDropdown(false);
-
+  // console.log(_id);
   return (
     <div
       onClick={(e) => {
@@ -42,7 +29,7 @@ function PlaylistCard({
             )
             .every((e) => e === false)
         )
-          Router.push(`/playlist/${_id}`);
+          Router.push(`/playlist/${playlist.slug}`);
       }}
       className="bg-white dark:bg-darkElevated rounded-lg cursor-pointer p-2 w-full my-4 md:my-0 flex flex-col justify-between border-transparent border-2 hover:border-primary dark:hover:border-darkPrimary transition"
     >
@@ -56,18 +43,22 @@ function PlaylistCard({
             height={30}
           ></img>
           <div className="flex items-center">
-            <div className={`star-${_id} `}>
+            <div className={`star-${playlist.slug} `}>
               <div
                 onClick={async () => {
-                  await toToggleStar(_id);
+                  await toToggleStar(playlist.slug);
                 }}
                 className={`text-warning dark:text-darkWarning`}
               >
-                {isStarred ? <MdStar size={20} /> : <MdStarOutline size={20} />}
+                {playlist.isStarred ? (
+                  <MdStar size={20} />
+                ) : (
+                  <MdStarOutline size={20} />
+                )}
               </div>
             </div>
             <h2 className="text-text dark:text-darkText text-xl ml-2 font-bold">
-              {title}
+              {playlist.title}
             </h2>
           </div>
 
@@ -75,7 +66,7 @@ function PlaylistCard({
         </div>
         <hr className="w-full border-divider dark:border-darkDivider my-2"></hr>
         <div className="p-2">
-          {topics.map((topic, i) => {
+          {playlist.topics.map((topic, i) => {
             return i < 4 ? (
               <div className="flex items-center" key={i}>
                 {topic.isStarred ? (
@@ -91,9 +82,10 @@ function PlaylistCard({
             ) : null;
           })}
 
-          {topics.length > 4 ? (
+          {playlist.topics.length > 4 ? (
             <h3 className="text-textGrayed my-4">
-              {topics.length - 4} more topic{topics.length - 4 === 1 ? "" : "s"}
+              {playlist.topics.length - 4} more topic
+              {playlist.topics.length - 4 === 1 ? "" : "s"}
             </h3>
           ) : null}
         </div>
@@ -102,11 +94,12 @@ function PlaylistCard({
         <hr className="w-full border-divider dark:border-darkDivider my-2"></hr>
         <div className="flex items-center justify-center">
           <h3 className="text-text dark:text-darkText text-center text-sm font-semibold">
-            {topics.length} topic{topics.length === 1 ? "" : "s"}
+            {playlist.topics.length} topic
+            {playlist.topics.length === 1 ? "" : "s"}
           </h3>
           <div className="flex items-center ml-2">
             <h3 className="text-warning dark:text-darkWarning text-center text-sm font-semibold">
-              {countStarredTopics(topics)}
+              {countStarredTopics(playlist.topics)}
             </h3>
             <MdStar size={15} className="text-warning dark:text-darkWarning" />
           </div>

@@ -12,14 +12,14 @@ import DeletePlaylistModal from "../../components/DeletePlaylistModal";
 import {
   MdAssignment,
   MdAssessment,
-  MdOutlineStar,
+  MdStarOutline,
   MdOutlineIosShare,
   MdOutlineFileDownload,
   MdStar,
   MdOutlineEdit,
 } from "react-icons/md";
 
-import { savePlaylist } from "../../_api/api";
+import { savePlaylist, starPlaylist } from "../../_api/api";
 function PlaylistPage() {
   const [playlist, setPlaylist] = useState(null);
   const [creator, setCreator] = useState(null);
@@ -56,6 +56,10 @@ function PlaylistPage() {
     setPlaylist(newState);
   };
 
+  const setTitle = async (newTitle) => {
+    await savePlaylist(playlist.slug, newTitle, playlist.topics);
+  };
+
   const countStarredTopics = () => {
     return playlist.topics.filter((topic) => topic.isStarred).length;
   };
@@ -64,12 +68,33 @@ function PlaylistPage() {
     <Layout>
       {playlist && creator && (
         <>
-          <input
-            className="text-3xl lg:text-5xl text-text dark:text-darkText rounded-none font-bold outline-none bg-transparent w-full lg:w-1/2 border-transparent border-b-2 focus:border-b-primary dark:focus:border-b-darkPrimary transition"
-            type="text"
-            placeholder="Playlist Name"
-            defaultValue={playlist.title}
-          ></input>
+          <div className="flex items-center">
+            <div
+              className="text-warning dark:text-darkWarning"
+              onClick={async () => {
+                await starPlaylist(playlist.slug);
+                setPlaylist((playlist) => ({
+                  ...playlist,
+                  isStarred: !playlist.isStarred,
+                }));
+              }}
+            >
+              {playlist.isStarred ? (
+                <MdStar size={35} />
+              ) : (
+                <MdStarOutline size={35} />
+              )}
+            </div>
+            <input
+              className="ml-2 text-3xl lg:text-5xl text-text dark:text-darkText rounded-none font-bold outline-none bg-transparent w-full lg:w-1/2 border-transparent border-b-2 focus:border-b-primary dark:focus:border-b-darkPrimary transition"
+              type="text"
+              placeholder="Playlist Name"
+              onBlur={async (e) => {
+                await setTitle(e.target.value);
+              }}
+              defaultValue={playlist.title}
+            ></input>
+          </div>
           <div className="flex items-center mt-4">
             <div className="flex items-center">
               <img
@@ -82,12 +107,9 @@ function PlaylistPage() {
               <span className="font-bold ml-2">{creator.name}</span>
             </div>
             <SharePlaylistModal _id={playlist.slug} />
-            <MdOutlineFileDownload
-              className="text-text  dark:text-darkText ml-4"
-              size={25}
-            />
+
             <MdOutlineEdit
-              className="text-text dark:text-darkText ml-4"
+              className="cursor-pointer text-text dark:text-darkText ml-4"
               size={25}
               onClick={() => Router.push(`/create?playlistId=${playlist.slug}`)}
             />
@@ -109,18 +131,15 @@ function PlaylistPage() {
               </span>
             </Link>
           </div>
-          <div className="flex items-center mt-4">
+          {/* <div className="flex items-center mt-4">
             <MdAssessment
               className="text-primary dark:text-darkPrimary"
               size={30}
             />
             <span className="font-bold ml-2">Take a test</span>
-          </div>
-          <div className="flex items-center mt-4">
-            <MdOutlineStar
-              className="text-warning dark:text-darkWarning"
-              size={30}
-            />
+          </div> */}
+          <div className="flex items-center mt-2">
+            <MdStar className="text-warning dark:text-darkWarning" size={30} />
             <Link
               href={`/practice/${playlist.topics[0].topic.id}?playlistId=${playlist.slug}&index=0&starred=true`}
             >

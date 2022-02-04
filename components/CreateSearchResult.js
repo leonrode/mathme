@@ -3,7 +3,7 @@ import { MdAdd } from "react-icons/md";
 function CreateSearchResult({ topic, addHandler }) {
   return (
     <div className=" w-full bg-white dark:bg-darkElevated rounded-xl flex items-center px-2 py-3 md:px-8 mb-4 border-2 border-transparent hover:border-primary dark:hover:border-darkPrimary transition">
-      <div className="flex w-1/2">
+      <div className="flex w-full lg:w-1/2">
         <h3 className="text-text dark:text-darkText  truncate">
           {topic.title}
         </h3>
