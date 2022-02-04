@@ -15,7 +15,7 @@ module.exports = {
         lightSkeleton: "#ECC2DA",
         error: "#EA1601",
         success: "#64BC26",
-        warning: "#FAD202",
+        warning: "#FAD40F",
         darkBg: "#13050D",
         darkText: "#F9EBF3",
         darkPrimary: "#AE3077",

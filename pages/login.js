@@ -66,7 +66,7 @@ function Login() {
 function Logo() {
   return (
     <h1 className="text-primary text-3xl text-center font-bold lg:text-4xl dark:text-darkPrimary">
-      MathMe
+      Mazzle
     </h1>
   );
 }
