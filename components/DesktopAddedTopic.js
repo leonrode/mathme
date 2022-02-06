@@ -130,13 +130,14 @@ function DesktopAddedTopic({
             }
           /> */}
           <input
-            className=" bg-transparent outline-none transition ml-2 border-none border-b-2 focus:border-b-primary w-24 "
+            className="bg-transparent outline-none transition ml-2 border-none border-b-2 focus:border-b-primary w-24 "
             placeholder="#"
             type="number"
             min={1}
             defaultValue={DEFAULT_NO_QUESTIONS}
             disabled={_isRandom}
             onChange={(value) => {
+              console.log(value);
               setNoQuestions(value);
             }}
             onKeyDown={(e) =>

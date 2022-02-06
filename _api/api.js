@@ -41,6 +41,8 @@ const createPlaylist = async (number, title, topics) => {
 };
 
 const savePlaylist = async (id, title, topics) => {
+  console.log(id, title, topics);
+  console.table(topics);
   const result = await axios.post("/api/playlist/save", {
     playlistId: id,
     title,

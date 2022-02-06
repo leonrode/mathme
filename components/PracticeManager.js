@@ -1,23 +1,26 @@
 import Problem from "./Problem";
-
+import TopicSummary from "./TopioSummary";
 import { useState, useEffect } from "react";
 import { fetchProblems, verifyAnswer } from "../_api/api";
 
 function PracticeManager({ topicId, playlist }) {
   const [nextQuestions, setNextQuestions] = useState(null);
   const [completedQuestions, setCompletedQuestions] = useState([]);
+
   const [index, setIndex] = useState(0);
   const [topicIndex, setTopicIndex] = useState(0);
+
   const [noCorrect, setNoCorrect] = useState(0);
   const [noIncorrect, setNoIncorrect] = useState(0);
 
+  const [showTopicSummary, setShowTopicSummary] = useState(false);
   useEffect(() => {
     (async () => {
       let questions;
       if (playlist) {
         questions = await fetchProblems(
           playlist.topics[topicIndex].topic.id,
-          playlist.topics[topicIndex].noQuestions
+          getNoQuestions(playlist.topics[topicIndex])
         );
       } else {
         questions = await fetchProblems(topicId, 10);
@@ -56,18 +59,8 @@ function PracticeManager({ topicId, playlist }) {
         if (topicIndex === playlist.topics.length - 1) {
           // TODO: end of playlist
         } else {
-          const questions = await fetchProblems(
-            playlist.topics[topicIndex + 1].topic.id,
-            playlist.topics[topicIndex + 1].noQuestions
-          );
-
-          setNextQuestions(questions.questions);
-
-          setTopicIndex((prev) => prev + 1);
-
-          setNoCorrect(0);
-          setNoIncorrect(0);
-          setIndex(0);
+          setShowTopicSummary(true);
+          return;
         }
       } else {
         setIndex((prev) => prev + 1);
@@ -87,21 +80,81 @@ function PracticeManager({ topicId, playlist }) {
     }
   };
 
+  const toContinue = async () => {
+    // if reached last playlist,
+    // todo
+    if (topicIndex === playlist.topics.length - 1) {
+      // TODO: end of playlist
+    } else {
+      const questions = await fetchProblems(
+        playlist.topics[topicIndex + 1].topic.id,
+        getNoQuestions(playlist.topics[topicIndex + 1])
+      );
+
+      setNextQuestions(questions.questions);
+
+      setTopicIndex((prev) => prev + 1);
+
+      setNoCorrect(0);
+      setNoIncorrect(0);
+      setIndex(0);
+
+      setShowTopicSummary(false);
+    }
+  };
+
+  const toRetry = async () => {
+    setCompletedQuestions([]);
+    const questions = await fetchProblems(
+      playlist.topics[topicIndex].topic.id,
+      getNoQuestions(playlist.topics[topicIndex])
+    );
+
+    setNextQuestions(questions.questions);
+
+    setNoCorrect(0);
+    setNoIncorrect(0);
+    setIndex(0);
+
+    setShowTopicSummary(false);
+  };
+
+  const getNoQuestions = (topic) => {
+    if (!topic.isRandom) return topic.noQuestions;
+    return topic.min + Math.floor(Math.random() * (topic.max + 1 - topic.min));
+  };
+
   return (
     nextQuestions && (
-      <Problem
-        topicId={topicId}
-        noQuestions={playlist ? playlist.topics[topicIndex].noQuestions : null}
-        noCorrect={noCorrect}
-        noIncorrect={noIncorrect}
-        problem={nextQuestions[index]}
-        onCorrect={async (problem, latexFields) =>
-          await onQuestionAnswer(true, problem, latexFields)
-        }
-        onIncorrect={async (problem, latexFields) =>
-          await onQuestionAnswer(false, problem, latexFields)
-        }
-      />
+      <>
+        {showTopicSummary ? (
+          <TopicSummary
+            correctNumber={noCorrect}
+            incorrectNumber={noIncorrect}
+            noQuestions={playlist.topics[topicIndex].noQuestions}
+            topicTitle={playlist.topics[topicIndex].title}
+            completedQuestions={completedQuestions}
+            toNextTopic={async () => await toContinue()}
+            toRestart={async () => await toRetry()}
+          />
+        ) : (
+          <Problem
+            topicId={topicId}
+            noQuestions={
+              playlist ? playlist.topics[topicIndex].noQuestions : null
+            }
+            noCorrect={noCorrect}
+            noIncorrect={noIncorrect}
+            problem={nextQuestions[index]}
+            onCorrect={async (problem, latexFields) =>
+              await onQuestionAnswer(true, problem, latexFields)
+            }
+            onIncorrect={async (problem, latexFields) =>
+              await onQuestionAnswer(false, problem, latexFields)
+            }
+          />
+        )}
+      </>
     )
   );
 }
