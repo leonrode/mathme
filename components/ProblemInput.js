@@ -39,14 +39,14 @@ function ProblemInput({
         className={`${
           incorrect ? "animate-wrongFade" : correct ? "animate-rightFade" : ""
         } ml-4 border-[3px] border-transparent rounded-lg`}
-        onKeyDown={(e) => (e.key === "Enter" ? checkHandler() : null)}
+        onKeyDown={async (e) =>
+          e.key === "Enter" ? await checkHandler() : null
+        }
       >
         <EditableMathField
           latex={latex}
           id="math-input"
           mathquillDidMount={(field) => setField(field)}
-          onFocus={() => setActive(index)}
-          onBlur={() => setInactive(index)}
         ></EditableMathField>
       </div>
     </div>

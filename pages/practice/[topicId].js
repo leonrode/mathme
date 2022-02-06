@@ -32,6 +32,7 @@ import axios from "axios";
 import { getSession } from "next-auth/react";
 
 import { fetchNewProblem, fetchProblems, verifyAnswer } from "../../_api/api";
+import PracticeManager from "../../components/PracticeManager";
 
 function TopicPage() {
   const router = useRouter();
@@ -285,96 +286,97 @@ function TopicPage() {
           </Link>
 
           {!showTopicSummary && (
-            <>
-              <h5 className="text-textGrayed mt-8 mb-2">Up now</h5>
-              <div className="flex items-center mb-8">
-                {isStarredTopic ? (
-                  <MdStar
-                    className="text-warning dark:text-darkWarning"
-                    size={30}
-                  />
-                ) : null}
-                <h1 className={`${isStarredTopic ? "ml-2" : ""} text-md   `}>
-                  {problems[problemIndex].title}
-                </h1>
-              </div>
-              <div className="flex items-center justify-between w-full lg:w-1/2">
-                <div className="flex items-center">
-                  <h3 className="text-text dark:text-darkText font-bold text-xl">
-                    {problems[problemIndex].instructions}
-                  </h3>
-                  <h3
-                    className="text-primary dark:text-darkPrimary text-lg ml-4 cursor-pointer select-none"
-                    onClick={() => skipProblem()}
-                  >
-                    skip
-                  </h3>
-                </div>
+            // <>
+            //   <h5 className="text-textGrayed mt-8 mb-2">Up now</h5>
+            //   <div className="flex items-center mb-8">
+            //     {isStarredTopic ? (
+            //       <MdStar
+            //         className="text-warning dark:text-darkWarning"
+            //         size={30}
+            //       />
+            //     ) : null}
+            //     <h1 className={`${isStarredTopic ? "ml-2" : ""} text-md   `}>
+            //       {problems[problemIndex].title}
+            //     </h1>
+            //   </div>
+            //   <div className="flex items-center justify-between w-full lg:w-1/2">
+            //     <div className="flex items-center">
+            //       <h3 className="text-text dark:text-darkText font-bold text-xl">
+            //         {problems[problemIndex].instructions}
+            //       </h3>
+            //       <h3
+            //         className="text-primary dark:text-darkPrimary text-lg ml-4 cursor-pointer select-none"
+            //         onClick={() => skipProblem()}
+            //       >
+            //         skip
+            //       </h3>
+            //     </div>
 
-                <div className="flex flex-col items-end">
-                  <Timer />
-                  {currentPlaylist && (
-                    <TopicStatus
-                      remaining={noQuestions - completedNumber}
-                      correctNumber={correctNumber}
-                      incorrectNumber={incorrectNumber}
-                    />
-                  )}
-                </div>
-              </div>
-              <div className="flex items-center justify-center w-full lg:w-1/2 my-16 text-2xl lg:my-16">
-                <ProblemLatex latex={problems[problemIndex].latex} />
-              </div>
+            //     <div className="flex flex-col items-end">
+            //       <Timer />
+            //       {currentPlaylist && (
+            //         <TopicStatus
+            //           remaining={noQuestions - completedNumber}
+            //           correctNumber={correctNumber}
+            //           incorrectNumber={incorrectNumber}
+            //         />
+            //       )}
+            //     </div>
+            //   </div>
+            //   <div className="flex items-center justify-center w-full lg:w-1/2 my-16 text-2xl lg:my-16">
+            //     <ProblemLatex latex={problems[problemIndex].latex} />
+            //   </div>
 
-              <div className="flex items-center justify-between w-full lg:w-1/2">
-                <div className="flex items-center">
-                  {numFields > 0 && (
-                    <div className="flex flex-col ">
-                      {problems[problemIndex].prompts.map((prompt, i) => {
-                        return (
-                          <ProblemInput
-                            prompt={prompt}
-                            index={i}
-                            key={i}
-                            isActive={activeFieldIndex === i}
-                            setActive={(index) => setActiveFieldIndex(index)}
-                            setInactive={(index) => setActiveFieldIndex(0)}
-                            incorrect={incorrect}
-                            correct={correct}
-                            latex={latexFields[i] ? latexFields[i].latex() : ""}
-                            // latex=""
-                            setter={setLatexFields}
-                            checkHandler={async () => await _verifyAnswer()}
-                          />
-                        );
-                      })}
-                    </div>
-                  )}
+            //   <div className="flex items-center justify-between w-full lg:w-1/2">
+            //     <div className="flex items-center">
+            //       {numFields > 0 && (
+            //         <div className="flex flex-col ">
+            //           {problems[problemIndex].prompts.map((prompt, i) => {
+            //             return (
+            //               <ProblemInput
+            //                 prompt={prompt}
+            //                 index={i}
+            //                 key={i}
+            //                 isActive={activeFieldIndex === i}
+            //                 setActive={(index) => setActiveFieldIndex(index)}
+            //                 setInactive={(index) => setActiveFieldIndex(0)}
+            //                 incorrect={incorrect}
+            //                 correct={correct}
+            //                 latex={latexFields[i] ? latexFields[i].latex() : ""}
+            //                 // latex=""
+            //                 setter={setLatexFields}
+            //                 checkHandler={async () => await _verifyAnswer()}
+            //               />
+            //             );
+            //           })}
+            //         </div>
+            //       )}
 
-                  <CheckAnswerButton
-                    correct={correct}
-                    incorrect={incorrect}
-                    isChecking={isChecking}
-                    verifyHandler={_verifyAnswer}
-                  />
-                </div>
-                <div className="text-text dark:text-darkText hover:text-primary dark:hover:text-darkPrimary">
-                  <MdHelpOutline size={35} className="cursor-pointer" />
-                </div>
-              </div>
-              <div className="flex items-center mt-2">
-                {problems[problemIndex].buttons.map((button, index) => (
-                  <ProblemButton
-                    key={index}
-                    index={index}
-                    toClick={() =>
-                      latexFields[activeFieldIndex].write(button.cmd)
-                    }
-                    content={button.ui}
-                  />
-                ))}
-              </div>
-            </>
+            //       <CheckAnswerButton
+            //         correct={correct}
+            //         incorrect={incorrect}
+            //         isChecking={isChecking}
+            //         verifyHandler={_verifyAnswer}
+            //       />
+            //     </div>
+            //     <div className="text-text dark:text-darkText hover:text-primary dark:hover:text-darkPrimary">
+            //       <MdHelpOutline size={35} className="cursor-pointer" />
+            //     </div>
+            //   </div>
+            //   <div className="flex items-center mt-2">
+            //     {problems[problemIndex].buttons.map((button, index) => (
+            //       <ProblemButton
+            //         key={index}
+            //         index={index}
+            //         toClick={() =>
+            //           latexFields[activeFieldIndex].write(button.cmd)
+            //         }
+            //         content={button.ui}
+            //       />
+            //     ))}
+            //   </div>
+            // </>
+            <PracticeManager topicId={topicId} playlist={currentPlaylist} />
           )}
           {showTopicSummary && (
             <TopicSummary

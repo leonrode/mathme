@@ -4,12 +4,13 @@
 
 Goal: September 2022
 
-- [ ] _fix mobile dropdown/latex overlaps_
+- [x] _fix mobile dropdown/latex overlaps_
 - [ ] content answers undefined
 - [x] study only starred topics
 - [ ] refactor topic page
   - [ ] build out components
   - [ ] refactor process functions
+- [ ] view problem history in unlimited practice
 - [ ] customize studying options
   - [ ] mix all questions together
 - [x] share playlist

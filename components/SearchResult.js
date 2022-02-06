@@ -1,4 +1,4 @@
-import { MdOutlineMoreVert } from "react-icons/md";
+import { MdOutlineMoreVert, MdArrowForward } from "react-icons/md";
 
 import { isMobile, isTablet } from "react-device-detect";
 
@@ -25,9 +25,9 @@ function SearchResult({ title, example, number, _id }) {
         </div>
         <div className="flex items-center">
           <Link href={`/practice/${_id}`}>
-            <h3 className="text-primary dark:text-darkPrimary font-bold hidden cursor-pointer lg:flex lg:items-center ">
-              Practice{" "}
-            </h3>
+            <div className="text-primary dark:text-darkPrimary font-bold hidden cursor-pointer lg:flex lg:items-center ">
+              <MdArrowForward size={20} className="ml-2" />
+            </div>
           </Link>
 
           <div className="text-text dark:text-darkText">
