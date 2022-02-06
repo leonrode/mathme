@@ -14,12 +14,14 @@ import { verifyAnswer } from "../_api/api";
 
 function Problem({
   topicId,
+  noQuestions,
   problem,
   onCorrect,
   onIncorrect,
   noCorrect,
   noIncorrect,
 }) {
+  console.log(noQuestions);
   const [latexFields, setLatexFields] = useState([]);
 
   const [isVerifyingResponse, setIsVerifyingResponse] = useState(false);
@@ -66,7 +68,9 @@ function Problem({
           <Timer />
 
           <TopicStatus
-            remaining={null}
+            remaining={
+              noQuestions ? noQuestions - noCorrect - noIncorrect : null
+            }
             noCorrect={noCorrect}
             noIncorrect={noIncorrect}
           />
