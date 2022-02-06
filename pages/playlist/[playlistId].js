@@ -122,9 +122,7 @@ function PlaylistPage() {
               size={30}
             />
             <Link
-              href={`/practice/${playlist.topics[0].topic.id}?playlistId=${
-                playlist.slug
-              }&index=${0}`}
+              href={`/practice/${playlist.topics[0].topic.id}?playlistId=${playlist.slug}`}
             >
               <span className="font-bold ml-2 cursor-pointer">
                 Practice All

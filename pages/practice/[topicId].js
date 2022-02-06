@@ -285,7 +285,7 @@ function TopicPage() {
             </div>
           </Link>
 
-          {!showTopicSummary && currentPlaylist && (
+          {!showTopicSummary && (
             <PracticeManager topicId={topicId} playlist={currentPlaylist} />
           )}
           {showTopicSummary && (
