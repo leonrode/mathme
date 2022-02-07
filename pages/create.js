@@ -81,7 +81,6 @@ function Create() {
       isStarred: false,
     };
 
-    console.log(_topic);
     if (isRandom) {
       _topic.isRandom = true;
       _topic.min = min;
@@ -90,6 +89,8 @@ function Create() {
       _topic.isRandom = false;
       _topic.noQuestions = noQuestions;
     }
+    console.log(_topic);
+
     setAddedTopics((topics) => [...topics, _topic]);
   };
 
