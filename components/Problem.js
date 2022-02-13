@@ -7,6 +7,8 @@ import ProblemInput from "./ProblemInput";
 
 import CheckAnswerButton from "./CheckAnswerButton";
 
+import ProblemButton from "./ProblemButton";
+
 import { MdHelpOutline } from "react-icons/md";
 
 import { useState } from "react";
@@ -21,7 +23,7 @@ function Problem({
   noCorrect,
   noIncorrect,
 }) {
-  console.log(noQuestions);
+  console.log("problem", problem);
   const [latexFields, setLatexFields] = useState([]);
 
   const [isVerifyingResponse, setIsVerifyingResponse] = useState(false);
@@ -59,6 +61,7 @@ function Problem({
           <h3
             className="text-primary dark:text-darkPrimary text-lg ml-4 cursor-pointer select-none"
             // onClick={() => skipProblem()}
+            onClick={async () => await onIncorrect(problem, ["SKIP"])}
           >
             skip
           </h3>
@@ -109,6 +112,16 @@ function Problem({
             verifyHandler={async () => await verifyResponse()}
           />
         </div>
+      </div>
+      <div className="flex items-center mt-4">
+        {problem.buttons.map((button, index) => (
+          <ProblemButton
+            key={index}
+            index={index}
+            content={button.ui}
+            toClick={() => latexFields[0].write(button.cmd)}
+          />
+        ))}
       </div>
     </>
   );

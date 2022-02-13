@@ -21,7 +21,7 @@ function handler(req, res) {
           buttons: content[topicId].buttons,
         });
       }
-      console.log(questions);
+
       return res.json({
         questions: questions,
         warning: "Yes, you can see the solution, but that defeats the point :)",

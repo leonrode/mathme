@@ -588,4 +588,46 @@ export default [
       return value.toString() === uValue.toString();
     },
   },
+  {
+    title: "Variables in Radicals",
+    instructions: "Simplify the radical",
+    description: "Simplify radicals containing variables.",
+    example: "\\sqrt{x^5}",
+    numFields: 1,
+    prompts: ["="],
+    tags: ["Radicals", "Algebra I"],
+    buttons: [
+      { cmd: "\\sqrt{}", ui: "\\sqrt{\\ }" },
+      { cmd: "\\nthroot3{}", ui: "\\sqrt[3]{\\ }" },
+      { cmd: "\\nthroot4{}", ui: "\\sqrt[4]{\\ }" },
+      { cmd: "\\nthroot5{}", ui: "\\sqrt[5]{\\ }" },
+    ],
+
+    generate: () => {
+      const index = randomIntInRange(2, 5);
+      const power = randomIntInRange(2, 7);
+
+      const innerPower = randomIntInRange(1, index - 1);
+      console.log(innerPower, index, power);
+
+      const latex = `\\sqrt[${index}]{x^{${innerPower + index * power}}}`;
+
+      return { latex, stringVersion: "" };
+    },
+
+    verify: (question, userResponses, questionString) => {
+      const response = userResponses[0];
+
+      let ok = true;
+      const res = nerdamer.convertFromLaTeX(response);
+      const q = nerdamer.convertFromLaTeX(question);
+      for (let i = 1; i < 3; i++) {
+        const a = res.evaluate({ x: i });
+        const b = q.evaluate({ x: i });
+        console.log(a, b);
+        if (a.toString() !== b.toString()) ok = false;
+      }
+      return ok;
+    },
+  },
 ];

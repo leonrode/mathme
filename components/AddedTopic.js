@@ -3,6 +3,7 @@ import {
   MdKeyboardArrowDown,
   MdKeyboardArrowUp,
   MdClear,
+  MdStar,
   MdStarOutline,
 } from "react-icons/md";
 

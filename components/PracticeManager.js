@@ -25,7 +25,6 @@ function PracticeManager({ topicId, playlist }) {
       } else {
         questions = await fetchProblems(topicId, 10);
       }
-      console.log(questions);
       setNextQuestions(questions.questions);
     })();
   }, []);
@@ -37,7 +36,8 @@ function PracticeManager({ topicId, playlist }) {
         isCorrect: isCorrect,
         latex: problem.latex,
         userResponses: latexFields.map((field) => {
-          return field.latex();
+          if (field !== "SKIP") return field.latex();
+          return "Skipped";
         }),
         solution: problem.solution,
       },
@@ -70,9 +70,12 @@ function PracticeManager({ topicId, playlist }) {
     // if no playlist and reached past 10 questions,
     // fetch new 10 questions
     if (!playlist) {
-      if (index === nextQuestions.length - 1) {
+      if (index === nextQuestions.length - 2) {
         const questions = await fetchProblems(topicId, 10);
+        console.log(questions);
+
         setNextQuestions(questions);
+      } else if (index === nextQuestions.length - 1) {
         setIndex(0);
       } else {
         setIndex((prev) => prev + 1);
