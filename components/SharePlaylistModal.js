@@ -31,13 +31,13 @@ function SharePlaylistModal({ _id }) {
         <div className="flex items-center">
           <input
             disabled
-            defaultValue={`https://mazzle.me/playlist/${_id}`}
+            defaultValue={`${window.location.origin}/playlist/${_id}`}
             className="overflow-x-auto  bg-transparent text-textGrayed underline underline-offset-4"
           />
           <div
             onClick={() => {
               navigator.clipboard.writeText(
-                `https://mazzle.me/playlist/${_id}`
+                `${window.location.origin}/playlist/${_id}`
               );
               setCopied(true);
             }}
@@ -51,7 +51,10 @@ function SharePlaylistModal({ _id }) {
       <MdOutlineIosShare
         className="text-text dark:text-darkText ml-4 cursor-pointer"
         size={25}
-        onClick={() => setShow(true)}
+        onClick={() => {
+          setCopied(false);
+          setShow(true);
+        }}
       />
     </>
   );

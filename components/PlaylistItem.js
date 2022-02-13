@@ -1,6 +1,11 @@
 import Latex from "react-latex-next";
 import Link from "next/link";
-import { MdOutlineMoreVert, MdStar, MdStarOutline } from "react-icons/md";
+import {
+  MdOutlineMoreVert,
+  MdStar,
+  MdStarOutline,
+  MdArrowForward,
+} from "react-icons/md";
 
 import { useState } from "react";
 function PlaylistItem({ title, example, index, toggleStar, starred, _id }) {
@@ -58,9 +63,9 @@ function PlaylistItem({ title, example, index, toggleStar, starred, _id }) {
         <div className="w-16 hidden md:block"></div>
         <div className="flex items-center">
           <Link href={`/practice/${_id}`}>
-            <h3 className="text-primary dark:text-darkPrimary font-bold hidden cursor-pointer lg:flex lg:items-center ">
-              Practice{" "}
-            </h3>
+            <div className="text-primary dark:text-darkPrimary font-bold hidden cursor-pointer lg:flex lg:items-center ">
+              <MdArrowForward size={20} className="ml-2" />
+            </div>
           </Link>
           <MdOutlineMoreVert
             size={20}

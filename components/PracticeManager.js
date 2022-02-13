@@ -25,7 +25,7 @@ function PracticeManager({ topicId, playlist }) {
       } else {
         questions = await fetchProblems(topicId, 10);
       }
-
+      console.log(questions);
       setNextQuestions(questions.questions);
     })();
   }, []);

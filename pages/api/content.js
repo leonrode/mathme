@@ -294,6 +294,7 @@ export default [
       let f1 = n1.divide(d1);
       let f2 = n2.divide(d2);
 
+      console.log(f1.toTeX());
       const f1Latex = f1.toTeX().replaceAll("\\cdot", "");
       const f2Latex = f2.toTeX().replaceAll("\\cdot", "");
 

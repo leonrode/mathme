@@ -70,7 +70,7 @@ function PlaylistPage() {
         <>
           <div className="flex items-center">
             <div
-              className="text-warning dark:text-darkWarning"
+              className="text-warning dark:text-darkWarning cursor-pointer"
               onClick={async () => {
                 await starPlaylist(playlist.slug);
                 setPlaylist((playlist) => ({
