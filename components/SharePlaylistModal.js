@@ -41,9 +41,17 @@ function SharePlaylistModal({ _id }) {
               );
               setCopied(true);
             }}
-            className="p-2 rounded-lg cursor-pointer ml-4 bg-primary dark:bg-darkPrimary"
+            className="p-2 rounded-lg cursor-pointer ml-4 bg-primary dark:bg-darkPrimary text-darkText"
           >
-            {copied ? <MdCheck size={20} /> : <MdContentCopy size={20} />}
+            {copied ? (
+              <span className="flex items-center">
+                <MdCheck className="mr-1" size={20} /> Copied
+              </span>
+            ) : (
+              <span className="flex items-center">
+                <MdContentCopy className="mr-1" size={20} /> Copy
+              </span>
+            )}
           </div>
         </div>
       </Modal>

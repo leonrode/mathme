@@ -32,15 +32,25 @@ function DeletePlaylistModal({ playlistId }) {
                 setIsDeleting(false);
                 router.push("/home");
               }}
-              className="rounded-lg border-2 border-transparent bg-error dark:bg-darkError px-8 py-2 cursor-pointer"
+              className="rounded-lg border-2 border-transparent bg-error dark:bg-darkError px-8 py-2 cursor-pointer text-darkText"
             >
-              {isDeleting ? <Spinner /> : "Yes"}
+              {isDeleting ? (
+                <Spinner />
+              ) : (
+                <span className=" flex items-center">
+                  <MdDeleteOutline className="mr-1" size={25} />
+                  Yes
+                </span>
+              )}
             </div>
             <div
               onClick={() => setShow(false)}
-              className="rounded-lg border-2 border-text dark:border-darkText px-8 py-2 ml-8 cursor-pointer"
+              className="rounded-lg border-2 border-text dark:border-darkText px-8 py-2 ml-8 cursor-pointer "
             >
-              No
+              <span className=" flex items-center">
+                <MdClear className="mr-1" size={25} />
+                No
+              </span>
             </div>
           </div>
         </Modal>
