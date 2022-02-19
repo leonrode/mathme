@@ -15,6 +15,7 @@ import {
   MdStarOutline,
   MdOutlineIosShare,
   MdOutlineFileDownload,
+  MdShuffle,
   MdStar,
   MdOutlineEdit,
 } from "react-icons/md";
@@ -129,13 +130,17 @@ function PlaylistPage() {
               </span>
             </Link>
           </div>
-          {/* <div className="flex items-center mt-4">
-            <MdAssessment
+          <div className="flex items-center mt-2">
+            <MdShuffle
               className="text-primary dark:text-darkPrimary"
               size={30}
             />
-            <span className="font-bold ml-2">Take a test</span>
-          </div> */}
+            <Link
+              href={`/practice/${playlist.topics[0].topic.id}?playlistId=${playlist.slug}&shuffle=true`}
+            >
+              <span className="font-bold ml-2 cursor-pointer">Mix Up</span>
+            </Link>
+          </div>
           <div className="flex items-center mt-2">
             <MdStar className="text-warning dark:text-darkWarning" size={30} />
             <Link

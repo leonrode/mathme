@@ -7,6 +7,9 @@ Goal: September 2022
 - [x] _fix mobile dropdown/latex overlaps_
 - [ ] content answers undefined
 - [x] study only starred topics
+- [ ] modal icons correct light mode color
+- [ ] fix api inconsistency
+- [ ] show current mode in topic page
 - [ ] refactor topic page
   - [ ] build out components
   - [ ] refactor process functions

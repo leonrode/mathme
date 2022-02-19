@@ -53,7 +53,7 @@ function Problem({
 
   return (
     <>
-      <div className="flex items-center justify-between w-full lg:w-1/2">
+      <div className="flex items-start justify-between w-full lg:w-1/2">
         <div className="flex items-center">
           <h3 className="text-text dark:text-darkText font-bold text-xl">
             {problem.instructions}

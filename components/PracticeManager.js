@@ -1,9 +1,10 @@
 import Problem from "./Problem";
 import TopicSummary from "./TopioSummary";
 import { useState, useEffect } from "react";
-import { fetchProblems, verifyAnswer } from "../_api/api";
+import { fetchProblems, verifyAnswer, fetchMixedProblems } from "../_api/api";
 
-function PracticeManager({ topicId, playlist, starred }) {
+import axios from "axios";
+function PracticeManager({ topicId, playlist, starred, shuffle }) {
   const [nextQuestions, setNextQuestions] = useState(null);
   const [completedQuestions, setCompletedQuestions] = useState([]);
 
@@ -25,12 +26,24 @@ function PracticeManager({ topicId, playlist, starred }) {
     }
 
     (async () => {
+      const res = await axios.get(
+        `/api/question/mix?playlistId=${playlist.slug}&count=5`
+      );
+
       let questions;
       if (playlist) {
-        questions = await fetchProblems(
-          playlist.topics[topicIndex].topic.id,
-          getNoQuestions(playlist.topics[topicIndex])
-        );
+        if (shuffle) {
+          // TODO: GET MIX OF QUESTIONS
+          questions = await fetchMixedProblems(playlist.slug, 10);
+          console.log("q", questions);
+        } else {
+          questions = await fetchProblems(
+            playlist.topics[topicIndex].topic.id,
+            getNoQuestions(playlist.topics[topicIndex])
+          );
+
+          // console.log("eq", questions);
+        }
       } else {
         questions = await fetchProblems(topicId, 10);
       }
@@ -75,9 +88,15 @@ function PracticeManager({ topicId, playlist, starred }) {
           // TODO: end of playlist
         } else {
           // else if reached end of topic
-          console.log("here");
-          setShowTopicSummary(true);
-          return;
+
+          if (!shuffle) {
+            setShowTopicSummary(true);
+            return;
+          } else {
+            const questions = await fetchMixedProblems(playlist.slug, 10);
+            setNextQuestions(questions.questions);
+            setIndex(0);
+          }
         }
       } else {
         setIndex((prev) => prev + 1);
@@ -89,7 +108,6 @@ function PracticeManager({ topicId, playlist, starred }) {
     if (!playlist) {
       if (index === nextQuestions.length - 2) {
         const questions = await fetchProblems(topicId, 10);
-        console.log(questions);
 
         setNextQuestions(questions);
       } else if (index === nextQuestions.length - 1) {
@@ -113,14 +131,10 @@ function PracticeManager({ topicId, playlist, starred }) {
           topicIndex + 1
         );
 
-        console.log("nsti", nextStarredTopicIndex);
-
         if (nextStarredTopicIndex !== -1) {
           nextIndex = nextStarredTopicIndex;
         }
       }
-
-      console.log("nextIndex", nextIndex);
 
       const questions = await fetchProblems(
         playlist.topics[nextIndex].topic.id,
@@ -177,7 +191,9 @@ function PracticeManager({ topicId, playlist, starred }) {
           <Problem
             topicId={topicId}
             noQuestions={
-              playlist ? playlist.topics[topicIndex].noQuestions : null
+              playlist && !shuffle
+                ? playlist.topics[topicIndex].noQuestions
+                : null
             }
             noCorrect={noCorrect}
             noIncorrect={noIncorrect}

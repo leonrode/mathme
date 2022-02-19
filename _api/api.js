@@ -75,6 +75,16 @@ const fetchProblems = async (topicId, count) => {
   return data;
 };
 
+const fetchMixedProblems = async (playlistId, count) => {
+  const result = await axios.get(
+    `/api/question/mix?playlistId=${playlistId}&count=${count}`
+  );
+
+  const data = result.data;
+
+  return data;
+};
+
 const verifyAnswer = async (
   topicId,
   questionLatex,
@@ -109,6 +119,7 @@ export {
   starPlaylist,
   fetchNewProblem,
   fetchProblems,
+  fetchMixedProblems,
   verifyAnswer,
   signUp,
 };

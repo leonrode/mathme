@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 
 import Link from "next/link";
 
-import { MdChevronLeft } from "react-icons/md";
+import { MdChevronLeft, MdShuffle, MdStar, MdAssignment } from "react-icons/md";
 
 import axios from "axios";
 
@@ -15,6 +15,8 @@ function TopicPage() {
   const router = useRouter();
   const topicId = router.query.topicId;
   const starred = router.query.starred;
+  const shuffle = router.query.shuffle;
+
   const [currentPlaylist, setCurrentPlaylist] = useState(null);
 
   useEffect(() => {
@@ -42,19 +44,45 @@ function TopicPage() {
         >
           <div className="flex items-center cursor-pointer">
             <div className="text-text dark:text-darkText">
-              <MdChevronLeft size={35} />
+              <MdChevronLeft size={25} />
             </div>
-            <h3 className="text-text dark:text-darkText text-lg lg:text-xl ">
-              {currentPlaylist ? currentPlaylist.title : ""}
+            <h3 className="text-text dark:text-darkText font-bold">
+              {currentPlaylist ? (
+                <>
+                  BACK TO{" "}
+                  <span className="italic">{currentPlaylist.title}</span>
+                </>
+              ) : (
+                ""
+              )}
             </h3>
           </div>
         </Link>
 
+        <h3 className="text-textGrayed font-bold my-4">
+          {!starred && !shuffle ? (
+            <div className="flex items-center">
+              <MdAssignment className="text-textGrayed mr-2" size={20} />
+              PRACTICING
+            </div>
+          ) : starred ? (
+            <div className="flex items-center">
+              <MdStar className="text-textGrayed mr-2" size={20} />
+              STARRED ONLY
+            </div>
+          ) : (
+            <div className="flex items-center">
+              <MdShuffle className="text-textGrayed mr-2" size={20} />
+              MIX UP
+            </div>
+          )}
+        </h3>
         {currentPlaylist && (
           <PracticeManager
             topicId={topicId}
             playlist={currentPlaylist}
             starred={!!starred}
+            shuffle={!!shuffle}
           />
         )}
       </>
