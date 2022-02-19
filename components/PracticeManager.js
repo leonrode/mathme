@@ -3,7 +3,7 @@ import TopicSummary from "./TopioSummary";
 import { useState, useEffect } from "react";
 import { fetchProblems, verifyAnswer } from "../_api/api";
 
-function PracticeManager({ topicId, playlist }) {
+function PracticeManager({ topicId, playlist, starred }) {
   const [nextQuestions, setNextQuestions] = useState(null);
   const [completedQuestions, setCompletedQuestions] = useState([]);
 
@@ -15,6 +15,15 @@ function PracticeManager({ topicId, playlist }) {
 
   const [showTopicSummary, setShowTopicSummary] = useState(false);
   useEffect(() => {
+    if (starred && playlist) {
+      // set topic index to the first topic that is starred
+      const nextStarredTopic = getNextStarredTopicIndex(playlist.topics, 0);
+
+      if (nextStarredTopic > 0) {
+        setTopicIndex(nextStarredTopic);
+      }
+    }
+
     (async () => {
       let questions;
       if (playlist) {
@@ -28,6 +37,16 @@ function PracticeManager({ topicId, playlist }) {
       setNextQuestions(questions.questions);
     })();
   }, []);
+
+  const getNextStarredTopicIndex = (topics, start) => {
+    for (let i = start; i < topics.length; i++) {
+      if (topics[i].isStarred) {
+        return i;
+      }
+    }
+
+    return -1;
+  };
 
   const onQuestionAnswer = async (isCorrect, problem, latexFields) => {
     setCompletedQuestions((prev) => [
@@ -51,14 +70,12 @@ function PracticeManager({ topicId, playlist }) {
 
     if (playlist) {
       if (index === nextQuestions.length - 1) {
-        // if we have reached end of playlist,
-
-        // TODO: show topic summary
-
-        // todo
+        // if reached end of playlist
         if (topicIndex === playlist.topics.length - 1) {
           // TODO: end of playlist
         } else {
+          // else if reached end of topic
+          console.log("here");
           setShowTopicSummary(true);
           return;
         }
@@ -89,14 +106,30 @@ function PracticeManager({ topicId, playlist }) {
     if (topicIndex === playlist.topics.length - 1) {
       // TODO: end of playlist
     } else {
+      let nextIndex = topicIndex + 1;
+      if (starred) {
+        const nextStarredTopicIndex = getNextStarredTopicIndex(
+          playlist.topics,
+          topicIndex + 1
+        );
+
+        console.log("nsti", nextStarredTopicIndex);
+
+        if (nextStarredTopicIndex !== -1) {
+          nextIndex = nextStarredTopicIndex;
+        }
+      }
+
+      console.log("nextIndex", nextIndex);
+
       const questions = await fetchProblems(
-        playlist.topics[topicIndex + 1].topic.id,
-        getNoQuestions(playlist.topics[topicIndex + 1])
+        playlist.topics[nextIndex].topic.id,
+        getNoQuestions(playlist.topics[nextIndex])
       );
 
       setNextQuestions(questions.questions);
 
-      setTopicIndex((prev) => prev + 1);
+      setTopicIndex(nextIndex);
 
       setNoCorrect(0);
       setNoIncorrect(0);

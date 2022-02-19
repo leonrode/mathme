@@ -139,7 +139,7 @@ function PlaylistPage() {
           <div className="flex items-center mt-2">
             <MdStar className="text-warning dark:text-darkWarning" size={30} />
             <Link
-              href={`/practice/${playlist.topics[0].topic.id}?playlistId=${playlist.slug}&index=0&starred=true`}
+              href={`/practice/${playlist.topics[0].topic.id}?playlistId=${playlist.slug}&starred=true`}
             >
               <span
                 className={`${

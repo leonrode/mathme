@@ -14,7 +14,7 @@ import PracticeManager from "../../components/PracticeManager";
 function TopicPage() {
   const router = useRouter();
   const topicId = router.query.topicId;
-
+  const starred = router.query.starred;
   const [currentPlaylist, setCurrentPlaylist] = useState(null);
 
   useEffect(() => {
@@ -50,7 +50,13 @@ function TopicPage() {
           </div>
         </Link>
 
-        <PracticeManager topicId={topicId} playlist={currentPlaylist} />
+        {currentPlaylist && (
+          <PracticeManager
+            topicId={topicId}
+            playlist={currentPlaylist}
+            starred={!!starred}
+          />
+        )}
       </>
     </Layout>
   );
