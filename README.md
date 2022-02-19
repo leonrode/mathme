@@ -13,7 +13,7 @@ Goal: September 2022
 - [ ] refactor topic page
   - [ ] build out components
   - [ ] refactor process functions
-- [ ] view problem history in unlimited practice
+- [ ] view problem history in unlimited practice & MIX UP
 - [ ] customize studying options
   - [ ] mix all questions together
 - [x] share playlist

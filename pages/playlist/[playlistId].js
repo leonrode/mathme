@@ -116,7 +116,7 @@ function PlaylistPage() {
             />
             <DeletePlaylistModal playlistId={playlist.slug} />
           </div>
-          <h6 className="text-textGrayed font-bold mt-4">Study</h6>
+          <h6 className="text-textGrayed text-sm font-bold mt-4">STUDY</h6>
           <div className="flex items-center mt-2">
             <MdAssignment
               className="text-primary dark:text-darkPrimary"
@@ -155,10 +155,10 @@ function PlaylistPage() {
               </span>
             </Link>
           </div>
-          <div className="flex items-centern mt-4">
-            <h3 className="text-textGrayed font-bold">
-              {playlist.topics.length} topic
-              {playlist.topics.length === 1 ? "" : "s"}
+          <div className="flex items-center mt-4">
+            <h3 className="text-textGrayed text-sm font-bold">
+              {playlist.topics.length} TOPIC
+              {playlist.topics.length === 1 ? "" : "S"}
             </h3>
 
             <h4 className="text-warning dark:text-darkWarning ml-2 flex items-center">
