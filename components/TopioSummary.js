@@ -10,6 +10,7 @@ function TopicSummary({
   completedQuestions,
   toRestart,
   toNextTopic,
+  canRestart,
 }) {
   return (
     <div className="mt-4 w-full md:w-3/4">
@@ -35,15 +36,19 @@ function TopicSummary({
         </h3>
       </div>
       <div className="flex items-center mt-2">
-        <div
-          onClick={toRestart}
-          className="cursor-pointer bg-transparent border-2 border-primary dark:border-darkPrimary w-fit p-2 text-sm rounded-md text-center"
-        >
-          Restart topic
-        </div>
+        {canRestart && (
+          <div
+            onClick={toRestart}
+            className="cursor-pointer bg-transparent border-2 border-primary dark:border-darkPrimary w-fit p-2 text-sm rounded-md text-center"
+          >
+            Restart topic
+          </div>
+        )}
         <div
           onClick={toNextTopic}
-          className="cursor-pointer ml-2 bg-primary border-2 border-transparent dark:bg-darkPrimary w-fit p-2 text-sm rounded-md text-center"
+          className={`cursor-pointer ${
+            canRestart && "ml-2"
+          } bg-primary border-2 border-transparent dark:bg-darkPrimary w-fit p-2 text-sm rounded-md text-center`}
         >
           Continue
         </div>

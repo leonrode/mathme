@@ -7,13 +7,14 @@ Goal: September 2022
 - [x] _fix mobile dropdown/latex overlaps_
 - [ ] content answers undefined
 - [x] study only starred topics
+- [ ] pagination of search & create results
 - [x] modal icons correct light mode color
 - [ ] fix api inconsistency
 - [x] show current mode in topic page
 - [ ] refactor topic page
   - [ ] build out components
   - [ ] refactor process functions
-- [ ] view problem history in unlimited practice & MIX UP
+- [x] view problem history in unlimited practice & MIX UP
 - [ ] customize studying options
   - [ ] mix all questions together
 - [x] share playlist

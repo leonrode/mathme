@@ -3,11 +3,13 @@ import TopicSummary from "./TopioSummary";
 import { useState, useEffect } from "react";
 import { fetchProblems, verifyAnswer, fetchMixedProblems } from "../_api/api";
 
+import { MdDone } from "react-icons/md";
+
 import axios from "axios";
-function PracticeManager({ topicId, playlist, starred, shuffle }) {
+function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
   const [nextQuestions, setNextQuestions] = useState(null);
   const [completedQuestions, setCompletedQuestions] = useState([]);
-
+  console.log(playlist);
   const [index, setIndex] = useState(0);
   const [topicIndex, setTopicIndex] = useState(0);
 
@@ -16,7 +18,8 @@ function PracticeManager({ topicId, playlist, starred, shuffle }) {
 
   const [showTopicSummary, setShowTopicSummary] = useState(false);
   useEffect(() => {
-    if (starred && playlist) {
+    console.log(hasPlaylist);
+    if (starred && hasPlaylist) {
       // set topic index to the first topic that is starred
       const nextStarredTopic = getNextStarredTopicIndex(playlist.topics, 0);
 
@@ -26,17 +29,14 @@ function PracticeManager({ topicId, playlist, starred, shuffle }) {
     }
 
     (async () => {
-      const res = await axios.get(
-        `/api/question/mix?playlistId=${playlist.slug}&count=5`
-      );
-
       let questions;
-      if (playlist) {
+      if (hasPlaylist) {
         if (shuffle) {
           // TODO: GET MIX OF QUESTIONS
           questions = await fetchMixedProblems(playlist.slug, 10);
           console.log("q", questions);
         } else {
+          console.log("else");
           questions = await fetchProblems(
             playlist.topics[topicIndex].topic.id,
             getNoQuestions(playlist.topics[topicIndex])
@@ -45,8 +45,10 @@ function PracticeManager({ topicId, playlist, starred, shuffle }) {
           // console.log("eq", questions);
         }
       } else {
+        console.log("ep laylist");
         questions = await fetchProblems(topicId, 10);
       }
+      console.log(questions.questions);
       setNextQuestions(questions.questions);
     })();
   }, []);
@@ -81,7 +83,7 @@ function PracticeManager({ topicId, playlist, starred, shuffle }) {
     // if playlist and reached end of topic's # questions,
     // go to next topic
 
-    if (playlist) {
+    if (hasPlaylist) {
       if (index === nextQuestions.length - 1) {
         // if reached end of playlist
         if (topicIndex === playlist.topics.length - 1) {
@@ -105,11 +107,11 @@ function PracticeManager({ topicId, playlist, starred, shuffle }) {
 
     // if no playlist and reached past 10 questions,
     // fetch new 10 questions
-    if (!playlist) {
+    if (!hasPlaylist) {
       if (index === nextQuestions.length - 2) {
         const questions = await fetchProblems(topicId, 10);
-
-        setNextQuestions(questions);
+        console.log("q", questions);
+        setNextQuestions(questions.questions);
       } else if (index === nextQuestions.length - 1) {
         setIndex(0);
       } else {
@@ -119,6 +121,14 @@ function PracticeManager({ topicId, playlist, starred, shuffle }) {
   };
 
   const toContinue = async () => {
+    // if not in playlist, the user is just viewing the history of completed questions
+
+    if (!hasPlaylist || shuffle) {
+      console.log("here");
+      setShowTopicSummary(false);
+      return;
+    }
+
     // if reached last playlist,
     // todo
     if (topicIndex === playlist.topics.length - 1) {
@@ -140,6 +150,8 @@ function PracticeManager({ topicId, playlist, starred, shuffle }) {
         playlist.topics[nextIndex].topic.id,
         getNoQuestions(playlist.topics[nextIndex])
       );
+
+      setCompletedQuestions([]);
 
       setNextQuestions(questions.questions);
 
@@ -181,30 +193,43 @@ function PracticeManager({ topicId, playlist, starred, shuffle }) {
           <TopicSummary
             correctNumber={noCorrect}
             incorrectNumber={noIncorrect}
-            noQuestions={playlist.topics[topicIndex].noQuestions}
-            topicTitle={playlist.topics[topicIndex].title}
+            noQuestions={
+              noCorrect + noIncorrect === 0 ? 1 : noCorrect + noIncorrect
+            }
+            topicTitle={hasPlaylist ? playlist.topics[topicIndex].title : ""}
             completedQuestions={completedQuestions}
             toNextTopic={async () => await toContinue()}
             toRestart={async () => await toRetry()}
+            canRestart={hasPlaylist && !shuffle}
           />
         ) : (
-          <Problem
-            topicId={topicId}
-            noQuestions={
-              playlist && !shuffle
-                ? playlist.topics[topicIndex].noQuestions
-                : null
-            }
-            noCorrect={noCorrect}
-            noIncorrect={noIncorrect}
-            problem={nextQuestions[index]}
-            onCorrect={async (problem, latexFields) =>
-              await onQuestionAnswer(true, problem, latexFields)
-            }
-            onIncorrect={async (problem, latexFields) =>
-              await onQuestionAnswer(false, problem, latexFields)
-            }
-          />
+          <>
+            {!hasPlaylist || shuffle ? (
+              <div
+                onClick={() => setShowTopicSummary(true)}
+                className="cursor-pointer mb-4 flex items-center text-primary dark:text-darkPrimary"
+              >
+                <MdDone size={20} className="mr-2" /> See completed questions
+              </div>
+            ) : null}
+            <Problem
+              topicId={topicId}
+              noQuestions={
+                hasPlaylist && !shuffle
+                  ? playlist.topics[topicIndex].noQuestions
+                  : null
+              }
+              noCorrect={noCorrect}
+              noIncorrect={noIncorrect}
+              problem={nextQuestions[index]}
+              onCorrect={async (problem, latexFields) =>
+                await onQuestionAnswer(true, problem, latexFields)
+              }
+              onIncorrect={async (problem, latexFields) =>
+                await onQuestionAnswer(false, problem, latexFields)
+              }
+            />
+          </>
         )}
       </>
     )

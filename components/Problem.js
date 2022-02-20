@@ -23,7 +23,6 @@ function Problem({
   noCorrect,
   noIncorrect,
 }) {
-  console.log("problem", problem);
   const [latexFields, setLatexFields] = useState([]);
 
   const [isVerifyingResponse, setIsVerifyingResponse] = useState(false);

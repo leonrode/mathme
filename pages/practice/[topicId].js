@@ -4,7 +4,13 @@ import { useState, useEffect } from "react";
 
 import Link from "next/link";
 
-import { MdChevronLeft, MdShuffle, MdStar, MdAssignment } from "react-icons/md";
+import {
+  MdChevronLeft,
+  MdShuffle,
+  MdStar,
+  MdAssignment,
+  MdArrowBack,
+} from "react-icons/md";
 
 import axios from "axios";
 
@@ -18,7 +24,7 @@ function TopicPage() {
   const shuffle = router.query.shuffle;
 
   const [currentPlaylist, setCurrentPlaylist] = useState(null);
-
+  const [fetchedPlaylist, setFetchedPlaylist] = useState(false);
   useEffect(() => {
     const playlistId = router.query.playlistId;
 
@@ -31,6 +37,7 @@ function TopicPage() {
         const playlist = res.data.playlist;
         setCurrentPlaylist(playlist);
       }
+      setFetchedPlaylist(true);
     })();
   }, []);
 
@@ -44,9 +51,9 @@ function TopicPage() {
         >
           <div className="flex items-center cursor-pointer">
             <div className="text-text dark:text-darkText">
-              <MdChevronLeft size={25} />
+              <MdArrowBack size={25} />
             </div>
-            <h3 className="text-text dark:text-darkText font-bold">
+            <h3 className="text-text ml-1 dark:text-darkText font-bold">
               {currentPlaylist ? (
                 <>
                   BACK TO{" "}
@@ -58,7 +65,6 @@ function TopicPage() {
             </h3>
           </div>
         </Link>
-
         <h3 className="text-textGrayed font-bold my-4">
           {!starred && !shuffle ? (
             <div className="flex items-center">
@@ -77,10 +83,12 @@ function TopicPage() {
             </div>
           )}
         </h3>
-        {currentPlaylist && (
+
+        {fetchedPlaylist && (
           <PracticeManager
             topicId={topicId}
             playlist={currentPlaylist}
+            hasPlaylist={currentPlaylist !== null}
             starred={!!starred}
             shuffle={!!shuffle}
           />
