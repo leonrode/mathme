@@ -68,6 +68,10 @@ function randomId() {
   return nanoid();
 }
 
+function replaceAll(string, search, replacement) {
+  return string.split(search).join(replacement);
+}
+
 export {
   verifyQuestion,
   fetchMeta,
@@ -75,4 +79,5 @@ export {
   randomIntInRange,
   gcd,
   randomId,
+  replaceAll,
 };

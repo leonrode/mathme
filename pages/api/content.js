@@ -1,7 +1,7 @@
 import nerdamer from "nerdamer/all";
 import algebra from "algebra.js";
 import Algebrite from "algebrite";
-import { randomIntInRange, gcd } from "./utils";
+import { randomIntInRange, gcd, replaceAll } from "./utils";
 
 export default [
   {
@@ -184,7 +184,8 @@ export default [
       lhs = lhs.expand();
       let latex = lhs.toTeX();
 
-      latex = latex.replaceAll("\\cdot", "");
+      // latex = latex.replaceAll("\\cdot", "");
+      latex = replaceAll(latex, "\\cdot", "");
       const solution = `${first_m}(${before})(${second_factor})`;
       return { solution, latex, stringVersion: lhs.toString() };
     },
@@ -230,7 +231,8 @@ export default [
       let final = n.divide(d);
 
       let latex = final.toTeX();
-      latex = latex.replaceAll("\\cdot", "");
+      // latex = latex.replaceAll("\\cdot", "");
+      latex = replaceAll(latex, "\\cdot", "");
       return { solution, latex, stringVersion: final.toString() };
     },
 
@@ -297,9 +299,8 @@ export default [
       let f1 = n1.divide(d1);
       let f2 = n2.divide(d2);
 
-      console.log(f1.toTeX());
-      const f1Latex = f1.toTeX().replaceAll("\\cdot", "");
-      const f2Latex = f2.toTeX().replaceAll("\\cdot", "");
+      const f1Latex = replaceAll(f1.toTeX(), "\\cdot", "");
+      const f2Latex = replaceAll(f2.toTeX(), "\\cdot", "");
 
       const latex = `${f1Latex}\\cdot${f2Latex}`;
       const stringVersion = nerdamer.convertFromLaTeX(latex).toString();
@@ -351,8 +352,10 @@ export default [
       n = n.multiply(symbol).multiply(nerdamer(symbol).add(v0));
       d = d.multiply(nerdamer(symbol).add(v0));
 
-      const nL = n.expand().toTeX().replaceAll("\\cdot", " ");
-      const dL = d.expand().toTeX().replaceAll("\\cdot", " ");
+      // const nL = n.expand().toTeX().replaceAll("\\cdot", " ");
+      const nL = replaceAll(n.expand().toTeX(), "\\cdot", " ");
+      const dL = replaceAll(d.expand().toTeX(), "\\cdot", " ");
+      // const dL = d.expand().toTeX().replaceAll("\\cdot", " ");
 
       const latex = `\\frac{${nL}}{${dL}}`;
 
