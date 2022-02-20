@@ -14,7 +14,7 @@ Goal: September 2022
 - [ ] refactor topic page
   - [ ] build out components
   - [ ] refactor process functions
-- [x] view problem history in unlimited practice & MIX UP
+- [x] view question history in unlimited practice & MIX UP
 - [ ] customize studying options
   - [ ] mix all questions together
 - [x] share playlist
@@ -23,6 +23,7 @@ Goal: September 2022
 - [ ] add topic to playlist from search screen
 - [ ] end of playlist summary (per topic summary)
 - [x] star playlists
+- [ ] _competition mode??_
 - [ ] have starred playlists show up on home screen
 - [x] fix dropdown on PlaylistCard bugs
 - [x] profile card dynamic name and pfp

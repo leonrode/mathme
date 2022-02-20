@@ -4,7 +4,7 @@ import { useState } from "react";
 function SummaryQuestion({
   index,
   isLast,
-  problemLatex,
+  questionLatex,
   solution,
   isCorrect,
   userResponses,
@@ -28,9 +28,8 @@ function SummaryQuestion({
           )}
         </div>
         <div className="text-2xl">
-          <Latex>{`$${problemLatex}$`}</Latex>
+          <Latex>{`$${questionLatex}$`}</Latex>
         </div>
-        {/* <div>{solution}</div> */}
         <div
           className="flex items-center cursor-pointer"
           onClick={() => setShowDropdown((prev) => !prev)}

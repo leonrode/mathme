@@ -13,8 +13,8 @@ function fetchMeta(topicId) {
   return { title, example };
 }
 
-function verifyProblem(topicId, problem, response, stringVersion) {
-  return content[topicId].verify(problem, response, stringVersion);
+function verifyQuestion(topicId, question, response, stringVersion) {
+  return content[topicId].verify(question, response, stringVersion);
 }
 
 function generateSearchResults(prompt) {
@@ -63,7 +63,7 @@ function randomId() {
 }
 
 export {
-  verifyProblem,
+  verifyQuestion,
   fetchMeta,
   generateSearchResults,
   randomIntInRange,

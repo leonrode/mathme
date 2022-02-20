@@ -6,7 +6,7 @@ const EditableMathField = dynamic(() => import("react-mathquill"), {
 });
 
 import Latex from "react-latex-next";
-function ProblemInput({
+function QuestionInput({
   prompt,
   index,
   setter,
@@ -53,4 +53,4 @@ function ProblemInput({
   );
 }
 
-export default ProblemInput;
+export default QuestionInput;

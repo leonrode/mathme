@@ -54,15 +54,15 @@ function TopicSummary({
         </div>
       </div>
       <h3 className="text-textGrayed my-4">Review Questions</h3>
-      {completedQuestions.map((problem, index) => (
+      {completedQuestions.map((question, index) => (
         <SummaryQuestion
           index={index}
           key={index}
           isLast={index === completedQuestions.length - 1}
-          problemLatex={problem.latex}
-          userResponses={problem.userResponses}
-          solution={problem.solution}
-          isCorrect={problem.isCorrect}
+          questionLatex={question.latex}
+          userResponses={question.userResponses}
+          solution={question.solution}
+          isCorrect={question.isCorrect}
         />
       ))}
     </div>

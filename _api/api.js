@@ -4,17 +4,14 @@ const searchTopics = async (prompt) => {
   if (prompt === "") prompt = "all";
 
   const result = await axios.get(`/api/search?prompt=${prompt}`);
-  const data = result.data;
 
-  return data.results;
+  return result.data.results;
 };
 
 const getPlaylist = async (playlistId) => {
   const result = await axios.get(`/api/playlist/${playlistId}`);
 
-  const data = result.data;
-
-  return data.playlist;
+  return result.data.playlist;
 };
 
 const getUserPlaylists = async () => {
@@ -34,20 +31,18 @@ const deletePlaylist = async (playlistId) => {
 
 const createPlaylist = async (number, title, topics) => {
   if (title === "") title = `My Playlist #${number}`;
-  console.log(topics);
   const result = await axios.post("/api/playlist/create", { title, topics });
 
   return result.data.playlistId;
 };
 
 const savePlaylist = async (id, title, topics) => {
-  console.log(id, title, topics);
-  console.table(topics);
   const result = await axios.post("/api/playlist/save", {
     playlistId: id,
     title,
     topics,
   });
+
   return true;
 };
 
@@ -59,30 +54,26 @@ const starPlaylist = async (playlistId) => {
   return true;
 };
 
-const fetchNewProblem = async (topicId) => {
+const fetchNewQuestion = async (topicId) => {
   const result = await axios.get(`/api/question/${parseInt(topicId)}`);
-  const data = result.data;
 
-  return data;
+  return result.data;
 };
 
-const fetchProblems = async (topicId, count) => {
+const fetchQuestions = async (topicId, count) => {
   const result = await axios.get(
     `/api/question/${parseInt(topicId)}?count=${parseInt(count)}`
   );
-  const data = result.data;
 
-  return data;
+  return result.data.questions;
 };
 
-const fetchMixedProblems = async (playlistId, count) => {
+const fetchMixedQuestions = async (playlistId, count) => {
   const result = await axios.get(
     `/api/question/mix?playlistId=${playlistId}&count=${count}`
   );
 
-  const data = result.data;
-
-  return data;
+  return result.data.questions;
 };
 
 const verifyAnswer = async (
@@ -117,9 +108,9 @@ export {
   createPlaylist,
   savePlaylist,
   starPlaylist,
-  fetchNewProblem,
-  fetchProblems,
-  fetchMixedProblems,
+  fetchNewQuestion,
+  fetchQuestions,
+  fetchMixedQuestions,
   verifyAnswer,
   signUp,
 };

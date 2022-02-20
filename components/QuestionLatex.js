@@ -1,6 +1,6 @@
 import Latex from "react-latex-next";
 
-function ProblemLatex({ latex }) {
+function QuestionLatex({ latex }) {
   return (
     <div className="scale-150">
       <Latex>{`$${latex}$`}</Latex>
@@ -8,4 +8,4 @@ function ProblemLatex({ latex }) {
   );
 }
 
-export default ProblemLatex;
+export default QuestionLatex;

@@ -1,6 +1,6 @@
 import Latex from "react-latex-next";
 
-function ProblemButton({ index, toClick, content }) {
+function QuestionButton({ index, toClick, content }) {
   return (
     <div
       onClick={toClick}
@@ -13,4 +13,4 @@ function ProblemButton({ index, toClick, content }) {
   );
 }
 
-export default ProblemButton;
+export default QuestionButton;

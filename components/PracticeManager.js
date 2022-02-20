@@ -1,7 +1,7 @@
-import Problem from "./Problem";
+import Question from "./Question";
 import TopicSummary from "./TopioSummary";
 import { useState, useEffect } from "react";
-import { fetchProblems, verifyAnswer, fetchMixedProblems } from "../_api/api";
+import { fetchQuestions, fetchMixedQuestions } from "../_api/api";
 
 import { MdDone } from "react-icons/md";
 
@@ -9,7 +9,6 @@ import axios from "axios";
 function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
   const [nextQuestions, setNextQuestions] = useState(null);
   const [completedQuestions, setCompletedQuestions] = useState([]);
-  console.log(playlist);
   const [index, setIndex] = useState(0);
   const [topicIndex, setTopicIndex] = useState(0);
 
@@ -18,7 +17,6 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
 
   const [showTopicSummary, setShowTopicSummary] = useState(false);
   useEffect(() => {
-    console.log(hasPlaylist);
     if (starred && hasPlaylist) {
       // set topic index to the first topic that is starred
       const nextStarredTopic = getNextStarredTopicIndex(playlist.topics, 0);
@@ -33,11 +31,9 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
       if (hasPlaylist) {
         if (shuffle) {
           // TODO: GET MIX OF QUESTIONS
-          questions = await fetchMixedProblems(playlist.slug, 10);
-          console.log("q", questions);
+          questions = await fetchMixedQuestions(playlist.slug, 10);
         } else {
-          console.log("else");
-          questions = await fetchProblems(
+          questions = await fetchQuestions(
             playlist.topics[topicIndex].topic.id,
             getNoQuestions(playlist.topics[topicIndex])
           );
@@ -46,10 +42,10 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
         }
       } else {
         console.log("ep laylist");
-        questions = await fetchProblems(topicId, 10);
+        questions = await fetchQuestions(topicId, 10);
       }
-      console.log(questions.questions);
-      setNextQuestions(questions.questions);
+
+      setNextQuestions(questions);
     })();
   }, []);
 
@@ -63,17 +59,17 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
     return -1;
   };
 
-  const onQuestionAnswer = async (isCorrect, problem, latexFields) => {
+  const onQuestionAnswer = async (isCorrect, question, latexFields) => {
     setCompletedQuestions((prev) => [
       ...prev,
       {
         isCorrect: isCorrect,
-        latex: problem.latex,
+        latex: question.latex,
         userResponses: latexFields.map((field) => {
           if (field !== "SKIP") return field.latex();
           return "Skipped";
         }),
-        solution: problem.solution,
+        solution: question.solution,
       },
     ]);
     isCorrect
@@ -95,8 +91,8 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
             setShowTopicSummary(true);
             return;
           } else {
-            const questions = await fetchMixedProblems(playlist.slug, 10);
-            setNextQuestions(questions.questions);
+            const questions = await fetchMixedQuestions(playlist.slug, 10);
+            setNextQuestions(questions);
             setIndex(0);
           }
         }
@@ -109,9 +105,8 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
     // fetch new 10 questions
     if (!hasPlaylist) {
       if (index === nextQuestions.length - 2) {
-        const questions = await fetchProblems(topicId, 10);
-        console.log("q", questions);
-        setNextQuestions(questions.questions);
+        const questions = await fetchQuestions(topicId, 10);
+        setNextQuestions(questions);
       } else if (index === nextQuestions.length - 1) {
         setIndex(0);
       } else {
@@ -124,7 +119,6 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
     // if not in playlist, the user is just viewing the history of completed questions
 
     if (!hasPlaylist || shuffle) {
-      console.log("here");
       setShowTopicSummary(false);
       return;
     }
@@ -146,14 +140,14 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
         }
       }
 
-      const questions = await fetchProblems(
+      const questions = await fetchQuestions(
         playlist.topics[nextIndex].topic.id,
         getNoQuestions(playlist.topics[nextIndex])
       );
 
       setCompletedQuestions([]);
 
-      setNextQuestions(questions.questions);
+      setNextQuestions(questions);
 
       setTopicIndex(nextIndex);
 
@@ -167,12 +161,12 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
 
   const toRetry = async () => {
     setCompletedQuestions([]);
-    const questions = await fetchProblems(
+    const questions = await fetchQuestions(
       playlist.topics[topicIndex].topic.id,
       getNoQuestions(playlist.topics[topicIndex])
     );
 
-    setNextQuestions(questions.questions);
+    setNextQuestions(questions);
 
     setNoCorrect(0);
     setNoIncorrect(0);
@@ -212,7 +206,7 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
                 <MdDone size={20} className="mr-2" /> See completed questions
               </div>
             ) : null}
-            <Problem
+            <Question
               topicId={topicId}
               noQuestions={
                 hasPlaylist && !shuffle
@@ -221,12 +215,12 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
               }
               noCorrect={noCorrect}
               noIncorrect={noIncorrect}
-              problem={nextQuestions[index]}
-              onCorrect={async (problem, latexFields) =>
-                await onQuestionAnswer(true, problem, latexFields)
+              question={nextQuestions[index]}
+              onCorrect={async (question, latexFields) =>
+                await onQuestionAnswer(true, question, latexFields)
               }
-              onIncorrect={async (problem, latexFields) =>
-                await onQuestionAnswer(false, problem, latexFields)
+              onIncorrect={async (question, latexFields) =>
+                await onQuestionAnswer(false, question, latexFields)
               }
             />
           </>

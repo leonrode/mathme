@@ -1,23 +1,23 @@
 import Timer from "./Timer";
 import TopicStatus from "./TopicStatus";
 
-import ProblemLatex from "./ProblemLatex";
+import QuestionLatex from "./QuestionLatex";
 
-import ProblemInput from "./ProblemInput";
+import QuestionInput from "./QuestionInput";
 
 import CheckAnswerButton from "./CheckAnswerButton";
 
-import ProblemButton from "./ProblemButton";
+import QuestionButton from "./QuestionButton";
 
 import { MdHelpOutline } from "react-icons/md";
 
 import { useState } from "react";
 import { verifyAnswer } from "../_api/api";
 
-function Problem({
+function Question({
   topicId,
   noQuestions,
-  problem,
+  question,
   onCorrect,
   onIncorrect,
   noCorrect,
@@ -26,26 +26,26 @@ function Problem({
   const [latexFields, setLatexFields] = useState([]);
 
   const [isVerifyingResponse, setIsVerifyingResponse] = useState(false);
-  const [problemStatus, setProblemStatus] = useState("");
+  const [questionStatus, setQuestionStatus] = useState("");
   const verifyResponse = async () => {
     if (isVerifyingResponse) return;
     if (!latexFields.every((field) => field.latex() !== "")) return;
     const isCorrect = await verifyAnswer(
       topicId,
-      problem.latex,
-      problem.stringVersion,
+      question.latex,
+      question.stringVersion,
       latexFields.map((field) => field.latex())
     );
 
     if (isCorrect) {
-      await onCorrect(problem, latexFields);
-      setProblemStatus("correct");
+      await onCorrect(question, latexFields);
+      setQuestionStatus("correct");
     } else {
-      await onIncorrect(problem, latexFields);
-      setProblemStatus("incorrect");
+      await onIncorrect(question, latexFields);
+      setQuestionStatus("incorrect");
     }
 
-    setTimeout(() => setProblemStatus(""), 500);
+    setTimeout(() => setQuestionStatus(""), 500);
 
     latexFields.forEach((field) => field.latex(""));
   };
@@ -55,12 +55,11 @@ function Problem({
       <div className="flex items-start justify-between w-full lg:w-1/2">
         <div className="flex items-center">
           <h3 className="text-text dark:text-darkText font-bold text-xl">
-            {problem.instructions}
+            {question.instructions}
           </h3>
           <h3
             className="text-primary dark:text-darkPrimary text-lg ml-4 cursor-pointer select-none"
-            // onClick={() => skipProblem()}
-            onClick={async () => await onIncorrect(problem, ["SKIP"])}
+            onClick={async () => await onIncorrect(question, ["SKIP"])}
           >
             skip
           </h3>
@@ -79,21 +78,21 @@ function Problem({
         </div>
       </div>
       <div className="flex items-center justify-center w-full lg:w-1/2 my-16 text-2xl lg:my-16">
-        <ProblemLatex latex={problem.latex} />
+        <QuestionLatex latex={question.latex} />
       </div>
 
       <div className="flex items-center justify-between w-full lg:w-1/2">
         <div className="flex items-center">
-          {problem.numFields > 0 && (
+          {question.numFields > 0 && (
             <div className="flex flex-col ">
-              {problem.prompts.map((prompt, i) => {
+              {question.prompts.map((prompt, i) => {
                 return (
-                  <ProblemInput
+                  <QuestionInput
                     prompt={prompt}
                     index={i}
                     key={i}
-                    incorrect={problemStatus === "incorrect"}
-                    correct={problemStatus === "correct"}
+                    incorrect={questionStatus === "incorrect"}
+                    correct={questionStatus === "correct"}
                     latex={""}
                     // latex=""
                     setter={setLatexFields}
@@ -105,16 +104,16 @@ function Problem({
           )}
 
           <CheckAnswerButton
-            incorrect={problemStatus === "incorrect"}
-            correct={problemStatus === "correct"}
+            incorrect={questionStatus === "incorrect"}
+            correct={questionStatus === "correct"}
             isChecking={false}
             verifyHandler={async () => await verifyResponse()}
           />
         </div>
       </div>
       <div className="flex items-center mt-4">
-        {problem.buttons.map((button, index) => (
-          <ProblemButton
+        {question.buttons.map((button, index) => (
+          <QuestionButton
             key={index}
             index={index}
             content={button.ui}
@@ -144,4 +143,4 @@ const verifyResponse = async (
   return isCorrect;
 };
 
-export default Problem;
+export default Question;

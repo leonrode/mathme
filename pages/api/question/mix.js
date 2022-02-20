@@ -24,7 +24,7 @@ async function handler(req, res) {
 
       const topic = topics[Math.floor(Math.random() * topics.length)];
 
-      // get one problem from the topic id
+      // get one question from the topic id
       const { latex, stringVersion, solution } =
         content[topic.topic.id].generate();
 
@@ -45,7 +45,7 @@ async function handler(req, res) {
 
     const topic = topics[Math.floor(Math.random() * topics.length)];
 
-    // get one problem from the topic id
+    // get one question from the topic id
     const { latex, stringVersion, solution } =
       content[topic.topic.id].generate();
 
