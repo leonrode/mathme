@@ -32,16 +32,20 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
         if (shuffle) {
           // TODO: GET MIX OF QUESTIONS
           questions = await fetchMixedQuestions(playlist.slug, 10);
+        } else if (starred) {
+          const nextStarredTopic = getNextStarredTopicIndex(playlist.topics, 0);
+
+          questions = await fetchQuestions(
+            playlist.topics[nextStarredTopic].topic.id,
+            getNoQuestions(playlist.topics[nextStarredTopic])
+          );
         } else {
           questions = await fetchQuestions(
             playlist.topics[topicIndex].topic.id,
             getNoQuestions(playlist.topics[topicIndex])
           );
-
-          // console.log("eq", questions);
         }
       } else {
-        console.log("ep laylist");
         questions = await fetchQuestions(topicId, 10);
       }
 
@@ -103,7 +107,7 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
 
     // if no playlist and reached past 10 questions,
     // fetch new 10 questions
-    if (!hasPlaylist) {
+    else {
       if (index === nextQuestions.length - 2) {
         const questions = await fetchQuestions(topicId, 10);
         setNextQuestions(questions);

@@ -74,7 +74,7 @@ function SummaryQuestion({
             <Latex>{`$${
               userResponses[0] === "Skipped"
                 ? "\\textrm{Skipped}"
-                : userResonses[0]
+                : userResponses[0]
             }$`}</Latex>
           </div>
         </div>

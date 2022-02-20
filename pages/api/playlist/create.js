@@ -15,12 +15,12 @@ async function handler(req, res) {
   const client = await clientPromise;
   const db = client.db("myFirstDatabase");
 
-  const playlistId = randomId();
-  console.log(playlistId);
+  const playlistSlug = randomId();
+
   const playlistObject = {
     title: title,
     _id: new ObjectId(),
-    slug: playlistId,
+    slug: playlistSlug,
     topics: topics,
     creator: new ObjectId(userId),
     createdAt: Date.now(),
@@ -29,7 +29,7 @@ async function handler(req, res) {
 
   await db.collection("playlists").insertOne(playlistObject);
 
-  res.json({ playlistId: playlistId });
+  res.json({ playlistSlug });
 }
 
 export default handler;

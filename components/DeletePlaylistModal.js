@@ -6,7 +6,7 @@ import { useState } from "react";
 import { MdDeleteOutline, MdClear } from "react-icons/md";
 import { deletePlaylist } from "../_api/api";
 import { useRouter } from "next/router";
-function DeletePlaylistModal({ playlistId }) {
+function DeletePlaylistModal({ playlistSlug }) {
   const [show, setShow] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const router = useRouter();
@@ -28,7 +28,7 @@ function DeletePlaylistModal({ playlistId }) {
             <div
               onClick={async () => {
                 setIsDeleting(true);
-                await deletePlaylist(playlistId);
+                await deletePlaylist(playlistSlug);
                 setIsDeleting(false);
                 router.push("/home");
               }}

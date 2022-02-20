@@ -28,10 +28,9 @@ function PlaylistPage() {
   const Router = useRouter();
   useEffect(() => {
     (async () => {
-      const { playlistId } = Router.query;
+      const { playlistSlug } = Router.query;
 
-      const playlistRes = await axios.get(`/api/playlist/${playlistId}`);
-      console.log(playlistRes.data.playlist);
+      const playlistRes = await axios.get(`/api/playlist/${playlistSlug}`);
       const creatorId = playlistRes.data.playlist.creator;
       const creatorRes = await axios.get(`/api/user/${creatorId}`);
       setPlaylist(playlistRes.data.playlist);
@@ -112,9 +111,11 @@ function PlaylistPage() {
             <MdOutlineEdit
               className="cursor-pointer text-text dark:text-darkText ml-4"
               size={25}
-              onClick={() => Router.push(`/create?playlistId=${playlist.slug}`)}
+              onClick={() =>
+                Router.push(`/create?playlistSlug=${playlist.slug}`)
+              }
             />
-            <DeletePlaylistModal playlistId={playlist.slug} />
+            <DeletePlaylistModal playlistSlug={playlist.slug} />
           </div>
           <h6 className="text-textGrayed text-sm font-bold mt-4">STUDY</h6>
           <div className="flex items-center mt-2">
@@ -122,9 +123,7 @@ function PlaylistPage() {
               className="text-primary dark:text-darkPrimary"
               size={30}
             />
-            <Link
-              href={`/practice/${playlist.topics[0].topic.id}?playlistId=${playlist.slug}`}
-            >
+            <Link href={`/practice/playlist/${playlist.slug}`}>
               <span className="font-bold ml-2 cursor-pointer">
                 Practice All
               </span>
@@ -135,17 +134,13 @@ function PlaylistPage() {
               className="text-primary dark:text-darkPrimary"
               size={30}
             />
-            <Link
-              href={`/practice/${playlist.topics[0].topic.id}?playlistId=${playlist.slug}&shuffle=true`}
-            >
+            <Link href={`/practice/playlist/${playlist.slug}?shuffle=true`}>
               <span className="font-bold ml-2 cursor-pointer">Mix Up</span>
             </Link>
           </div>
           <div className="flex items-center mt-2">
             <MdStar className="text-warning dark:text-darkWarning" size={30} />
-            <Link
-              href={`/practice/${playlist.topics[0].topic.id}?playlistId=${playlist.slug}&starred=true`}
-            >
+            <Link href={`/practice/playlist/${playlist.slug}?starred=true`}>
               <span
                 className={`${
                   countStarredTopics() === 0 ? "text-textGrayed" : ""

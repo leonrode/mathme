@@ -23,6 +23,8 @@ function AddedTopic({
   isLast,
   index,
 }) {
+  console.log(noQuestions);
+
   const [_isRandom, setIsRandom] = useState(!!isRandom);
   const [_noQuestions, setNoQuestions] = useState(noQuestions);
 
@@ -111,7 +113,7 @@ function AddedTopic({
             placeholder="#"
             type="number"
             min={1}
-            defaultValue={noQuestions}
+            defaultValue={noQuestions ? noQuestions : 10}
             disabled={_isRandom}
             onChange={(e) => {
               setNoQuestions(parseInt(e.target.value));

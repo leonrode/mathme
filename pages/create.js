@@ -19,6 +19,7 @@ import {
   savePlaylist,
   createPlaylist,
 } from "../_api/api";
+
 function Create() {
   const [results, setResults] = useState(null);
   const [inputPrompt, setInputPrompt] = useState("");
@@ -40,8 +41,8 @@ function Create() {
 
   useEffect(() => {
     (async () => {
-      if (Router.query.playlistId) {
-        const playlist = await getPlaylist(Router.query.playlistId);
+      if (Router.query.playlistSlug) {
+        const playlist = await getPlaylist(Router.query.playlistSlug);
 
         const { title, topics } = playlist;
         console.log(title);
@@ -59,19 +60,19 @@ function Create() {
     if (addedTopics.length === 0) return;
 
     setIsSaving(true);
-    if (Router.query.playlistId) {
+    if (Router.query.playlistSlug) {
       // if is editing playlist
-      await savePlaylist(Router.query.playlistId, playlistTitle, addedTopics);
+      await savePlaylist(Router.query.playlistSlug, playlistTitle, addedTopics);
       setIsSaving(false);
-      Router.push(`/playlist/${Router.query.playlistId}`);
+      Router.push(`/playlist/${Router.query.playlistSlug}`);
     } else {
-      const playlistId = await createPlaylist(
+      const playlistSlug = await createPlaylist(
         playlistNo + 1,
         playlistTitle,
         addedTopics
       );
       setIsSaving(false);
-      Router.push(`/playlist/${playlistId}`);
+      Router.push(`/playlist/${playlistSlug}`);
     }
   };
 
@@ -200,7 +201,7 @@ function Create() {
                 moveDownHandler={moveTopicDown}
                 toggleStar={toggleTopicStar}
                 isStarred={topic.isStarred}
-                noQuestions={topic.noQuestions}
+                noQuestions={topic.noQuestions ? topic.noQuestions : 10}
                 isRandom={topic.isRandom}
                 min={topic.min}
                 max={topic.max}
