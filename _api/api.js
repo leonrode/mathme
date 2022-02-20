@@ -8,8 +8,8 @@ const searchTopics = async (prompt) => {
   return result.data.results;
 };
 
-const getPlaylist = async (playlistId) => {
-  const result = await axios.get(`/api/playlist/${playlistId}`);
+const getPlaylist = async (playlistSlug) => {
+  const result = await axios.get(`/api/playlist/${playlistSlug}`);
 
   return result.data.playlist;
 };
@@ -20,8 +20,8 @@ const getUserPlaylists = async () => {
   return result.data.playlists;
 };
 
-const deletePlaylist = async (playlistId) => {
-  const result = await axios.post("/api/playlist/delete", { playlistId });
+const deletePlaylist = async (playlistSlug) => {
+  const result = await axios.post("/api/playlist/delete", { playlistSlug });
   if (result.status === 201) {
     return true;
   }
@@ -33,12 +33,12 @@ const createPlaylist = async (number, title, topics) => {
   if (title === "") title = `My Playlist #${number}`;
   const result = await axios.post("/api/playlist/create", { title, topics });
 
-  return result.data.playlistId;
+  return result.data.playlistSlug;
 };
 
-const savePlaylist = async (id, title, topics) => {
+const savePlaylist = async (playlistSlug, title, topics) => {
   const result = await axios.post("/api/playlist/save", {
-    playlistId: id,
+    playlistSlug,
     title,
     topics,
   });
@@ -46,9 +46,9 @@ const savePlaylist = async (id, title, topics) => {
   return true;
 };
 
-const starPlaylist = async (playlistId) => {
+const starPlaylist = async (playlistSlug) => {
   const result = await axios.post("/api/playlist/star", {
-    playlistId: playlistId,
+    playlistSlug,
   });
 
   return true;
@@ -68,9 +68,9 @@ const fetchQuestions = async (topicId, count) => {
   return result.data.questions;
 };
 
-const fetchMixedQuestions = async (playlistId, count) => {
+const fetchMixedQuestions = async (playlistSlug, count) => {
   const result = await axios.get(
-    `/api/question/mix?playlistId=${playlistId}&count=${count}`
+    `/api/question/mix?playlistSlug=${playlistSlug}&count=${count}`
   );
 
   return result.data.questions;

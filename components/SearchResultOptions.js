@@ -2,13 +2,7 @@ import { MdAdd } from "react-icons/md";
 
 import { useRef, useEffect } from "react";
 
-function SearchResultOptions({
-  show,
-  toClose,
-  toggleModal,
-
-  _id,
-}) {
+function SearchResultOptions({ show, toClose, toggleModal }) {
   const _ref = useRef(null);
 
   useOutsideDetection(_ref, toClose);

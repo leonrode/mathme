@@ -18,7 +18,6 @@ function PlaylistCard({ playlist, toToggleStar }) {
     })();
   }, []);
 
-  // console.log(_id);
   return (
     <div
       onClick={(e) => {

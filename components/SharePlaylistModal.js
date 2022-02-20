@@ -8,7 +8,7 @@ import { useState, useRef } from "react";
 
 import Modal from "./Modal";
 
-function SharePlaylistModal({ _id }) {
+function SharePlaylistModal({ slug }) {
   const [copied, setCopied] = useState(false);
   const [show, setShow] = useState(false);
   return (
@@ -31,13 +31,13 @@ function SharePlaylistModal({ _id }) {
         <div className="flex items-center">
           <input
             disabled
-            defaultValue={`${window.location.origin}/playlist/${_id}`}
+            defaultValue={`${window.location.origin}/playlist/${slug}`}
             className="overflow-x-auto  bg-transparent text-textGrayed underline underline-offset-4"
           />
           <div
             onClick={() => {
               navigator.clipboard.writeText(
-                `${window.location.origin}/playlist/${_id}`
+                `${window.location.origin}/playlist/${slug}`
               );
               setCopied(true);
             }}

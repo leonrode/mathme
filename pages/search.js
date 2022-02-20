@@ -43,13 +43,12 @@ function Search() {
         </div>
         <div>
           {searchResults ? (
-            searchResults.map((result, index) => (
+            searchResults.map((result) => (
               <SearchResult
                 title={result.title}
                 example={result.example}
                 key={result.id}
-                _id={result.id}
-                number={index + 1}
+                topicId={result.id}
               />
             ))
           ) : (

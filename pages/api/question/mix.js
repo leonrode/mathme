@@ -2,12 +2,12 @@ import content from "../content";
 import clientPromise from "../../../lib/mongodb";
 
 async function handler(req, res) {
-  const playlistId = req.query.playlistId;
-  const count = req.query.count;
+  const { playlistSlug, count } = req.query;
+
   const client = await clientPromise;
   const db = client.db("myFirstDatabase");
 
-  const filter = { slug: playlistId };
+  const filter = { slug: playlistSlug };
 
   const playlist = await db.collection("playlists").findOne(filter);
 
@@ -21,7 +21,6 @@ async function handler(req, res) {
   if (count) {
     for (let i = 0; i < count; i++) {
       // choose random topic
-
       const topic = topics[Math.floor(Math.random() * topics.length)];
 
       // get one question from the topic id

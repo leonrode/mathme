@@ -8,7 +8,7 @@ import {
 } from "react-icons/md";
 
 import { useState } from "react";
-function PlaylistItem({ title, example, index, toggleStar, starred, _id }) {
+function PlaylistItem({ title, example, index, toggleStar, starred, topicId }) {
   const [isStarred, setIsStarred] = useState(starred);
   return (
     <div className="px-4 w-full bg-white dark:bg-darkElevated rounded-xl h-16 flex justify-between items-center mt-3 group border-2 border-transparent hover:border-primary dark:hover:border-darkPrimary transition">
@@ -62,7 +62,7 @@ function PlaylistItem({ title, example, index, toggleStar, starred, _id }) {
         </div>
         <div className="w-16 hidden md:block"></div>
         <div className="flex items-center">
-          <Link href={`/practice/${_id}`}>
+          <Link href={`/practice/${topicId}`}>
             <div className="text-primary dark:text-darkPrimary font-bold hidden cursor-pointer lg:flex lg:items-center ">
               <MdArrowForward size={20} className="ml-2" />
             </div>

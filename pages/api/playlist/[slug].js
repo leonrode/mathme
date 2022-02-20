@@ -7,15 +7,13 @@ async function handler(req, res) {
 
   if (!session) return res.status(403).send();
 
-  const { userId } = session;
-  const { playlistId } = req.query;
+  const { slug } = req.query;
 
   const client = await clientPromise;
   const db = client.db("myFirstDatabase");
 
   const filter = {
-    slug: playlistId,
-    // _id: new ObjectId(playlistId),
+    slug: slug,
   };
   const playlist = await db.collection("playlists").findOne(filter);
   if (playlist) {

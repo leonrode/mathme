@@ -53,7 +53,7 @@ function PlaylistPage() {
         ...playlist.topics.slice(index + 1),
       ],
     };
-    await savePlaylist(newState._id, newState.title, newState.topics);
+    await savePlaylist(newState.slug, newState.title, newState.topics);
     setPlaylist(newState);
   };
 
@@ -107,7 +107,7 @@ function PlaylistPage() {
               />
               <span className="font-bold ml-2">{creator.name}</span>
             </div>
-            <SharePlaylistModal _id={playlist.slug} />
+            <SharePlaylistModal slug={playlist.slug} />
 
             <MdOutlineEdit
               className="cursor-pointer text-text dark:text-darkText ml-4"
@@ -175,7 +175,7 @@ function PlaylistPage() {
                 index={i}
                 title={topic.topic.title}
                 example={topic.topic.example}
-                _id={topic.topic.id}
+                topicId={topic.topic.id}
                 starred={topic.isStarred}
                 toggleStar={async (index) => await toggleStar(index)}
                 key={i}

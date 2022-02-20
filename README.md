@@ -10,6 +10,7 @@ Goal: September 2022
 - [ ] pagination of search & create results
 - [x] modal icons correct light mode color
 - [x] fix api inconsistency
+  - [x] convert _id to slug
 - [x] show current mode in topic page
 - [ ] refactor topic page
   - [ ] build out components

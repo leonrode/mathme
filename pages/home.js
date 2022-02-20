@@ -22,15 +22,6 @@ export default function Home() {
     })();
   }, []);
 
-  const _deletePlaylist = async (id) => {
-    const successful = await deletePlaylist(id);
-    if (successful) {
-      setPlaylists((playlists) =>
-        playlists.filter((playlist) => playlist._id !== id)
-      );
-    }
-  };
-
   const _starPlaylist = async (id) => {
     await starPlaylist(id);
     const newPlaylists = await getUserPlaylists();
@@ -53,7 +44,7 @@ export default function Home() {
             <PlaylistCard
               playlist={playlist}
               toToggleStar={_starPlaylist}
-              key={playlist._id}
+              key={playlist.slug}
             />
           ))
         ) : (

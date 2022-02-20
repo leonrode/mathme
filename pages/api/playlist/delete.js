@@ -9,16 +9,13 @@ async function handler(req, res) {
   if (!session) {
     res.status(403).send();
   }
-  const { playlistId } = req.body;
+  const { playlistSlug } = req.body;
 
   const client = await clientPromise;
   const db = client.db("myFirstDatabase");
 
-  // const filter = {
-  //   _id: new ObjectId(playlistId),
-  // };
   const filter = {
-    slug: playlistId,
+    slug: playlistSlug,
   };
   const result = await db.collection("playlists").deleteOne(filter);
 

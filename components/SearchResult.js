@@ -10,7 +10,7 @@ import SearchResultOptions from "./SearchResultOptions";
 
 import { useState } from "react";
 import AddToPlaylistModal from "./AddToPlaylistModal";
-function SearchResult({ title, example, number, _id }) {
+function SearchResult({ title, example, topicId }) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const children = (
@@ -24,7 +24,7 @@ function SearchResult({ title, example, number, _id }) {
           <Latex>{`$${example}$`}</Latex>
         </div>
         <div className="flex items-center">
-          <Link href={`/practice/${_id}`}>
+          <Link href={`/practice/${topicId}`}>
             <div className="text-primary dark:text-darkPrimary font-bold hidden cursor-pointer lg:flex lg:items-center ">
               <MdArrowForward size={20} className="ml-2" />
             </div>
@@ -40,7 +40,6 @@ function SearchResult({ title, example, number, _id }) {
             />
           </div>
           <SearchResultOptions
-            _id={_id}
             show={showDropdown}
             toggleModal={() => setModalOpen((prev) => !prev)}
             toClose={() => setShowDropdown(false)}
@@ -51,7 +50,7 @@ function SearchResult({ title, example, number, _id }) {
     </div>
   );
   return isMobile || isTablet ? (
-    <Link href={`/practice/${_id}`}>{children}</Link>
+    <Link href={`/practice/${topicId}`}>{children}</Link>
   ) : (
     children
   );

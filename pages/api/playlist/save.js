@@ -10,18 +10,17 @@ async function handler(req, res) {
     res.status(403).send();
   }
 
-  const { playlistId, title, topics } = req.body;
+  const { playlistSlug, title, topics } = req.body;
 
   const client = await clientPromise;
   const db = client.db("myFirstDatabase");
 
-  // const filter = { _id: new ObjectId(playlistId) };
-  const filter = { slug: playlistId };
+  const filter = { slug: playlistSlug };
   const operation = { $set: { topics: topics, title: title } };
 
   await db.collection("playlists").updateOne(filter, operation);
 
-  res.json({ playlistId: playlistId });
+  res.json({ playlistSlug });
 }
 
 export default handler;
