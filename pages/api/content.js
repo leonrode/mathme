@@ -1,7 +1,7 @@
 import nerdamer from "nerdamer/all";
 import algebra from "algebra.js";
 import Algebrite from "algebrite";
-import { randomIntInRange } from "./utils";
+import { randomIntInRange, gcd } from "./utils";
 
 export default [
   {
@@ -212,6 +212,9 @@ export default [
       let d = nerdamer(randomIntInRange(-5, 5, [0, 1, -1]));
 
       n = n.add(randomIntInRange(-5, 5, [0, 1, -1]));
+
+      const solution = `\\frac{${n.toTeX()}}{${d.toTeX()}}`;
+
       n = n.multiply("x");
       d = d.multiply("x");
 
@@ -228,7 +231,7 @@ export default [
 
       let latex = final.toTeX();
       latex = latex.replaceAll("\\cdot", "");
-      return { latex, stringVersion: final.toString() };
+      return { solution, latex, stringVersion: final.toString() };
     },
 
     verify: (question, userResponse, questionString) => {
@@ -301,7 +304,11 @@ export default [
       const latex = `${f1Latex}\\cdot${f2Latex}`;
       const stringVersion = nerdamer.convertFromLaTeX(latex).toString();
 
-      return { latex, stringVersion: stringVersion };
+      return {
+        solution: "\\textrm{No answer available}",
+        latex,
+        stringVersion: stringVersion,
+      };
     },
 
     verify: (question, userResponse, questionString) => {
@@ -337,6 +344,8 @@ export default [
       let n = nerdamer(symbol).add(randomIntInRange(-5, 5, [0, 1, -1]));
       let d = randomIntInRange(-5, 5, [0, -1, 1]);
 
+      const solution = `\\frac{${n.toTeX()}}{${nerdamer(d).toTeX()}}`;
+
       d = nerdamer(symbol).multiply(d);
       let v0 = randomIntInRange(-5, 5, [0, -1, 1]);
       n = n.multiply(symbol).multiply(nerdamer(symbol).add(v0));
@@ -349,7 +358,7 @@ export default [
 
       const stringVersion = nerdamer.convertFromLaTeX(latex).toString();
 
-      return { latex, stringVersion: stringVersion };
+      return { solution, latex, stringVersion: stringVersion };
     },
 
     verify: (question, userResponse, questionString) => {
@@ -386,18 +395,22 @@ export default [
 
       const o = randomIntInRange(0, 20);
 
-      const lhs = nerdamer.abs(nerdamer(symbol).add(randomIntInRange(-10, 10)));
+      const lhsN = randomIntInRange(-10, 10);
+
+      const lhs = nerdamer.abs(nerdamer(symbol).add(lhsN));
+
+      const solution = `${o + -lhsN}, ${-o + -lhsN}`;
 
       const rhs = nerdamer(o);
 
       const latex = `${lhs.toTeX()}=${rhs.toTeX()}`;
       // console.log(latex);
+
       const stringVersion = nerdamer(
         `${lhs.toString()}=${rhs.toString()}`
       ).toString();
       // console.log(nerdamer.abs("x+4").toTeX());
-      console.log(stringVersion);
-      return { latex, stringVersion };
+      return { solution, latex, stringVersion };
     },
 
     verify: (question, userResponses, questionString) => {
@@ -429,12 +442,13 @@ export default [
       const outside = randomIntInRange(2, 4, [0, 1, -1]);
 
       const inside = randomIntInRange(2, 10, [0, 1, -1]);
+      const solution = `${outside}\\sqrt{${inside}}`;
 
       const newInside = inside * Math.pow(outside, 2);
 
       const latex = `\\sqrt{${newInside}}`;
 
-      return { latex, stringVersion: "" };
+      return { solution, latex, stringVersion: "" };
     },
 
     verify: (question, userResponses, questionString) => {
@@ -466,11 +480,13 @@ export default [
 
       const inside = randomIntInRange(2, 10, [0, 1, -1]);
 
+      const solution = `${outside}\\sqrt[3]{${inside}}`;
+
       const newInside = inside * Math.pow(outside, index);
 
       const latex = `\\sqrt[${index}]{${newInside}}`;
 
-      return { latex, stringVersion: "" };
+      return { solution, latex, stringVersion: "" };
     },
 
     verify: (question, userResponses, questionString) => {
@@ -502,11 +518,12 @@ export default [
 
       const inside = randomIntInRange(2, 4, [0, 1, -1]);
 
+      const solution = `${outside}\\sqrt[4]{${inside}}`;
       const newInside = inside * Math.pow(outside, index);
 
       const latex = `\\sqrt[${index}]{${newInside}}`;
 
-      return { latex, stringVersion: "" };
+      return { solution, latex, stringVersion: "" };
     },
 
     verify: (question, userResponses, questionString) => {
@@ -535,11 +552,15 @@ export default [
     generate: () => {
       const numerator = randomIntInRange(2, 12);
 
-      const denominatorRadicand = randomIntInRange(2, 15);
+      const denominatorRadicand = randomIntInRange(2, 15, [4, 9]);
 
       const latex = `\\frac{${numerator}}{\\sqrt{${denominatorRadicand}}}`;
 
-      return { latex, stringVersion: "" };
+      return {
+        solution: "\\textrm{No Solution Available}",
+        latex,
+        stringVersion: "",
+      };
     },
 
     verify: (question, userResponses, questionString) => {
@@ -572,7 +593,11 @@ export default [
 
       const latex = `\\frac{${numerator}}{\\sqrt[3]{${denominatorRadicand}}}`;
 
-      return { latex, stringVersion: "" };
+      return {
+        solution: "\\textrm{No Solution Available}",
+        latex,
+        stringVersion: "",
+      };
     },
 
     verify: (question, userResponses, questionString) => {
@@ -612,7 +637,11 @@ export default [
 
       const latex = `\\sqrt[${index}]{x^{${innerPower + index * power}}}`;
 
-      return { latex, stringVersion: "" };
+      return {
+        solution: "\\textrm{No Solution Available}",
+        latex,
+        stringVersion: "",
+      };
     },
 
     verify: (question, userResponses, questionString) => {

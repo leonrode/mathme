@@ -58,6 +58,12 @@ function randomIntInRange(min, max, excludeValues) {
   return value;
 }
 
+function gcd(a, b) {
+  if (!b) return Math.abs(a);
+
+  return gcd(b, a % b);
+}
+
 function randomId() {
   return nanoid();
 }
@@ -67,5 +73,6 @@ export {
   fetchMeta,
   generateSearchResults,
   randomIntInRange,
+  gcd,
   randomId,
 };

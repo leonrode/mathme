@@ -71,7 +71,11 @@ function SummaryQuestion({
                 : "text-error dark:text-darkError"
             }`}
           >
-            <Latex>{`$${userResponses[0]}$`}</Latex>
+            <Latex>{`$${
+              userResponses[0] === "Skipped"
+                ? "\\textrm{Skipped}"
+                : userResonses[0]
+            }$`}</Latex>
           </div>
         </div>
       </div>

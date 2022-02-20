@@ -5,11 +5,11 @@
 Goal: September 2022
 
 - [x] _fix mobile dropdown/latex overlaps_
-- [ ] content answers undefined
+- [x] content answers undefined
 - [x] study only starred topics
 - [ ] pagination of search & create results
 - [x] modal icons correct light mode color
-- [ ] fix api inconsistency
+- [x] fix api inconsistency
 - [x] show current mode in topic page
 - [ ] refactor topic page
   - [ ] build out components
