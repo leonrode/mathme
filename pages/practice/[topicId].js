@@ -32,7 +32,7 @@ function TopicPage() {
           <div className="flex items-center cursor-pointer">
             <div className="text-text flex items-center dark:text-darkText">
               <MdArrowBack size={25} />
-              <span className="ml-1">BACK TO Search</span>
+              <span className="ml-1 ">BACK TO Search</span>
             </div>
           </div>
         </Link>
