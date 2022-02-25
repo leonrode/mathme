@@ -44,12 +44,7 @@ function Search() {
         <div>
           {searchResults ? (
             searchResults.map((result) => (
-              <SearchResult
-                title={result.title}
-                example={result.example}
-                key={result.id}
-                topicId={result.id}
-              />
+              <SearchResult topic={result} key={result.id} />
             ))
           ) : (
             <>
