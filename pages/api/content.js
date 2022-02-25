@@ -191,10 +191,19 @@ export default [
     },
 
     verify: (question, userResponse) => {
-      let n_question = nerdamer.convertFromLaTeX(question);
-      let n_response = nerdamer.convertFromLaTeX(userResponse);
-      n_response = n_response.expand();
-      return n_question.eq(n_response);
+      let ok = false;
+      const qN = nerdamer.convertFromLaTeX(question);
+      const rN = nerdamer.convertFromLaTeX(userResponse);
+
+      for (let i = -5; i < 5; i++) {
+        const qE = qN.evaluate({ x: i });
+        const rE = rN.evaluate({ x: i });
+        if (qE.toString() !== rE.toString()) {
+          ok = false;
+        }
+      }
+
+      return ok;
     },
   },
   {
@@ -493,13 +502,12 @@ export default [
     },
 
     verify: (question, userResponses, questionString) => {
-      const response = userResponses[0];
+      const response = nerdamer.convertFromLaTeX(userResponses[0]);
 
       const qN = nerdamer.convertFromLaTeX(question);
-
       const value = nerdamer("1 + x").evaluate({ x: qN });
       const uValue = nerdamer("1 + x").evaluate({
-        x: nerdamer.convertFromLaTeX(response),
+        x: response,
       });
 
       return value.toString() === uValue.toString();
