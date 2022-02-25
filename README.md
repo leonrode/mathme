@@ -21,11 +21,11 @@ Goal: September 2022
 - [x] share playlist
   - [x] implement modal
   - [x] copy link buttton
-- [ ] add topic to playlist from search screen
+- [x] add topic to playlist from search screen
 - [ ] end of playlist summary (per topic summary)
 - [x] star playlists
 - [ ] _competition mode??_
-- [ ] have starred playlists show up on home screen
+- [ ] ~~have starred playlists show up on home screen~~
 - [x] fix dropdown on PlaylistCard bugs
 - [x] profile card dynamic name and pfp
 - [ ] _implement categories/tagging of topcis for analytics/collections(?)_
@@ -38,4 +38,4 @@ Goal: September 2022
 - [ ] upgraded plan
   - [ ] features
     - [ ] generate worksheets with key
-    - [ ] smart tester (ask the student more of topics they are less proficient in)
+   - [ ] smart tester (ask the student more of topics they are less proficient in)
