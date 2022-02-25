@@ -211,7 +211,9 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
               </div>
             ) : null}
             <Question
-              topicId={topicId}
+              topicId={
+                hasPlaylist ? playlist.topics[topicIndex].topic.id : topicId
+              }
               noQuestions={
                 hasPlaylist && !shuffle
                   ? playlist.topics[topicIndex].noQuestions

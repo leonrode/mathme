@@ -14,6 +14,7 @@ function fetchMeta(topicId) {
 }
 
 function verifyQuestion(topicId, question, response, stringVersion) {
+  console.log(topicId);
   return content[topicId].verify(question, response, stringVersion);
 }
 

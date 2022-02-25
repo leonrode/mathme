@@ -82,6 +82,7 @@ const verifyAnswer = async (
   questionString,
   responseFields
 ) => {
+  console.log("tid", topicId);
   const result = await axios.post("/api/verify", {
     topicId,
     responseFields,

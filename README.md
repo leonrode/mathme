@@ -12,12 +12,12 @@ Goal: September 2022
 - [x] fix api inconsistency
   - [x] convert _id to slug
 - [x] show current mode in topic page
-- [ ] refactor topic page
-  - [ ] build out components
-  - [ ] refactor process functions
+- [x] refactor topic page
+  - [x] build out components
+  - [x] refactor process functions
 - [x] view question history in unlimited practice & MIX UP
 - [ ] customize studying options
-  - [ ] mix all questions together
+  - [x] mix all questions together
 - [x] share playlist
   - [x] implement modal
   - [x] copy link buttton
