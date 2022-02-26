@@ -7,6 +7,8 @@ Goal: September 2022
 - [x] _fix mobile dropdown/latex overlaps_
 - [x] content answers undefined
 - [x] study only starred topics
+- [ ] fix color scheme (something not monochromatic)
+  - [ ] fix color names in tailwind config
 - [ ] pagination of search & create results
 - [x] modal icons correct light mode color
 - [x] fix api inconsistency
