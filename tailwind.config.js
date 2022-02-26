@@ -9,7 +9,7 @@ module.exports = {
       colors: {
         lightBg: "#E9F3F6",
         text: "#1D0814",
-        textGrayed: "#73798c",
+        textGrayed: "#807A7A",
         divider: "#BDDBE5",
         primary: "#2286A9",
         lightSkeleton: "#BDDBE5",
