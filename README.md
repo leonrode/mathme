@@ -1,10 +1,15 @@
-# Mazzle
+#Mazzle
 
 ## Things to do until launch
 
 Goal: September 2022
 
 - [x] _fix mobile dropdown/latex overlaps_
+- [ ] notification system
+  - [ ] on playlist create
+  - [ ] on successful topic add to playlist
+  - [ ] on succcessful playlist delete
+  - [ ] etc (i.e. on all api calls)
 - [x] content answers undefined
 - [x] study only starred topics
 - [ ] fix color scheme (something not monochromatic)

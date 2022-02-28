@@ -35,7 +35,9 @@ function AddToPlaylistModal({ topic }) {
       ...selectedPlaylist.topics,
       { topic: topic, isStarred: false, isRandom: false, noQuestions: 10 },
     ]);
-    router.push(`/playlist/${selectedPlaylist.slug}`);
+
+
+    setShow(false);
   };
 
   return (
