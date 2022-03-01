@@ -6,6 +6,9 @@ import { useState } from "react";
 import { MdDeleteOutline, MdClear } from "react-icons/md";
 import { deletePlaylist } from "../_api/api";
 import { useRouter } from "next/router";
+
+import notify from "../lib/notifier";
+
 function DeletePlaylistModal({ playlistSlug }) {
   const [show, setShow] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -30,7 +33,11 @@ function DeletePlaylistModal({ playlistSlug }) {
                 setIsDeleting(true);
                 await deletePlaylist(playlistSlug);
                 setIsDeleting(false);
-                router.push("/home");
+                router
+                  .push("/home")
+                  .then(() =>
+                    notify("Successfully deleted playlist", "success")
+                  );
               }}
               className="rounded-lg border-2 border-transparent bg-error dark:bg-darkError px-8 py-2 cursor-pointer text-darkText"
             >

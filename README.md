@@ -7,11 +7,13 @@ Goal: September 2022
 - [x] _fix mobile dropdown/latex overlaps_
 - [ ] fix absolute value verifier
 - [ ] sort completed questions
+- [ ] fix inconsistency between Router and router naming
 - [ ] notification system
-  - [ ] on playlist create
-  - [ ] on successful topic add to playlist
-  - [ ] on succcessful playlist delete
-  - [ ] etc (i.e. on all api calls)
+  - [x] on playlist create
+  - [x] on successful topic add to playlist
+  - [x] on succcessful playlist delete
+  - [ ] etc (i.e. on all api calls) [MAYBE, HAVE TO TEST WITH TIME]
+- [ ] undo playlist delete\*
 - [x] content answers undefined
 - [x] study only starred topics
 - [ ] fix color scheme (something not monochromatic)

@@ -5,12 +5,15 @@ import { MdEdit, MdArrowForward } from "react-icons/md";
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 
 import CreateSearchResult from "../components/CreateSearchResult";
 import SkCreateSearchResult from "../components/skeletons/SkCreateSearchResult";
 import AddedTopic from "../components/AddedTopic";
 
 import { getSession, useSession } from "next-auth/react";
+
+import notify from "../lib/notifier";
 
 import {
   searchTopics,
@@ -64,7 +67,9 @@ function Create() {
       // if is editing playlist
       await savePlaylist(Router.query.playlistSlug, playlistTitle, addedTopics);
       setIsSaving(false);
-      Router.push(`/playlist/${Router.query.playlistSlug}`);
+      Router.push(`/playlist/${Router.query.playlistSlug}`).then(() =>
+        notify(`Successfully saved ${playlistTitle}`, "success")
+      );
     } else {
       const playlistSlug = await createPlaylist(
         playlistNo + 1,
@@ -72,7 +77,9 @@ function Create() {
         addedTopics
       );
       setIsSaving(false);
-      Router.push(`/playlist/${playlistSlug}`);
+      Router.push(`/playlist/${playlistSlug}`).then(() => {
+        notify(`Successfully created ${playlistTitle}`, "success");
+      });
     }
   };
 
@@ -180,16 +187,6 @@ function Create() {
               height={25}
             />
           </div>
-          {/* <div
-            onClick={async () => await _createPlaylist()}
-            className=" md:hidden bg-primary dark:bg-darkPrimary text-white dark:text-darkText rounded-xl px-4 py-2 font-bold text-xl cursor-pointer mt-4"
-          >
-            {isSaving ? (
-              <Spinner />
-            ) : (
-              <MdArrowForward className="text-darkText" size={30} />
-            )}
-          </div> */}
 
           <div className="w-full flex flex-col lg:w-11/12 mt-4">
             {addedTopics.map((topic, i) => (

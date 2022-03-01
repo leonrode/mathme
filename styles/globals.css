@@ -78,3 +78,14 @@ sup {
 .react-numeric-input > b:last-child > i {
   border-color: #73798c transparent transparent !important;
 }
+
+/* REACT-TOASTIFY RULES */
+
+html.dark {
+  --toastify-color-light: #0f3c4c !important;
+  --toastify-text-color-light: #deedf2 !important;
+}
+
+html.light {
+  --toastify-color-light: white !important;
+}

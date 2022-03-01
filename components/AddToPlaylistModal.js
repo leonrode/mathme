@@ -7,6 +7,8 @@ import { MdAdd, MdClear } from "react-icons/md";
 import { getUserPlaylists, savePlaylist } from "../_api/api";
 
 import { useRouter } from "next/router";
+
+import notify from "../lib/notifier";
 function AddToPlaylistModal({ topic }) {
   const [userPlaylists, setUserPlaylists] = useState(null);
 
@@ -36,8 +38,10 @@ function AddToPlaylistModal({ topic }) {
       { topic: topic, isStarred: false, isRandom: false, noQuestions: 10 },
     ]);
 
-
     setShow(false);
+    setIsSaving(false);
+
+    notify(`Successfully added to ${selectedPlaylist.title}`, "success");
   };
 
   return (
@@ -53,7 +57,7 @@ function AddToPlaylistModal({ topic }) {
             />
           </div>
 
-          {userPlaylists ? (
+          {userPlaylists && userPlaylists.length !== 0 ? (
             <>
               <h1 className="mt-2">{topic.title}</h1>
               <div className="mt-8">

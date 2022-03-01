@@ -3,6 +3,8 @@ import "katex/dist/katex.min.css";
 import Head from "next/head";
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "next-themes";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 function MyApp({ Component, pageProps }) {
   return (
     <SessionProvider session={pageProps}>
@@ -18,6 +20,7 @@ function MyApp({ Component, pageProps }) {
               content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"
             ></meta>
           </Head>
+          <ToastContainer />
           <Component {...pageProps} />
         </>
       </ThemeProvider>
