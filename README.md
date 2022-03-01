@@ -5,6 +5,8 @@
 Goal: September 2022
 
 - [x] _fix mobile dropdown/latex overlaps_
+- [ ] fix absolute value verifier
+- [ ] sort completed questions
 - [ ] notification system
   - [ ] on playlist create
   - [ ] on successful topic add to playlist
@@ -17,7 +19,7 @@ Goal: September 2022
 - [ ] pagination of search & create results
 - [x] modal icons correct light mode color
 - [x] fix api inconsistency
-  - [x] convert _id to slug
+  - [x] convert \_id to slug
 - [x] show current mode in topic page
 - [x] refactor topic page
   - [x] build out components
@@ -45,4 +47,4 @@ Goal: September 2022
 - [ ] upgraded plan
   - [ ] features
     - [ ] generate worksheets with key
-   - [ ] smart tester (ask the student more of topics they are less proficient in)
+  - [ ] smart tester (ask the student more of topics they are less proficient in)

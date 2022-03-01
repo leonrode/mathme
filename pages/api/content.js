@@ -396,7 +396,7 @@ export default [
   {
     title: "Absolute Value Equations",
     instructions: "Solve for x",
-    descrption: "Simplify rational expressions",
+    descrption: "Solve absolute value equations",
     example: "|x+5|=7",
     numFields: 2,
     prompts: ["x_1=", "x_2="],
@@ -405,7 +405,7 @@ export default [
     generate: () => {
       const symbol = "x";
 
-      const o = randomIntInRange(0, 20);
+      const o = randomIntInRange(0, 20, [0]);
 
       const lhsN = randomIntInRange(-10, 10);
 
@@ -426,8 +426,9 @@ export default [
     },
 
     verify: (question, userResponses, questionString) => {
+      console.log(questionString);
       const solutions = nerdamer.solve(questionString, "x");
-
+      console.log(solutions.toString());
       const evalled = eval(solutions.toString());
       let ok = true;
       for (const value of evalled) {
