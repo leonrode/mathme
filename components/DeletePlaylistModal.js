@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 
 import notify from "../lib/notifier";
 
-function DeletePlaylistModal({ playlistSlug }) {
+function DeletePlaylistModal({ playlistSlug, playlistTitle }) {
   const [show, setShow] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const router = useRouter();
@@ -36,7 +36,7 @@ function DeletePlaylistModal({ playlistSlug }) {
                 router
                   .push("/home")
                   .then(() =>
-                    notify("Successfully deleted playlist", "success")
+                    notify(`Successfully deleted ${playlistTitle}`, "success")
                   );
               }}
               className="rounded-lg border-2 border-transparent bg-error dark:bg-darkError px-8 py-2 cursor-pointer text-darkText"

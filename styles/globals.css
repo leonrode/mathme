@@ -81,11 +81,16 @@ sup {
 
 /* REACT-TOASTIFY RULES */
 
+:root {
+}
+
 html.dark {
   --toastify-color-light: #0f3c4c !important;
   --toastify-text-color-light: #deedf2 !important;
+  --toastify-font-family: "Poppins", sans-serif;
 }
 
 html.light {
   --toastify-color-light: white !important;
+  --toastify-font-family: "Poppins", sans-serif;
 }

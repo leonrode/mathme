@@ -115,7 +115,10 @@ function PlaylistPage() {
                 Router.push(`/create?playlistSlug=${playlist.slug}`)
               }
             />
-            <DeletePlaylistModal playlistSlug={playlist.slug} />
+            <DeletePlaylistModal
+              playlistSlug={playlist.slug}
+              playlistTitle={playlist.title}
+            />
           </div>
           <h6 className="text-textGrayed text-sm font-bold mt-4">STUDY</h6>
           <div className="flex items-center mt-2">
