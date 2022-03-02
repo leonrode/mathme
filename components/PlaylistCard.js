@@ -9,7 +9,7 @@ function PlaylistCard({ playlist, toToggleStar }) {
   const [avatarUrl, setAvatarUrl] = useState(null);
   const clickableClasses = [`star-${playlist.slug}`];
 
-  const Router = useRouter();
+  const router = useRouter();
 
   useEffect(() => {
     (async () => {
@@ -28,7 +28,7 @@ function PlaylistCard({ playlist, toToggleStar }) {
             )
             .every((e) => e === false)
         )
-          Router.push(`/playlist/${playlist.slug}`);
+          router.push(`/playlist/${playlist.slug}`);
       }}
       className="bg-white dark:bg-darkElevated rounded-lg cursor-pointer p-2 w-full my-4 md:my-0 flex flex-col justify-between border-transparent border-2 hover:border-primary dark:hover:border-darkPrimary transition"
     >

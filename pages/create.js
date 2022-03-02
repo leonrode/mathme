@@ -5,7 +5,6 @@ import { MdEdit, MdArrowForward } from "react-icons/md";
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { toast } from "react-toastify";
 
 import CreateSearchResult from "../components/CreateSearchResult";
 import SkCreateSearchResult from "../components/skeletons/SkCreateSearchResult";
@@ -31,7 +30,7 @@ function Create() {
   const [isSaving, setIsSaving] = useState(false);
 
   const [playlistNo, setPlaylistNo] = useState(null);
-  const Router = useRouter();
+  const router = useRouter();
 
   const { data: session } = useSession();
 
@@ -44,11 +43,10 @@ function Create() {
 
   useEffect(() => {
     (async () => {
-      if (Router.query.playlistSlug) {
-        const playlist = await getPlaylist(Router.query.playlistSlug);
+      if (router.query.playlistSlug) {
+        const playlist = await getPlaylist(router.query.playlistSlug);
 
         const { title, topics } = playlist;
-        console.log(title);
         setPlaylistTitle(title);
         setAddedTopics(topics);
       }
@@ -63,13 +61,13 @@ function Create() {
     if (addedTopics.length === 0) return;
 
     setIsSaving(true);
-    if (Router.query.playlistSlug) {
+    if (router.query.playlistSlug) {
       // if is editing playlist
-      await savePlaylist(Router.query.playlistSlug, playlistTitle, addedTopics);
+      await savePlaylist(router.query.playlistSlug, playlistTitle, addedTopics);
       setIsSaving(false);
-      Router.push(`/playlist/${Router.query.playlistSlug}`).then(() =>
-        notify(`Successfully saved ${playlistTitle}`, "success")
-      );
+      router
+        .push(`/playlist/${router.query.playlistSlug}`)
+        .then(() => notify(`Successfully saved ${playlistTitle}`, "success"));
     } else {
       const playlistSlug = await createPlaylist(
         playlistNo + 1,
@@ -77,7 +75,7 @@ function Create() {
         addedTopics
       );
       setIsSaving(false);
-      Router.push(`/playlist/${playlistSlug}`).then(() => {
+      router.push(`/playlist/${playlistSlug}`).then(() => {
         notify(`Successfully created ${playlistTitle}`, "success");
       });
     }
@@ -97,7 +95,6 @@ function Create() {
       _topic.isRandom = false;
       _topic.noQuestions = noQuestions;
     }
-    console.log(_topic);
 
     setAddedTopics((topics) => [...topics, _topic]);
   };

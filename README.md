@@ -5,19 +5,20 @@
 Goal: September 2022
 
 - [x] _fix mobile dropdown/latex overlaps_
+- [ ] better login error handling
 - [ ] fix absolute value verifier
-- [ ] sort completed questions
-- [ ] fix inconsistency between Router and router naming
-- [ ] notification system
+- [ ] ~~sort completed questions~~ just reversed the order to most recently completed only
+- [x] fix inconsistency between Router and router naming
+- [x] notification system
   - [x] on playlist create
   - [x] on successful topic add to playlist
   - [x] on succcessful playlist delete
-  - [ ] etc (i.e. on all api calls) [MAYBE, HAVE TO TEST WITH TIME]
-- [ ] undo playlist delete\*
+  - [x] etc (i.e. on all api calls) [MAYBE, HAVE TO TEST WITH TIME]
+- [ ] undo playlist delete\* (still deciding if wanted)
 - [x] content answers undefined
 - [x] study only starred topics
-- [ ] fix color scheme (something not monochromatic)
-  - [ ] fix color names in tailwind config
+- [x] fix color scheme (something not monochromatic)
+  - [ ] fix color names in tailwind config (later)
 - [ ] pagination of search & create results
 - [x] modal icons correct light mode color
 - [x] fix api inconsistency
@@ -27,7 +28,7 @@ Goal: September 2022
   - [x] build out components
   - [x] refactor process functions
 - [x] view question history in unlimited practice & MIX UP
-- [ ] customize studying options
+- [x] customize studying options
   - [x] mix all questions together
 - [x] share playlist
   - [x] implement modal
@@ -39,7 +40,7 @@ Goal: September 2022
 - [ ] ~~have starred playlists show up on home screen~~
 - [x] fix dropdown on PlaylistCard bugs
 - [x] profile card dynamic name and pfp
-- [ ] _implement categories/tagging of topcis for analytics/collections(?)_
+- [ ] _implement categories/tagging of topics for analytics/collections(?)_
 - [ ] email login (magic link)
   - [ ] setup service provider
   - [ ] setup next auth provider

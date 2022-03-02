@@ -2,7 +2,7 @@ import Latex from "react-latex-next";
 import { MdKeyboardArrowDown, MdCheck, MdClear } from "react-icons/md";
 import { useState } from "react";
 function SummaryQuestion({
-  index,
+  number,
   isLast,
   questionLatex,
   solution,
@@ -20,7 +20,7 @@ function SummaryQuestion({
         } rounded ${!isLast ? "mb-4" : ""}`}
       >
         <div className="flex items-center">
-          <h3>{index + 1}</h3>
+          <h3>{number + 1}</h3>
           {isCorrect ? (
             <MdCheck className={`ml-2 text-success`} />
           ) : (

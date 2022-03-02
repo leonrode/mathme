@@ -1,11 +1,10 @@
 import Question from "./Question";
-import TopicSummary from "./TopioSummary";
+import TopicSummary from "./TopicSummary";
 import { useState, useEffect } from "react";
 import { fetchQuestions, fetchMixedQuestions } from "../_api/api";
 
 import { MdDone } from "react-icons/md";
 
-import axios from "axios";
 function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
   const [nextQuestions, setNextQuestions] = useState(null);
   const [completedQuestions, setCompletedQuestions] = useState([]);
@@ -65,7 +64,6 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
 
   const onQuestionAnswer = async (isCorrect, question, latexFields) => {
     setCompletedQuestions((prev) => [
-      ...prev,
       {
         isCorrect: isCorrect,
         latex: question.latex,
@@ -75,6 +73,7 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
         }),
         solution: question.solution,
       },
+      ...prev,
     ]);
     isCorrect
       ? setNoCorrect((prev) => prev + 1)

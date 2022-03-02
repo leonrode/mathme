@@ -2,6 +2,8 @@ import SummaryQuestion from "./SummaryQuestion";
 
 import { MdClear, MdCheck } from "react-icons/md";
 
+import { useState, useEffect } from "react";
+
 function TopicSummary({
   topicTitle,
   correctNumber,
@@ -53,10 +55,12 @@ function TopicSummary({
           Continue
         </div>
       </div>
-      <h3 className="text-textGrayed my-4">Review Questions</h3>
+
+      <h3 className="text-textGrayed mt-4">Review Questions</h3>
+
       {completedQuestions.map((question, index) => (
         <SummaryQuestion
-          index={index}
+          number={completedQuestions.length - index - 1}
           key={index}
           isLast={index === completedQuestions.length - 1}
           questionLatex={question.latex}

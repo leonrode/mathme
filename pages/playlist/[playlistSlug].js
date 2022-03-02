@@ -25,10 +25,10 @@ function PlaylistPage() {
   const [playlist, setPlaylist] = useState(null);
   const [creator, setCreator] = useState(null);
 
-  const Router = useRouter();
+  const router = useRouter();
   useEffect(() => {
     (async () => {
-      const { playlistSlug } = Router.query;
+      const { playlistSlug } = router.query;
 
       const playlistRes = await axios.get(`/api/playlist/${playlistSlug}`);
       const creatorId = playlistRes.data.playlist.creator;
@@ -112,7 +112,7 @@ function PlaylistPage() {
               className="cursor-pointer text-text dark:text-darkText ml-4"
               size={25}
               onClick={() =>
-                Router.push(`/create?playlistSlug=${playlist.slug}`)
+                router.push(`/create?playlistSlug=${playlist.slug}`)
               }
             />
             <DeletePlaylistModal
