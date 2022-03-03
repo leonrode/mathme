@@ -7,6 +7,7 @@ Goal: September 2022
 - [x] _fix mobile dropdown/latex overlaps_
 - [ ] better login error handling
 - [ ] fix absolute value verifier
+- [ ] fix create page using useReducer
 - [ ] ~~sort completed questions~~ just reversed the order to most recently completed only
 - [x] fix inconsistency between Router and router naming
 - [x] notification system

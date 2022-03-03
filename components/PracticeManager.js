@@ -1,5 +1,7 @@
 import Question from "./Question";
 import TopicSummary from "./TopicSummary";
+import PlaylistSummary from "./PlaylistSummary";
+
 import { useState, useEffect } from "react";
 import { fetchQuestions, fetchMixedQuestions } from "../_api/api";
 
@@ -15,6 +17,10 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
   const [noIncorrect, setNoIncorrect] = useState(0);
 
   const [showTopicSummary, setShowTopicSummary] = useState(false);
+  const [showPlaylistSummary, setShowPlaylistSummary] = useState(false);
+
+  const [completedTopics, setCompletedTopics] = useState([]);
+
   useEffect(() => {
     if (starred && hasPlaylist) {
       // set topic index to the first topic that is starred
@@ -29,7 +35,6 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
       let questions;
       if (hasPlaylist) {
         if (shuffle) {
-          // TODO: GET MIX OF QUESTIONS
           questions = await fetchMixedQuestions(playlist.slug, 10);
         } else if (starred) {
           const nextStarredTopic = getNextStarredTopicIndex(playlist.topics, 0);
@@ -87,6 +92,7 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
         // if reached end of playlist
         if (topicIndex === playlist.topics.length - 1) {
           // TODO: end of playlist
+          setShowPlaylistSummary(true);
         } else {
           // else if reached end of topic
 
@@ -126,40 +132,42 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
       return;
     }
 
-    // if reached last playlist,
-    // todo
-    if (topicIndex === playlist.topics.length - 1) {
-      // TODO: end of playlist
-    } else {
-      let nextIndex = topicIndex + 1;
-      if (starred) {
-        const nextStarredTopicIndex = getNextStarredTopicIndex(
-          playlist.topics,
-          topicIndex + 1
-        );
-
-        if (nextStarredTopicIndex !== -1) {
-          nextIndex = nextStarredTopicIndex;
-        }
-      }
-
-      const questions = await fetchQuestions(
-        playlist.topics[nextIndex].topic.id,
-        getNoQuestions(playlist.topics[nextIndex])
+    let nextIndex = topicIndex + 1;
+    if (starred) {
+      const nextStarredTopicIndex = getNextStarredTopicIndex(
+        playlist.topics,
+        topicIndex + 1
       );
 
-      setCompletedQuestions([]);
-
-      setNextQuestions(questions);
-
-      setTopicIndex(nextIndex);
-
-      setNoCorrect(0);
-      setNoIncorrect(0);
-      setIndex(0);
-
-      setShowTopicSummary(false);
+      if (nextStarredTopicIndex !== -1) {
+        nextIndex = nextStarredTopicIndex;
+      }
     }
+
+    const questions = await fetchQuestions(
+      playlist.topics[nextIndex].topic.id,
+      getNoQuestions(playlist.topics[nextIndex])
+    );
+
+    setCompletedTopics((prev) => [
+      ...prev,
+      {
+        title: playlist.topics[topicIndex].topic.title,
+        completedQuestions: completedQuestions,
+      },
+    ]);
+
+    setCompletedQuestions([]);
+
+    setNextQuestions(questions);
+
+    setTopicIndex(nextIndex);
+
+    setNoCorrect(0);
+    setNoIncorrect(0);
+    setIndex(0);
+
+    setShowTopicSummary(false);
   };
 
   const toRetry = async () => {
@@ -198,6 +206,11 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
             toNextTopic={async () => await toContinue()}
             toRestart={async () => await toRetry()}
             canRestart={hasPlaylist && !shuffle}
+          />
+        ) : showPlaylistSummary ? (
+          <PlaylistSummary
+            completedTopics={completedTopics}
+            playlistTitle={playlist.title}
           />
         ) : (
           <>
