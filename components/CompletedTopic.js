@@ -2,7 +2,7 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 
 import { useState } from "react";
 import Latex from "react-latex-next";
-function PlaylistSummaryItem({ number, topic, title }) {
+function CompletedTopic({ number, topic, title }) {
   const [showDropdown, setShowDropdown] = useState(false);
   console.log(topic.completedQuestions);
   return (
@@ -35,4 +35,4 @@ function PlaylistSummaryItem({ number, topic, title }) {
   );
 }
 
-export default PlaylistSummaryItem;
+export default CompletedTopic;

@@ -1,6 +1,6 @@
 import { randomCompletetionMessage } from "../lib/helpers";
 
-import PlaylistSummaryItem from "./PlaylistSummaryItem";
+import CompletedTopic from "./CompletedTopic";
 
 function PlaylistSummary({ playlistTitle, completedTopics }) {
   return (
@@ -12,8 +12,9 @@ function PlaylistSummary({ playlistTitle, completedTopics }) {
 
       <h3 className="font-bold my-4">Studied topics</h3>
       {completedTopics.map((topic, index) => (
-        <PlaylistSummaryItem
+        <CompletedTopic
           number={index + 1}
+          key={index}
           topic={topic}
           title={playlistTitle}
         /> // this represents one completed topic within the completedTopics
