@@ -7,7 +7,7 @@ function PlaylistSummary({ playlistTitle, completedTopics }) {
     <div className="w-full md:w-5/6">
       <h1 className="font-bold text-3xl">{randomCompletetionMessage()}</h1>
       <h3 className="text-textGrayed mt-2">
-        You finished all the topics! Let's review what you got wrong.
+        You finished all the topics! Let&apos;s review what you got wrong.
       </h3>
 
       <h3 className="font-bold my-4">Studied topics</h3>
