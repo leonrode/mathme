@@ -26,7 +26,7 @@ function CompletedTopic({ number, topic, title }) {
       >
         {/* topic question  */}
         {topic.completedQuestions.map((question, index) => (
-          <div>
+          <div key={index}>
             <Latex>{`$${question.solution}$`}</Latex>
           </div>
         ))}
