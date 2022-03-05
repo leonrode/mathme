@@ -92,6 +92,13 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
         // if reached end of playlist
         if (topicIndex === playlist.topics.length - 1) {
           // TODO: end of playlist
+          setCompletedTopics((prev) => [
+            ...prev,
+            {
+              title: playlist.topics[topicIndex].topic.title,
+              completedQuestions: completedQuestions,
+            },
+          ]);
           setShowPlaylistSummary(true);
         } else {
           // else if reached end of topic
@@ -208,10 +215,7 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
             canRestart={hasPlaylist && !shuffle}
           />
         ) : showPlaylistSummary ? (
-          <PlaylistSummary
-            completedTopics={completedTopics}
-            playlistTitle={playlist.title}
-          />
+          <PlaylistSummary completedTopics={completedTopics} />
         ) : (
           <>
             {!hasPlaylist || shuffle ? (
