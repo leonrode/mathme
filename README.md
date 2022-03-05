@@ -5,7 +5,7 @@
 Goal: September 2022
 
 - [x] _fix mobile dropdown/latex overlaps_
-- [ ] playlist summary last question not showing up
+- [x] playlist summary last question not showing up
 - [ ] better login error handling
 - [ ] fix absolute value verifier
 - [ ] fix create page using useReducer

@@ -4,8 +4,8 @@ import { useState } from "react";
 import Latex from "react-latex-next";
 function CompletedTopic({ number, topic }) {
   const [showDropdown, setShowDropdown] = useState(false);
-  console.log(topic);
-  console.log(topic.completedQuestions);
+  // console.log(topic);
+  // console.log(topic.completedQuestions);
   return (
     <div className="flex flex-col">
       {/* header part  */}

@@ -7,6 +7,8 @@ import { fetchQuestions, fetchMixedQuestions } from "../_api/api";
 
 import { MdDone } from "react-icons/md";
 
+import { useRouter } from "next/router";
+
 function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
   const [nextQuestions, setNextQuestions] = useState(null);
   const [completedQuestions, setCompletedQuestions] = useState([]);
@@ -21,16 +23,9 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
 
   const [completedTopics, setCompletedTopics] = useState([]);
 
+  const router = useRouter();
+
   useEffect(() => {
-    if (starred && hasPlaylist) {
-      // set topic index to the first topic that is starred
-      const nextStarredTopic = getNextStarredTopicIndex(playlist.topics, 0);
-
-      if (nextStarredTopic > 0) {
-        setTopicIndex(nextStarredTopic);
-      }
-    }
-
     (async () => {
       let questions;
       if (hasPlaylist) {
@@ -68,6 +63,22 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
   };
 
   const onQuestionAnswer = async (isCorrect, question, latexFields) => {
+    // to prevent state update batching messing with the completedTopics
+    // we store the new state in a separate variable so that it doesn't
+    // matter when the state updates
+    const c = [
+      {
+        isCorrect: isCorrect,
+        latex: question.latex,
+        userResponses: latexFields.map((field) => {
+          if (field !== "SKIP") return field.latex();
+          return "Skipped";
+        }),
+        solution: question.solution,
+      },
+      ...completedQuestions,
+    ];
+
     setCompletedQuestions((prev) => [
       {
         isCorrect: isCorrect,
@@ -92,11 +103,12 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
         // if reached end of playlist
         if (topicIndex === playlist.topics.length - 1) {
           // TODO: end of playlist
+          console.log(completedQuestions);
           setCompletedTopics((prev) => [
             ...prev,
             {
               title: playlist.topics[topicIndex].topic.title,
-              completedQuestions: completedQuestions,
+              completedQuestions: c,
             },
           ]);
           setShowPlaylistSummary(true);
@@ -193,6 +205,44 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
     setShowTopicSummary(false);
   };
 
+  const toPracticeAgain = async () => {
+    let questions;
+    if (hasPlaylist) {
+      if (shuffle) {
+        questions = await fetchMixedQuestions(playlist.slug, 10);
+      } else if (starred) {
+        const nextStarredTopic = getNextStarredTopicIndex(playlist.topics, 0);
+
+        questions = await fetchQuestions(
+          playlist.topics[nextStarredTopic].topic.id,
+          getNoQuestions(playlist.topics[nextStarredTopic])
+        );
+      } else {
+        setTopicIndex(0);
+        questions = await fetchQuestions(
+          playlist.topics[0].topic.id,
+          getNoQuestions(playlist.topics[0])
+        );
+      }
+    } else {
+      questions = await fetchQuestions(topicId, 10);
+    }
+
+    setCompletedQuestions([]);
+    setIndex(0);
+    setNoCorrect(0);
+    setNoIncorrect(0);
+
+    setCompletedTopics([]);
+
+    setNextQuestions(questions);
+    setShowPlaylistSummary(false);
+  };
+
+  const toPlaylist = () => {
+    router.push(`/playlist/${playlist.slug}`);
+  };
+
   const getNoQuestions = (topic) => {
     if (!topic.isRandom) return topic.noQuestions;
     return topic.min + Math.floor(Math.random() * (topic.max + 1 - topic.min));
@@ -215,7 +265,11 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
             canRestart={hasPlaylist && !shuffle}
           />
         ) : showPlaylistSummary ? (
-          <PlaylistSummary completedTopics={completedTopics} />
+          <PlaylistSummary
+            completedTopics={completedTopics}
+            toPlaylist={toPlaylist}
+            toPracticeAgain={toPracticeAgain}
+          />
         ) : (
           <>
             {!hasPlaylist || shuffle ? (
