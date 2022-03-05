@@ -191,7 +191,7 @@ export default [
     },
 
     verify: (question, userResponse) => {
-      let ok = false;
+      let ok = true;
       const qN = nerdamer.convertFromLaTeX(question);
       const rN = nerdamer.convertFromLaTeX(userResponse);
 
@@ -199,6 +199,7 @@ export default [
         const qE = qN.evaluate({ x: i });
         const rE = rN.evaluate({ x: i });
         if (qE.toString() !== rE.toString()) {
+          console.log(qE.toString(), rE.toString());
           ok = false;
         }
       }
@@ -514,43 +515,7 @@ export default [
       return value.toString() === uValue.toString();
     },
   },
-  {
-    title: "4th Root Radicals",
-    instructions: "Simplify the radical",
-    description: "Simplify 4th root radical expressions",
-    example: "\\sqrt[4]{80}",
-    numFields: 1,
-    prompts: ["="],
-    tags: ["Radicals", "Algebra I"],
-    buttons: [{ cmd: "\\nthroot4{}", ui: "\\sqrt[4]{}" }],
 
-    generate: () => {
-      const outside = randomIntInRange(2, 4, [0, 1, -1]);
-      const index = 4;
-
-      const inside = randomIntInRange(2, 4, [0, 1, -1]);
-
-      const solution = `${outside}\\sqrt[4]{${inside}}`;
-      const newInside = inside * Math.pow(outside, index);
-
-      const latex = `\\sqrt[${index}]{${newInside}}`;
-
-      return { solution, latex, stringVersion: "" };
-    },
-
-    verify: (question, userResponses, questionString) => {
-      const response = userResponses[0];
-
-      const qN = nerdamer.convertFromLaTeX(question);
-
-      const value = nerdamer("1 + x").evaluate({ x: qN });
-      const uValue = nerdamer("1 + x").evaluate({
-        x: nerdamer.convertFromLaTeX(response),
-      });
-
-      return value.toString() === uValue.toString();
-    },
-  },
   {
     title: "Rationalize 2nd-root denominators",
     instructions: "Simplify the radical",

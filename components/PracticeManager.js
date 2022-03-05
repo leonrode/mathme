@@ -67,6 +67,7 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
     // we store the new state in a separate variable so that it doesn't
     // matter when the state updates
     const c = [
+      ...completedQuestions,
       {
         isCorrect: isCorrect,
         latex: question.latex,
@@ -76,10 +77,10 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
         }),
         solution: question.solution,
       },
-      ...completedQuestions,
     ];
 
     setCompletedQuestions((prev) => [
+      ...prev,
       {
         isCorrect: isCorrect,
         latex: question.latex,
@@ -89,7 +90,6 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
         }),
         solution: question.solution,
       },
-      ...prev,
     ]);
     isCorrect
       ? setNoCorrect((prev) => prev + 1)
@@ -101,16 +101,16 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
     if (hasPlaylist) {
       if (index === nextQuestions.length - 1) {
         // if reached end of playlist
+        setCompletedTopics((prev) => [
+          ...prev,
+          {
+            title: playlist.topics[topicIndex].topic.title,
+            completedQuestions: c,
+          },
+        ]);
         if (topicIndex === playlist.topics.length - 1) {
           // TODO: end of playlist
           console.log(completedQuestions);
-          setCompletedTopics((prev) => [
-            ...prev,
-            {
-              title: playlist.topics[topicIndex].topic.title,
-              completedQuestions: c,
-            },
-          ]);
           setShowPlaylistSummary(true);
         } else {
           // else if reached end of topic
@@ -167,14 +167,6 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
       playlist.topics[nextIndex].topic.id,
       getNoQuestions(playlist.topics[nextIndex])
     );
-
-    setCompletedTopics((prev) => [
-      ...prev,
-      {
-        title: playlist.topics[topicIndex].topic.title,
-        completedQuestions: completedQuestions,
-      },
-    ]);
 
     setCompletedQuestions([]);
 

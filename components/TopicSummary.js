@@ -14,6 +14,7 @@ function TopicSummary({
   toNextTopic,
   canRestart,
 }) {
+  console.log(completedQuestions);
   return (
     <div className="mt-4 w-full md:w-3/4">
       <h1 className="text-textGrayed">Topic Summary</h1>
@@ -60,7 +61,7 @@ function TopicSummary({
 
       {completedQuestions.map((question, index) => (
         <SummaryQuestion
-          number={completedQuestions.length - index - 1}
+          number={index}
           key={index}
           isLast={index === completedQuestions.length - 1}
           questionLatex={question.latex}

@@ -10,6 +10,7 @@ function PlaylistSummary({
   toPlaylist,
   toPracticeAgain,
 }) {
+  console.log(completedTopics);
   return (
     <div className="w-full md:w-5/6">
       <h1 className="font-bold text-3xl">{randomCompletetionMessage()}</h1>
@@ -17,7 +18,7 @@ function PlaylistSummary({
         You finished all the topics! Let&apos;s review what you got wrong.
       </h3>
 
-      <div className="flex items-center mt-2">
+      <div className="flex items-center my-4">
         <div
           onClick={toPracticeAgain}
           className="flex items-center cursor-pointer bg-transparent border-2 border-primary dark:border-darkPrimary w-fit p-2 text-sm rounded-md text-center"
