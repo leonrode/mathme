@@ -79,7 +79,7 @@ function Question({
           />
         </div>
       </div>
-      <div className="w-full lg:w-1/2 flex items-center justify-center py-16 scale-150">
+      <div className="w-full lg:w-1/2 flex items-center justify-center my-16 scale-150">
         <Latex>{`$${question.latex}$`}</Latex>
       </div>
 
