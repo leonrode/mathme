@@ -37,9 +37,10 @@ function Search() {
           <div className="flex w-1/2">
             <h3 className="text-textGrayed">Topic</h3>
           </div>
-          <div className=" w-1/2 justify-start hidden lg:block">
+          <div className=" w-1/2 justify-start hidden md:block">
             <h3 className="text-textGrayed">Example</h3>
           </div>
+          <div className="md:w-[36px] lg:w-[64px]"></div>
         </div>
         <div>
           {searchResults ? (

@@ -9,7 +9,7 @@ function Layout({ children, activeIndex }) {
 
   return (
     <div className="flex justify-center w-screen h-screen bg-lightBg dark:bg-darkBg overflow-y-auto ">
-      <div className="flex  w-full px-4 md:w-5/6 md:px-0 ">
+      <div className="flex  w-full px-4 lg:w-5/6  ">
         <div className="hidden lg:block">
           <Sidebar activeIndex={activeIndex} />
         </div>

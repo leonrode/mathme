@@ -56,10 +56,10 @@ function PlaylistItem({ title, example, index, toggleStar, starred, topicId }) {
           </div>
         </div>
       </div>
+      <div className="w-1/2 hidden md:block text-textGrayed dark:text-darkText ">
+        <Latex>{`$${example}$`}</Latex>
+      </div>
       <div className="flex w-full md:w-1/2 justify-end md:justify-between">
-        <div className="hidden lg:block text-textGrayed dark:text-darkText ">
-          <Latex>{`$${example}$`}</Latex>
-        </div>
         <div className="w-16 hidden md:block"></div>
         <div className="flex items-center">
           <Link href={`/practice/${topicId}`}>
