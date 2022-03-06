@@ -23,7 +23,7 @@ function TopicSummary({
       </div>
       <div className="flex items-center mt-2">
         {/* percentage */}
-        <h3 className="font-bold text-lg">
+        <h3 className="font-bold text-lg text-text dark:text-darkText">
           {Math.floor((correctNumber / noQuestions) * 100)}%
         </h3>
 
@@ -42,7 +42,7 @@ function TopicSummary({
         {canRestart && (
           <div
             onClick={toRestart}
-            className="cursor-pointer bg-transparent border-2 border-primary dark:border-darkPrimary w-fit p-2 text-sm rounded-md text-center"
+            className="cursor-pointer bg-transparent border-2 text-text border-primary dark:border-darkPrimary w-fit p-2 text-sm rounded-md text-center"
           >
             Restart topic
           </div>
@@ -51,7 +51,7 @@ function TopicSummary({
           onClick={toNextTopic}
           className={`cursor-pointer ${
             canRestart && "ml-2"
-          } bg-primary border-2 border-transparent dark:bg-darkPrimary w-fit p-2 text-sm rounded-md text-center`}
+          } bg-primary border-2 border-transparent dark:bg-darkPrimary w-fit p-2 text-sm rounded-md text-center text-darkText `}
         >
           Continue
         </div>

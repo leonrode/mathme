@@ -12,7 +12,7 @@ module.exports = {
     extend: {
       colors: {
         lightBg: "#E9F3F6",
-        text: "#1D0814",
+        text: "#0F3C4C",
         textGrayed: "#807A7A",
         divider: "#BDDBE5",
         primary: "#2286A9",

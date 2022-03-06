@@ -20,7 +20,7 @@ function SummaryQuestion({
         } rounded ${!isLast ? "mb-4" : ""}`}
       >
         <div className="flex items-center">
-          <h3>{number + 1}</h3>
+          <h3 className="text-text dark:text-darkText">{number + 1}</h3>
           {isCorrect ? (
             <MdCheck className={`ml-2 text-success`} />
           ) : (
@@ -50,8 +50,8 @@ function SummaryQuestion({
         } origin-top mb-4 overflow-hidden transition-all`}
       >
         <div className="flex items-center">
-          <h3 className="font-bold ">Answer:</h3>
-          <div className="ml-2 ">
+          <h3 className="font-bold text-text dark:text-darkText">Answer:</h3>
+          <div className="ml-2 text-text dark:text-darkText ">
             <Latex>{`$${solution}$`}</Latex>
           </div>
         </div>

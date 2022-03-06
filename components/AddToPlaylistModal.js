@@ -84,7 +84,7 @@ function AddToPlaylistModal({ topic }) {
 
               <div
                 onClick={addTopicToPlaylist}
-                className="bg-primary dark:bg-darkPrimary py-2 px-4 cursor-pointer mt-8 w-fit rounded-lg"
+                className="text-darkText bg-primary dark:bg-darkPrimary py-2 px-4 cursor-pointer mt-8 w-fit rounded-lg"
               >
                 {isSaving ? (
                   <Spinner />

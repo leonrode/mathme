@@ -27,13 +27,9 @@ function SharePlaylistModal({ slug }) {
             }}
           />
         </div>
-        <div className=" my-8" />
+        <div className="my-8" />
         <div className="flex items-center">
-          <input
-            disabled
-            defaultValue={`${window.location.origin}/playlist/${slug}`}
-            className="overflow-x-auto  bg-transparent text-textGrayed underline underline-offset-4"
-          />
+          <h3 className="truncate bg-transparent text-textGrayed underline underline-offset-4">{`${window.location.origin}/playlist/${slug}`}</h3>
           <div
             onClick={() => {
               navigator.clipboard.writeText(
@@ -41,15 +37,17 @@ function SharePlaylistModal({ slug }) {
               );
               setCopied(true);
             }}
-            className="p-2 rounded-lg cursor-pointer ml-4 bg-primary dark:bg-darkPrimary text-darkText"
+            className={`p-2 rounded-lg cursor-pointer ml-4 ${
+              copied ? "bg-success" : "bg-primary dark:bg-darkPrimary"
+            } transition text-darkText`}
           >
             {copied ? (
               <span className="flex items-center">
-                <MdCheck className="mr-1" size={20} /> Copied
+                <MdCheck size={20} />
               </span>
             ) : (
               <span className="flex items-center">
-                <MdContentCopy className="mr-1" size={20} /> Copy
+                <MdContentCopy size={20} />
               </span>
             )}
           </div>

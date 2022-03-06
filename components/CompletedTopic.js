@@ -13,11 +13,14 @@ function CompletedTopic({ number, topic }) {
       >
         <div className="flex items-center">
           <h3 className="text-textGrayed">{number}</h3>
-          <h3 className="ml-4 font-bold text-sm lg:text-lg select-none">
+          <h3 className="text-text dark:text-darkText ml-4 font-bold text-sm lg:text-lg select-none">
             {topic.title}
           </h3>
         </div>
-        <MdKeyboardArrowDown size={30} />
+        <MdKeyboardArrowDown
+          className="text-text dark:text-darkText"
+          size={30}
+        />
       </div>
       {/* topic questions part  */}
       <div
