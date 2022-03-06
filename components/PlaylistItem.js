@@ -12,7 +12,7 @@ function PlaylistItem({ title, example, index, toggleStar, starred, topicId }) {
   const [isStarred, setIsStarred] = useState(starred);
   return (
     <div className="px-4 w-full bg-white dark:bg-darkElevated rounded-xl h-16 flex justify-between items-center mt-3 group border-2 border-transparent hover:border-primary dark:hover:border-darkPrimary transition">
-      <div className="flex items-center w-1/2 pr-2">
+      <div className="flex items-center w-full pr-2">
         <h3 className="hidden md:block text-textGrayed w-3 text-center">
           {index + 1}
         </h3>
@@ -24,16 +24,16 @@ function PlaylistItem({ title, example, index, toggleStar, starred, topicId }) {
           }}
         >
           {isStarred ? (
-            <MdStar className="text-warning dark:text-darkWarning" size={30} />
+            <MdStar className="text-warning dark:text-darkWarning" size={25} />
           ) : (
             <MdStarOutline
               className=" text-warning dark:text-darkWarning"
-              size={30}
+              size={25}
             />
           )}
         </div>
-        <div className="block md:flex md:items-center  ">
-          <h3 className="text-text dark:text-darkText ml-4 lg:ml-8 truncate">
+        <div className="block md:flex md:items-center">
+          <h3 className="text-text dark:text-darkText ml-2  lg:ml-8 truncate">
             {title}
           </h3>
           <div
@@ -57,7 +57,7 @@ function PlaylistItem({ title, example, index, toggleStar, starred, topicId }) {
         </div>
       </div>
       <div className="flex w-full md:w-1/2 justify-end md:justify-between">
-        <div className="text-textGrayed dark:text-darkText hidden lg:block z-0">
+        <div className="hidden lg:block text-textGrayed dark:text-darkText ">
           <Latex>{`$${example}$`}</Latex>
         </div>
         <div className="w-16 hidden md:block"></div>

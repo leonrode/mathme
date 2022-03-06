@@ -32,7 +32,7 @@ function QuestionInput({
   }, [field]);
   return (
     <div className=" dark:text-text flex items-center ">
-      <div className="text-text dark:text-darkText">
+      <div className="text-text dark:text-darkText ">
         <Latex>{`$${prompt}$`}</Latex>
       </div>
       <div

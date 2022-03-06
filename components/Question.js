@@ -11,6 +11,8 @@ import QuestionButton from "./QuestionButton";
 
 import { MdHelpOutline } from "react-icons/md";
 
+import Latex from "react-latex-next";
+
 import { useState } from "react";
 import { verifyAnswer } from "../_api/api";
 
@@ -77,8 +79,8 @@ function Question({
           />
         </div>
       </div>
-      <div className="flex items-center justify-center w-full lg:w-1/2 my-16 text-2xl lg:my-16">
-        <QuestionLatex latex={question.latex} />
+      <div className="w-full flex items-center justify-center py-16 scale-150">
+        <Latex>{`$${question.latex}$`}</Latex>
       </div>
 
       <div className="flex items-center justify-between w-full lg:w-1/2">

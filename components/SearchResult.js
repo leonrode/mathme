@@ -9,9 +9,9 @@ import Latex from "react-latex-next";
 import AddToPlaylistModal from "./AddToPlaylistModal";
 function SearchResult({ topic }) {
   const children = (
-    <div className="  px-4 w-full bg-white dark:bg-darkElevated rounded-xl h-16 flex justify-between items-center mt-3 group border-2 border-white dark:border-transparent hover:dark:border-darkPrimary hover:border-primary transition">
-      <div className="flex w-full lg:w-1/2 pr-2">
-        <h3 className="text-text dark:text-darkText lg:truncate">
+    <div className="  px-2 lg:px-4 w-full bg-white dark:bg-darkElevated rounded-xl h-16 flex justify-between items-center mt-3 group border-2 border-white dark:border-transparent hover:dark:border-darkPrimary hover:border-primary transition">
+      <div className="flex lg:w-1/2 pr-2">
+        <h3 className="text-text text-sm lg:text-lg dark:text-darkText  truncate ">
           {topic.title}
         </h3>
       </div>
@@ -27,7 +27,7 @@ function SearchResult({ topic }) {
             </div>
           </Link>
 
-          <div className="text-text dark:text-darkText">
+          <div className=" text-text dark:text-darkText">
             <AddToPlaylistModal topic={topic} />
           </div>
         </div>

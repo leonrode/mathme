@@ -13,7 +13,9 @@ function CompletedTopic({ number, topic }) {
       >
         <div className="flex items-center">
           <h3 className="text-textGrayed">{number}</h3>
-          <h3 className="ml-4 font-bold select-none">{topic.title}</h3>
+          <h3 className="ml-4 font-bold text-sm lg:text-lg select-none">
+            {topic.title}
+          </h3>
         </div>
         <MdKeyboardArrowDown size={30} />
       </div>
@@ -35,9 +37,9 @@ function CompletedTopic({ number, topic }) {
             } ml-8 border-l-2 rounded-lg my-2 flex items-center px-4 bg-white dark:bg-darkElevated w-full h-14`}
             key={index}
           >
-            <h3 className="text-textGrayed">{index + 1}</h3>
+            <h3 className="hidden lg:block text-textGrayed">{index + 1}</h3>
 
-            <div className="ml-2">
+            <div className="lg:ml-2">
               {question.isCorrect ? (
                 <MdCheck className="text-success" />
               ) : (
@@ -45,20 +47,26 @@ function CompletedTopic({ number, topic }) {
               )}
             </div>
 
-            <h3 className="text-textGrayed ml-2 text-sm">Question</h3>
-            <div className="ml-4">
+            <h3 className="hidden lg:block text-textGrayed ml-2 text-sm">
+              Question
+            </h3>
+            <div className="ml-4 text-sm">
               <Latex>{`$${question.latex}$`}</Latex>
             </div>
-            <h3 className="text-textGrayed ml-4 text-sm">You Responded</h3>
-            <div className="ml-2">
+            <h3 className="hidden lg:block text-textGrayed ml-4 text-sm">
+              You Responded
+            </h3>
+            <div className="ml-2 text-sm">
               <Latex>{`$${
                 question.userResponses[0] == "Skipped"
                   ? "\\text{Skipped}"
                   : question.userResponses[0]
               }$`}</Latex>
             </div>
-            <h3 className="text-textGrayed ml-4 text-sm">Correct Answer</h3>
-            <div className="ml-2">
+            <h3 className="hidden lg:block text-textGrayed ml-4 text-sm">
+              Correct Answer
+            </h3>
+            <div className="ml-2 text-sm">
               <Latex>{`$${question.solution}$`}</Latex>
             </div>
           </div>

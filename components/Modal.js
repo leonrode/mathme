@@ -8,7 +8,7 @@ function Modal({ show, toClose, children }) {
   useOutsideClick(modalRef, () => toClose());
   return (
     show && (
-      <div className="z-50 animate-modalFadeIn fixed top-0 left-0 w-full h-full bg-opaqueBlack  flex justify-center items-center ">
+      <div className="z-50 animate-modalFadeIn fixed top-0 left-0 w-screen h-screen bg-opaqueBlack  flex justify-center items-center ">
         <div
           ref={modalRef}
           className="animate-slideDown rounded-xl w-5/6  md:w-1/2   bg-lightBg dark:bg-darkBg opacity-100 p-10"

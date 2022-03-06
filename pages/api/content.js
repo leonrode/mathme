@@ -156,9 +156,9 @@ export default [
     },
   },
   {
-    title: "Factor quadratics where a does not equal 1",
+    title: "Factor quadratics where a ≠ 1",
     instructions: "Factor the quadratic",
-    description: "Factor a quadratic where a does not equal 1",
+    description: "Factor a quadratic where a ≠ 1",
     example: "2x^2+10x+12",
     tags: ["Quadratics", "Algebra I", "Factoring"],
     numFields: 1,

@@ -29,7 +29,7 @@ function Search() {
         isSearching={resultsLoading}
       />
 
-      <div className="lg:px-4 lg:w-11/12 mt-8  w-full">
+      <div className="lg:px-4 lg:w-11/12 mt-8 w-full ">
         <h3 className="text-textGrayed font-semibold">
           Showing 1-12 of 1234 results
         </h3>

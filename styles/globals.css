@@ -51,9 +51,9 @@ sup {
   /* z-index: 0; */
 /* color: #73798c; */
 
-.katex * {
+/* .katex * {
   z-index: 0;
-}
+} */
 .react-numeric-input > input {
   border: 2px solid transparent !important;
   position: relative;
@@ -91,6 +91,6 @@ html.dark {
 }
 
 html.light {
-  --toastify-color-light: white !important;
+  --toastify-color-light: #deedf2 !important;
   --toastify-font-family: "Poppins", sans-serif;
 }

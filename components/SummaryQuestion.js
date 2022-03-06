@@ -27,7 +27,7 @@ function SummaryQuestion({
             <MdClear className="ml-2 text-error dark:text-darkError" />
           )}
         </div>
-        <div className="text-2xl">
+        <div className="text-lg lg:text-2xl">
           <Latex>{`$${questionLatex}$`}</Latex>
         </div>
         <div
@@ -35,7 +35,8 @@ function SummaryQuestion({
           onClick={() => setShowDropdown((prev) => !prev)}
         >
           <h3 className="text-primary dark:text-darkPrimary select-none">
-            {showDropdown ? "Hide" : "Reveal"} Answer
+            {showDropdown ? "Hide" : "Reveal"}{" "}
+            <span className="hidden lg:inline">Answer</span>
           </h3>
           <MdKeyboardArrowDown
             size={30}

@@ -4,6 +4,10 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
   darkMode: "class",
+  variants: {
+    opacity: ["group-hover"],
+    visibility: ["grou-hover"],
+  },
   theme: {
     extend: {
       colors: {
