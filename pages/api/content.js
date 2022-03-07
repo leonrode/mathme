@@ -610,7 +610,6 @@ export default [
       const power = randomIntInRange(2, 7);
 
       const innerPower = randomIntInRange(1, index - 1);
-      console.log(innerPower, index, power);
 
       const latex = `\\sqrt[${index}]{x^{${innerPower + index * power}}}`;
 
@@ -630,10 +629,109 @@ export default [
       for (let i = 1; i < 3; i++) {
         const a = res.evaluate({ x: i });
         const b = q.evaluate({ x: i });
-        console.log(a, b);
+
         if (a.toString() !== b.toString()) ok = false;
       }
       return ok;
+    },
+  },
+  {
+    title: "Simplifying Square Roots",
+    instructions: "Simplify",
+    description: "Simplify operations with square roots.",
+    example: "2\\sqrt{12}+9\\sqrt{3}",
+    numFields: 1,
+    prompts: ["="],
+    tags: ["Radicals", "Algebra I"],
+    buttons: [{ cmd: "\\sqrt{}", ui: "\\sqrt{\\ }" }],
+
+    generate: () => {
+      const inner = randomIntInRange(3, 4);
+
+      const outer1 = randomIntInRange(3, 9);
+      const outer2 = randomIntInRange(3, 7);
+
+      const inner2 = inner * Math.pow(outer2, 2);
+
+      const outer3 = randomIntInRange(3, 5);
+
+      const isSubtraction = Math.floor(Math.random() * 2) === 1;
+
+      const latex = `${outer3}\\sqrt{${inner2}}${
+        isSubtraction ? "-" : "+"
+      }${outer1}\\sqrt{${inner}}`;
+
+      const solution = `${outer2 * outer3}\\sqrt{${inner}}`;
+
+      return {
+        solution: solution,
+        latex,
+        stringVersion: "",
+      };
+    },
+
+    verify: (question, userResponses, questionString) => {
+      const response = userResponses[0];
+
+      const qN = nerdamer.convertFromLaTeX(question);
+
+      const value = nerdamer("1 + x").evaluate({ x: qN });
+      const uValue = nerdamer("1 + x").evaluate({
+        x: nerdamer.convertFromLaTeX(response),
+      });
+
+      return value.toString() === uValue.toString();
+    },
+  },
+  {
+    title: "Solve linear equations with x on both sides",
+    instructions: "Solve for x",
+    description:
+      "Solve linear equations where x is on both sides of the equation.",
+    example: "9x=10x+8",
+    numFields: 1,
+    prompts: ["="],
+    tags: ["Radicals", "Algebra I"],
+    buttons: [],
+
+    generate: () => {
+      const value = randomIntInRange(-10, 10, [0]);
+
+      let lhs = nerdamer("x");
+      let rhs = nerdamer(value);
+
+      const b = randomIntInRange(-10, 10, [0, 1, -1]);
+
+      lhs = lhs.multiply(b);
+      rhs = rhs.multiply(b);
+      const subtract = Math.floor(Math.random() * 2) === 1;
+
+      const a = randomIntInRange(-10, 10, [1, 0, -1]);
+      if (subtract) {
+        lhs = lhs.subtract(`${a}x`);
+        rhs = rhs.subtract(`${a}x`);
+      } else {
+        lhs = lhs.add(`${a}x`);
+        rhs = rhs.add(`${a}x`);
+      }
+
+      const latex = replaceAll(`${lhs.toTeX()}=${rhs.toTeX()}`, "\\cdot", "");
+
+      const solution = `${value}`;
+
+      return {
+        solution: solution,
+        latex,
+        stringVersion: "",
+      };
+    },
+
+    verify: (question, userResponses, questionString) => {
+      const n_question = nerdamer.convertFromLaTeX(question);
+      const n_response = nerdamer.convertFromLaTeX(userResponses[0]);
+
+      const solutions = n_question.solveFor("x");
+      return n_response.eq(solutions);
     },
   },
 ];
