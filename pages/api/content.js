@@ -1,7 +1,7 @@
 import nerdamer from "nerdamer/all";
 import algebra from "algebra.js";
 import Algebrite from "algebrite";
-import { randomIntInRange, gcd, replaceAll } from "./utils";
+import { randomIntInRange, gcd, replaceAll, randomFactor } from "./utils";
 
 export default [
   {

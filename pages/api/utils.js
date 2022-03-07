@@ -65,6 +65,22 @@ function gcd(a, b) {
   return gcd(b, a % b);
 }
 
+function randomFactor(number) {
+  let factors = [];
+  console.log("n", number);
+  for (let i = Math.floor(-number / 2); i < number / 2; i++) {
+    console.log(i);
+    if (number % i === 0) {
+      factors.push(i);
+    }
+  }
+  console.log("f", factors);
+  console.log("t", -6 % -3, 0 === -0);
+  if (factors.length === 0) return null;
+
+  return factors[Math.floor(Math.random() * factors.length)];
+}
+
 function randomId() {
   return nanoid();
 }
@@ -79,6 +95,7 @@ export {
   generateSearchResults,
   randomIntInRange,
   gcd,
+  randomFactor,
   randomId,
   replaceAll,
 };
