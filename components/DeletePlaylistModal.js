@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 
 import notify from "../lib/notifier";
 
-function DeletePlaylistModal({ playlistSlug, playlistTitle }) {
+function DeletePlaylistModal({ ownsPlaylist, playlistSlug, playlistTitle }) {
   const [show, setShow] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const router = useRouter();
@@ -61,9 +61,13 @@ function DeletePlaylistModal({ playlistSlug, playlistTitle }) {
         </Modal>
       )}
       <MdDeleteOutline
-        className="text-error dark:text-darkError ml-4 cursor-pointer"
+        className={`${
+          ownsPlaylist
+            ? "text-error dark:text-darkError cursor-pointer"
+            : "text-textGrayed"
+        } ml-4`}
         size={25}
-        onClick={() => setShow(true)}
+        onClick={() => ownsPlaylist && setShow(true)}
       />
     </>
   );

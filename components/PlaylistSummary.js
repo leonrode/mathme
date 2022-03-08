@@ -10,7 +10,6 @@ function PlaylistSummary({
   toPlaylist,
   toPracticeAgain,
 }) {
-  console.log(completedTopics);
   return (
     <div className="w-full md:w-5/6">
       <h1 className="font-bold text-3xl">{randomCompletetionMessage()}</h1>

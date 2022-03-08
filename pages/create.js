@@ -16,6 +16,8 @@ import notify from "../lib/notifier";
 
 import reducer from "../lib/reducers/create";
 
+import ForbiddenAccessModal from "../components/ForbiddenAccessModal";
+
 import {
   searchTopics,
   getPlaylist,
@@ -30,10 +32,12 @@ function Create() {
 
   const [state, dispatch] = useReducer(reducer, { addedTopics: [] });
   // const addedTopics = state.addedTopics; // TODO: change to state.addedTopcis throughout JSX
+
   const [playlistTitle, setPlaylistTitle] = useState("");
   const [isSaving, setIsSaving] = useState(false);
 
   const [playlistNo, setPlaylistNo] = useState(null);
+  const [ownsPlaylist, setOwnsPlaylist] = useState(false);
   const router = useRouter();
 
   const { data: session } = useSession();
@@ -50,7 +54,14 @@ function Create() {
       if (router.query.playlistSlug) {
         const playlist = await getPlaylist(router.query.playlistSlug);
 
-        const { title, topics } = playlist;
+        const { title, topics, creator } = playlist;
+
+        console.log(creator);
+
+        if (creator === session.userId) {
+          setOwnsPlaylist(true);
+        }
+
         setPlaylistTitle(title);
         dispatch({ type: "set", addedTopics: topics });
         // setAddedTopics(topics);
@@ -92,102 +103,109 @@ function Create() {
 
   return (
     <Layout activeIndex={3}>
-      {playlistNo !== null && (
-        <>
-          <div className="flex items-center">
-            <input
-              className="text-3xl lg:text-5xl text-text dark:text-darkText rounded-none font-bold outline-none bg-transparent w-full lg:w-3/4 border-b-textGrayed border-b-2 focus:border-b-primary focus:dark:border-b-darkPrimary dark:placeholder:text-textGrayed  transition"
-              type="text"
-              defaultValue={playlistTitle}
-              placeholder={`My Playlist #${playlistNo + 1}`}
-              onChange={(e) => setPlaylistTitle(e.target.value)}
-            ></input>
-            <div className="hidden lg:block text-text dark:text-darkText ml-2 lg:ml-4">
-              <MdEdit size={30} />
+      {playlistNo !== null &&
+        (ownsPlaylist ? (
+          <>
+            <div className="flex items-center">
+              <input
+                className="text-3xl lg:text-5xl text-text dark:text-darkText rounded-none font-bold outline-none bg-transparent w-full lg:w-3/4 border-b-textGrayed border-b-2 focus:border-b-primary focus:dark:border-b-darkPrimary dark:placeholder:text-textGrayed  transition"
+                type="text"
+                defaultValue={playlistTitle}
+                placeholder={`My Playlist #${playlistNo + 1}`}
+                onChange={(e) => setPlaylistTitle(e.target.value)}
+              ></input>
+              <div className="hidden lg:block text-text dark:text-darkText ml-2 lg:ml-4">
+                <MdEdit size={30} />
+              </div>
+              <div
+                onClick={async () => await _createPlaylist()}
+                className="block md:block bg-primary dark:bg-darkPrimary text-white rounded-xl p-2 font-bold ml-4 text-xl cursor-pointer "
+              >
+                {isSaving ? (
+                  <Spinner />
+                ) : (
+                  <MdArrowForward className="text-darkText" size={30} />
+                )}
+              </div>
             </div>
-            <div
-              onClick={async () => await _createPlaylist()}
-              className="block md:block bg-primary dark:bg-darkPrimary text-white rounded-xl p-2 font-bold ml-4 text-xl cursor-pointer "
-            >
-              {isSaving ? (
-                <Spinner />
+            <div className="flex items-center mt-4">
+              <h3 className="text-textGrayed ">by {session.user.name}</h3>
+              <img
+                src={session.user.image}
+                referrerPolicy="no-referrer"
+                className="rounded-full ml-2"
+                width={25}
+                height={25}
+              />
+            </div>
+
+            <div className="w-full flex flex-col lg:w-11/12 mt-4">
+              {state.addedTopics.map((topic, i) => (
+                <AddedTopic
+                  topic={topic.topic}
+                  removeHandler={() => dispatch({ type: "remove", index: i })}
+                  changeHandler={(newObject) =>
+                    dispatch({ type: "change", index: i, newObject })
+                  }
+                  moveUpHandler={() => dispatch({ type: "moveup", index: i })}
+                  moveDownHandler={() =>
+                    dispatch({ type: "movedown", index: i })
+                  }
+                  toggleStar={() => dispatch({ type: "star", index: i })}
+                  isStarred={topic.isStarred}
+                  noQuestions={topic.noQuestions ? topic.noQuestions : 10}
+                  isRandom={topic.isRandom}
+                  min={topic.min}
+                  max={topic.max}
+                  index={i}
+                  isLast={i === state.addedTopics.length - 1}
+                  key={i}
+                />
+              ))}
+            </div>
+
+            <h3 className="text-text dark:text-darkText text-lg mt-4 md:mt-8">
+              Start by searching for some topics
+            </h3>
+            <div className="mt-4"></div>
+            <SearchBar _onChange={(prompt) => setInputPrompt(prompt)} />
+            <div className="flex justify-between w-full lg:w-11/12 px-2 md:px-8 my-4 ">
+              <div className="flex w-1/2">
+                <h3 className="text-textGrayed ">Topic</h3>
+              </div>
+              <div className="w-1/2 justify-start hidden md:block">
+                <h3 className="text-textGrayed">Example</h3>
+              </div>
+            </div>
+            <div className="flex flex-col w-full lg:w-11/12 mt-2">
+              {results ? (
+                results.map((result) => (
+                  <CreateSearchResult
+                    topic={result}
+                    key={result.title}
+                    ownsPlaylist={ownsPlaylist}
+                    addHandler={(topic) =>
+                      dispatch({
+                        type: "add",
+                        topic,
+                      })
+                    }
+                  />
+                ))
               ) : (
-                <MdArrowForward className="text-darkText" size={30} />
+                <>
+                  <SkCreateSearchResult />
+                  <SkCreateSearchResult />
+                  <SkCreateSearchResult />
+                  <SkCreateSearchResult />
+                </>
               )}
             </div>
-          </div>
-          <div className="flex items-center mt-4">
-            <h3 className="text-textGrayed ">by {session.user.name}</h3>
-            <img
-              src={session.user.image}
-              referrerPolicy="no-referrer"
-              className="rounded-full ml-2"
-              width={25}
-              height={25}
-            />
-          </div>
-
-          <div className="w-full flex flex-col lg:w-11/12 mt-4">
-            {state.addedTopics.map((topic, i) => (
-              <AddedTopic
-                topic={topic.topic}
-                removeHandler={() => dispatch({ type: "remove", index: i })}
-                changeHandler={(newObject) =>
-                  dispatch({ type: "change", index: i, newObject })
-                }
-                moveUpHandler={() => dispatch({ type: "moveup", index: i })}
-                moveDownHandler={() => dispatch({ type: "movedown", index: i })}
-                toggleStar={() => dispatch({ type: "star", index: i })}
-                isStarred={topic.isStarred}
-                noQuestions={topic.noQuestions ? topic.noQuestions : 10}
-                isRandom={topic.isRandom}
-                min={topic.min}
-                max={topic.max}
-                index={i}
-                isLast={i === state.addedTopics.length - 1}
-                key={i}
-              />
-            ))}
-          </div>
-
-          <h3 className="text-text dark:text-darkText text-lg mt-4 md:mt-8">
-            Start by searching for some topics
-          </h3>
-          <div className="mt-4"></div>
-          <SearchBar _onChange={(prompt) => setInputPrompt(prompt)} />
-          <div className="flex justify-between w-full lg:w-11/12 px-2 md:px-8 my-4 ">
-            <div className="flex w-1/2">
-              <h3 className="text-textGrayed ">Topic</h3>
-            </div>
-            <div className="w-1/2 justify-start hidden md:block">
-              <h3 className="text-textGrayed">Example</h3>
-            </div>
-          </div>
-          <div className="flex flex-col w-full lg:w-11/12 mt-2">
-            {results ? (
-              results.map((result) => (
-                <CreateSearchResult
-                  topic={result}
-                  key={result.title}
-                  addHandler={(topic) =>
-                    dispatch({
-                      type: "add",
-                      topic,
-                    })
-                  }
-                />
-              ))
-            ) : (
-              <>
-                <SkCreateSearchResult />
-                <SkCreateSearchResult />
-                <SkCreateSearchResult />
-                <SkCreateSearchResult />
-              </>
-            )}
-          </div>
-        </>
-      )}
+          </>
+        ) : (
+          <ForbiddenAccessModal playlistSlug={router.query.playlistSlug} />
+          // <div>You don't own this playlist</div>
+        ))}
     </Layout>
   );
 }

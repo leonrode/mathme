@@ -5,7 +5,8 @@
 Goal: September 2022
 
 - [x] _fix mobile dropdown/latex overlaps_
-- [x] CREATE PAGE MOBILE RESPONSIVENESS **
+- [x] CREATE PAGE MOBILE RESPONSIVENESS \*\*
+- [ ] add auth to api routes that modify db in order to prevent a logged-in account from deleting another user's playlist
 - [ ] permissions when viewing someone's playlist
 - [x] playlist summary last question not showing up
 - [ ] better login error handling

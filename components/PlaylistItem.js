@@ -8,7 +8,15 @@ import {
 } from "react-icons/md";
 
 import { useState } from "react";
-function PlaylistItem({ title, example, index, toggleStar, starred, topicId }) {
+function PlaylistItem({
+  ownsPlaylist,
+  title,
+  example,
+  index,
+  toggleStar,
+  starred,
+  topicId,
+}) {
   const [isStarred, setIsStarred] = useState(starred);
   return (
     <div className="px-4 w-full bg-white dark:bg-darkElevated rounded-xl h-16 flex justify-between items-center mt-3 group border-2 border-transparent hover:border-primary dark:hover:border-darkPrimary transition">
@@ -17,10 +25,12 @@ function PlaylistItem({ title, example, index, toggleStar, starred, topicId }) {
           {index + 1}
         </h3>
         <div
-          className="md:hidden cursor-pointer"
+          className={`md:hidden ${ownsPlaylist ? "cursor-pointer" : ""} `}
           onClick={() => {
-            setIsStarred((prev) => !prev);
-            toggleStar(index);
+            if (ownsPlaylist) {
+              setIsStarred((prev) => !prev);
+              toggleStar(index);
+            }
           }}
         >
           {isStarred ? (
@@ -38,18 +48,24 @@ function PlaylistItem({ title, example, index, toggleStar, starred, topicId }) {
           </h3>
           <div
             onClick={() => {
-              setIsStarred((prev) => !prev);
-              toggleStar(index);
+              if (ownsPlaylist) {
+                setIsStarred((prev) => !prev);
+                toggleStar(index);
+              }
             }}
           >
             {isStarred ? (
               <MdStar
-                className="hidden md:block cursor-pointer text-warning dark:text-darkWarning ml-3"
+                className={`hidden md:block ${
+                  ownsPlaylist ? "cursor-pointer" : ""
+                }  text-warning dark:text-darkWarning ml-3`}
                 size={25}
               />
             ) : (
               <MdStarOutline
-                className="hidden md:block cursor-pointer text-warning dark:text-darkWarning ml-3"
+                className={`hidden md:block ${
+                  ownsPlaylist ? "cursor-pointer" : ""
+                }  text-warning dark:text-darkWarning ml-3`}
                 size={25}
               />
             )}

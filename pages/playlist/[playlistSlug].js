@@ -1,5 +1,5 @@
 import Layout from "../../components/Layout";
-import { getSession } from "next-auth/react";
+import { useSession, getSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
@@ -22,8 +22,10 @@ import notify from "../../lib/notifier";
 function PlaylistPage() {
   const [playlist, setPlaylist] = useState(null);
   const [creator, setCreator] = useState(null);
-
   const router = useRouter();
+  const [ownsPlaylist, setOwnsPlaylist] = useState(false);
+  const { data: session } = useSession();
+
   useEffect(() => {
     (async () => {
       const { playlistSlug } = router.query;
@@ -33,6 +35,10 @@ function PlaylistPage() {
       const creatorRes = await axios.get(`/api/user/${creatorId}`);
       setPlaylist(playlistRes.data.playlist);
       setCreator(creatorRes.data.user);
+      if (creatorRes.data.user._id === session.userId) {
+        setOwnsPlaylist(true);
+        console.log(true);
+      }
     })();
   }, []);
 
@@ -69,20 +75,24 @@ function PlaylistPage() {
         <>
           <div className="flex items-center">
             <div
-              className="text-warning dark:text-darkWarning cursor-pointer"
+              className={`text-warning dark:text-darkWarning ${
+                ownsPlaylist ? "cursor-pointer" : ""
+              }`}
               onClick={async () => {
-                await starPlaylist(playlist.slug);
+                if (ownsPlaylist) {
+                  await starPlaylist(playlist.slug);
 
-                notify(
-                  `${playlist.isStarred ? "Unstarred" : "Starred"} ${
-                    playlist.title
-                  }`,
-                  playlist.isStarred ? "unstar" : "star"
-                );
-                setPlaylist((playlist) => ({
-                  ...playlist,
-                  isStarred: !playlist.isStarred,
-                }));
+                  notify(
+                    `${playlist.isStarred ? "Unstarred" : "Starred"} ${
+                      playlist.title
+                    }`,
+                    playlist.isStarred ? "unstar" : "star"
+                  );
+                  setPlaylist((playlist) => ({
+                    ...playlist,
+                    isStarred: !playlist.isStarred,
+                  }));
+                }
               }}
             >
               {playlist.isStarred ? (
@@ -94,9 +104,12 @@ function PlaylistPage() {
             <input
               className="ml-2 text-3xl lg:text-5xl text-text dark:text-darkText rounded-none font-bold outline-none bg-transparent w-full lg:w-1/2 border-transparent border-b-2 focus:border-b-primary dark:focus:border-b-darkPrimary transition"
               type="text"
+              disabled={!ownsPlaylist}
               placeholder="Playlist Name"
               onBlur={async (e) => {
-                await setTitle(e.target.value);
+                if (ownsPlaylist) {
+                  await setTitle(e.target.value);
+                }
               }}
               defaultValue={playlist.title}
             ></input>
@@ -115,13 +128,19 @@ function PlaylistPage() {
             <SharePlaylistModal slug={playlist.slug} />
 
             <MdOutlineEdit
-              className="cursor-pointer text-text dark:text-darkText ml-4"
+              className={`${
+                ownsPlaylist
+                  ? "cursor-pointer text-text dark:text-darkText"
+                  : "text-textGrayed"
+              } ml-4`}
               size={25}
               onClick={() =>
+                ownsPlaylist &&
                 router.push(`/create?playlistSlug=${playlist.slug}`)
               }
             />
             <DeletePlaylistModal
+              ownsPlaylist={ownsPlaylist}
               playlistSlug={playlist.slug}
               playlistTitle={playlist.title}
             />
@@ -177,6 +196,7 @@ function PlaylistPage() {
             {playlist.topics.map((topic, i) => (
               <PlaylistItem
                 index={i}
+                ownsPlaylist={ownsPlaylist}
                 title={topic.topic.title}
                 example={topic.topic.example}
                 topicId={topic.topic.id}
@@ -202,6 +222,7 @@ export async function getServerSideProps(context) {
       },
     };
   }
+  console.log(session);
   return {
     props: session,
   };
