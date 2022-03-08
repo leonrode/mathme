@@ -85,7 +85,7 @@ function Create() {
       );
       setIsSaving(false);
       router.push(`/playlist/${playlistSlug}`).then(() => {
-        notify(`Successfully created ${playlistTitle}`, "success");
+        notify(`Successfully created My Playlist #${playlistNo}`, "success");
       });
     }
   };

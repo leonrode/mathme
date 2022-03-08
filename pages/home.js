@@ -7,7 +7,7 @@ import Spinner from "../components/Spinner";
 import { getSession, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
-import { getUserPlaylists, deletePlaylist, starPlaylist } from "../_api/api";
+import { getUserPlaylists, starPlaylist } from "../_api/api";
 
 import { generateTimeOfDay } from "../lib/helpers";
 
@@ -18,6 +18,7 @@ export default function Home() {
   useEffect(() => {
     (async () => {
       const playlists = await getUserPlaylists();
+
       setPlaylists(playlists);
     })();
   }, []);
@@ -25,7 +26,6 @@ export default function Home() {
   const _starPlaylist = async (id) => {
     await starPlaylist(id);
     const newPlaylists = await getUserPlaylists();
-    console.log(newPlaylists);
     setPlaylists(newPlaylists);
   };
 
