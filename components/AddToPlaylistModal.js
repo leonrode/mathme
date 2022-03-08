@@ -93,6 +93,18 @@ function AddToPlaylistModal({ topic }) {
                 )}
               </div>
             </>
+          ) : userPlaylists && userPlaylists.length === 0 ? (
+            <div>
+              <h3 className="mt-4">
+                No playlists found!{" "}
+                <span
+                  onClick={() => router.push("/create")}
+                  className="cursor-pointer text-primary dark:text-darkPrimary"
+                >
+                  Create one.
+                </span>
+              </h3>
+            </div>
           ) : (
             <p>Fetching user playlists</p>
           )}

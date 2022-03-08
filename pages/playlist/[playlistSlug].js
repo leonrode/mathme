@@ -21,6 +21,8 @@ import {
 } from "react-icons/md";
 
 import { savePlaylist, starPlaylist } from "../../_api/api";
+
+import notify from "../../lib/notifier";
 function PlaylistPage() {
   const [playlist, setPlaylist] = useState(null);
   const [creator, setCreator] = useState(null);
@@ -53,6 +55,7 @@ function PlaylistPage() {
       ],
     };
     await savePlaylist(newState.slug, newState.title, newState.topics);
+
     setPlaylist(newState);
   };
 
@@ -73,6 +76,13 @@ function PlaylistPage() {
               className="text-warning dark:text-darkWarning cursor-pointer"
               onClick={async () => {
                 await starPlaylist(playlist.slug);
+
+                notify(
+                  `Successfully ${
+                    playlist.isStarred ? "unstarred" : "starred"
+                  } ${playlist.title}`,
+                  playlist.isStarred ? "unstar" : "star"
+                );
                 setPlaylist((playlist) => ({
                   ...playlist,
                   isStarred: !playlist.isStarred,

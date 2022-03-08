@@ -42,7 +42,7 @@ function TopicSummary({
         {canRestart && (
           <div
             onClick={toRestart}
-            className="cursor-pointer bg-transparent border-2 text-text border-primary dark:border-darkPrimary w-fit p-2 text-sm rounded-md text-center"
+            className="cursor-pointer bg-transparent border-2 text-text dark:text-darkText border-primary dark:border-darkPrimary w-fit p-2 text-sm rounded-md text-center"
           >
             Restart topic
           </div>

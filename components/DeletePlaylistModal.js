@@ -36,7 +36,7 @@ function DeletePlaylistModal({ playlistSlug, playlistTitle }) {
                 router
                   .push("/home")
                   .then(() =>
-                    notify(`Successfully deleted ${playlistTitle}`, "success")
+                    notify(`Successfully deleted ${playlistTitle}`, "delete")
                   );
               }}
               className="rounded-lg border-2 border-transparent bg-error dark:bg-darkError px-8 py-2 cursor-pointer text-darkText"

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { countStarredTopics } from "../lib/helpers";
-
+import notify from "../lib/notifier";
 function PlaylistCard({ playlist, toToggleStar }) {
   const [avatarUrl, setAvatarUrl] = useState(null);
   const clickableClasses = [`star-${playlist.slug}`];
@@ -46,6 +46,13 @@ function PlaylistCard({ playlist, toToggleStar }) {
               <div
                 onClick={async () => {
                   await toToggleStar(playlist.slug);
+
+                  notify(
+                    `Successfully ${
+                      playlist.isStarred ? "unstarred" : "starred"
+                    } ${playlist.title}`,
+                    playlist.isStarred ? "unstar" : "star"
+                  );
                 }}
                 className={`text-warning dark:text-darkWarning`}
               >
