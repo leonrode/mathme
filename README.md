@@ -9,9 +9,9 @@ Goal: September 2022
 - [ ] permissions when viewing someone's playlist
 - [x] playlist summary last question not showing up
 - [ ] better login error handling
-- [ ] fix absolute value verifier
-- [ ] fix create page using useReducer
-- [ ] ~~sort completed questions~~ just reversed the order to most recently completed only
+- [x] fix absolute value verifier
+- [x] fix create page using useReducer
+- [x] ~~sort completed questions~~ just reversed the order to most recently completed only
 - [x] fix inconsistency between Router and router naming
 - [x] notification system
   - [x] on playlist create
@@ -38,10 +38,9 @@ Goal: September 2022
   - [x] implement modal
   - [x] copy link buttton
 - [x] add topic to playlist from search screen
-- [ ] end of playlist summary (per topic summary)
+- [x] end of playlist summary (per topic summary)
 - [x] star playlists
 - [ ] _competition mode??_
-- [ ] ~~have starred playlists show up on home screen~~
 - [x] fix dropdown on PlaylistCard bugs
 - [x] profile card dynamic name and pfp
 - [ ] _implement categories/tagging of topics for analytics/collections(?)_
