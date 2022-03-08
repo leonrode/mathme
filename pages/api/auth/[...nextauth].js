@@ -27,6 +27,12 @@ const options = {
     },
   },
 
+  session: {
+    maxAge: 10 * 24 * 60 * 60, // 10 days
+
+    // how frequently to write to DB to extend session
+    updateAge: 24 * 60 * 60, // 24 hours
+  },
   pages: {
     error: "/login",
   },

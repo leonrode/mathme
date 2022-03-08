@@ -76,7 +76,7 @@ function Create() {
       setIsSaving(false);
       router
         .push(`/playlist/${router.query.playlistSlug}`)
-        .then(() => notify(`Successfully saved ${playlistTitle}`, "success"));
+        .then(() => notify(`Saved ${playlistTitle}`, "success"));
     } else {
       const playlistSlug = await createPlaylist(
         playlistNo + 1,
@@ -85,10 +85,7 @@ function Create() {
       );
       setIsSaving(false);
       router.push(`/playlist/${playlistSlug}`).then(() => {
-        notify(
-          `Successfully created My Playlist #${playlistNo + 1}`,
-          "success"
-        );
+        notify(`Created My Playlist #${playlistNo + 1}`, "success");
       });
     }
   };

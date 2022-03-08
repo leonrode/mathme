@@ -1,4 +1,3 @@
-import Sidebar from "../../components/Sidebar";
 import Layout from "../../components/Layout";
 import { getSession } from "next-auth/react";
 import { useState, useEffect } from "react";
@@ -11,10 +10,7 @@ import SharePlaylistModal from "../../components/SharePlaylistModal";
 import DeletePlaylistModal from "../../components/DeletePlaylistModal";
 import {
   MdAssignment,
-  MdAssessment,
   MdStarOutline,
-  MdOutlineIosShare,
-  MdOutlineFileDownload,
   MdShuffle,
   MdStar,
   MdOutlineEdit,
@@ -78,9 +74,9 @@ function PlaylistPage() {
                 await starPlaylist(playlist.slug);
 
                 notify(
-                  `Successfully ${
-                    playlist.isStarred ? "unstarred" : "starred"
-                  } ${playlist.title}`,
+                  `${playlist.isStarred ? "Unstarred" : "Starred"} ${
+                    playlist.title
+                  }`,
                   playlist.isStarred ? "unstar" : "star"
                 );
                 setPlaylist((playlist) => ({

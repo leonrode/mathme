@@ -48,9 +48,9 @@ function PlaylistCard({ playlist, toToggleStar }) {
                   await toToggleStar(playlist.slug);
 
                   notify(
-                    `Successfully ${
-                      playlist.isStarred ? "unstarred" : "starred"
-                    } ${playlist.title}`,
+                    `${playlist.isStarred ? "Unstarred" : "Starred"} ${
+                      playlist.title
+                    }`,
                     playlist.isStarred ? "unstar" : "star"
                   );
                 }}

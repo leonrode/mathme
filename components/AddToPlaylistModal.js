@@ -41,7 +41,7 @@ function AddToPlaylistModal({ topic }) {
     setShow(false);
     setIsSaving(false);
 
-    notify(`Successfully added to ${selectedPlaylist.title}`, "success");
+    notify(`Added ${topic.title} to ${selectedPlaylist.title}`, "success");
   };
 
   return (
