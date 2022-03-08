@@ -108,9 +108,8 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
             completedQuestions: c,
           },
         ]);
-        if (topicIndex === playlist.topics.length - 1) {
+        if (!shuffle && topicIndex === playlist.topics.length - 1) {
           // TODO: end of playlist
-          console.log(completedQuestions);
           setShowPlaylistSummary(true);
         } else {
           // else if reached end of topic

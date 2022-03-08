@@ -646,14 +646,14 @@ export default [
     buttons: [{ cmd: "\\sqrt{}", ui: "\\sqrt{\\ }" }],
 
     generate: () => {
-      const inner = randomIntInRange(3, 4);
+      const inner = randomIntInRange(2, 7);
 
       const outer1 = randomIntInRange(3, 9);
       const outer2 = randomIntInRange(3, 7);
 
       const inner2 = inner * Math.pow(outer2, 2);
 
-      const outer3 = randomIntInRange(3, 5);
+      const outer3 = randomIntInRange(3, 7);
 
       const isSubtraction = Math.floor(Math.random() * 2) === 1;
 
@@ -661,7 +661,7 @@ export default [
         isSubtraction ? "-" : "+"
       }${outer1}\\sqrt{${inner}}`;
 
-      const solution = `${outer2 * outer3}\\sqrt{${inner}}`;
+      const solution = `${outer2 * outer3 + outer1}\\sqrt{${inner}}`;
 
       return {
         solution: solution,
