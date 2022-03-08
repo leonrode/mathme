@@ -23,8 +23,6 @@ function AddedTopic({
   isLast,
   index,
 }) {
-  console.log(noQuestions);
-
   const [_isRandom, setIsRandom] = useState(!!isRandom);
   const [_noQuestions, setNoQuestions] = useState(noQuestions);
 
@@ -33,7 +31,6 @@ function AddedTopic({
 
   useEffect(() => {
     changeHandler(
-      index,
       constructObject(topic, _isRandom, _noQuestions, _min, _max, isStarred)
     );
   }, [_isRandom, _noQuestions, _min, _max]);
@@ -43,7 +40,7 @@ function AddedTopic({
         <div className="flex items-center">
           <h3 className="text-grayed ">{index + 1}</h3>
           <span className="h-6 border-x-[1px] border-x-divider dark:border-x-darkDivider ml-4"></span>
-          <div className="mx-2" onClick={() => toggleStar(index)}>
+          <div className="mx-2" onClick={toggleStar}>
             <div>
               {isStarred ? (
                 <MdStar
@@ -69,7 +66,10 @@ function AddedTopic({
         </div>
         <div className="flex items-center flex-col lg:flex-row">
           <div className="flex items-center flex-col lg:flex-row">
-            <div onClick={() => moveUpHandler(index)}>
+            <div
+              // onClick={() => moveUpHandler(index)}
+              onClick={moveUpHandler}
+            >
               <MdKeyboardArrowUp
                 size={30}
                 className={`${
@@ -79,7 +79,10 @@ function AddedTopic({
                 } `}
               />
             </div>
-            <div onClick={() => moveDownHandler(index)}>
+            <div
+              // onClick={() => moveDownHandler(index)}
+              onClick={moveDownHandler}
+            >
               <MdKeyboardArrowDown
                 size={30}
                 className={`${
@@ -92,7 +95,8 @@ function AddedTopic({
           </div>
           <div
             className="flex items-center  cursor-pointer "
-            onClick={() => removeHandler(index)}
+            // onClick={() => removeHandler(index)}
+            onClick={removeHandler}
           >
             <MdClear size={25} className=" text-error dark:text-darkError" />
           </div>
@@ -180,7 +184,6 @@ function AddedTopic({
 
 const constructObject = (topic, isRandom, noQuestions, min, max, isStarred) => {
   const _obj = { topic: topic, isStarred: isStarred };
-  console.log(_obj);
   if (isRandom) {
     _obj.isRandom = true;
     _obj.min = min;

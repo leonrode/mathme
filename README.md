@@ -5,7 +5,8 @@
 Goal: September 2022
 
 - [x] _fix mobile dropdown/latex overlaps_
-- [ ] CREATE PAGE MOBILE RESPONSIVENESS **
+- [x] CREATE PAGE MOBILE RESPONSIVENESS **
+- [ ] permissions when viewing someone's playlist
 - [x] playlist summary last question not showing up
 - [ ] better login error handling
 - [ ] fix absolute value verifier

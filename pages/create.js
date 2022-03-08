@@ -3,7 +3,7 @@ import SearchBar from "../components/SearchBar";
 import Spinner from "../components/Spinner";
 import { MdEdit, MdArrowForward } from "react-icons/md";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useReducer } from "react";
 import { useRouter } from "next/router";
 
 import CreateSearchResult from "../components/CreateSearchResult";
@@ -13,6 +13,8 @@ import AddedTopic from "../components/AddedTopic";
 import { getSession, useSession } from "next-auth/react";
 
 import notify from "../lib/notifier";
+
+import reducer from "../lib/reducers/create";
 
 import {
   searchTopics,
@@ -25,7 +27,9 @@ import {
 function Create() {
   const [results, setResults] = useState(null);
   const [inputPrompt, setInputPrompt] = useState("");
-  const [addedTopics, setAddedTopics] = useState([]);
+
+  const [state, dispatch] = useReducer(reducer, { addedTopics: [] });
+  // const addedTopics = state.addedTopics; // TODO: change to state.addedTopcis throughout JSX
   const [playlistTitle, setPlaylistTitle] = useState("");
   const [isSaving, setIsSaving] = useState(false);
 
@@ -48,7 +52,8 @@ function Create() {
 
         const { title, topics } = playlist;
         setPlaylistTitle(title);
-        setAddedTopics(topics);
+        dispatch({ type: "set", addedTopics: topics });
+        // setAddedTopics(topics);
       }
 
       const playlists = await getUserPlaylists();
@@ -58,12 +63,16 @@ function Create() {
   }, []);
 
   const _createPlaylist = async () => {
-    if (addedTopics.length === 0) return;
+    if (state.addedTopics.length === 0) return;
 
     setIsSaving(true);
     if (router.query.playlistSlug) {
       // if is editing playlist
-      await savePlaylist(router.query.playlistSlug, playlistTitle, addedTopics);
+      await savePlaylist(
+        router.query.playlistSlug,
+        playlistTitle,
+        state.addedTopics
+      );
       setIsSaving(false);
       router
         .push(`/playlist/${router.query.playlistSlug}`)
@@ -72,79 +81,12 @@ function Create() {
       const playlistSlug = await createPlaylist(
         playlistNo + 1,
         playlistTitle,
-        addedTopics
+        state.addedTopics
       );
       setIsSaving(false);
       router.push(`/playlist/${playlistSlug}`).then(() => {
         notify(`Successfully created ${playlistTitle}`, "success");
       });
-    }
-  };
-
-  const addTopic = (topic, noQuestions, isRandom, min, max) => {
-    const _topic = {
-      topic: topic,
-      isStarred: false,
-    };
-
-    if (isRandom) {
-      _topic.isRandom = true;
-      _topic.min = min;
-      _topic.max = max;
-    } else {
-      _topic.isRandom = false;
-      _topic.noQuestions = noQuestions;
-    }
-
-    setAddedTopics((topics) => [...topics, _topic]);
-  };
-
-  const changeHandler = (index, newObject) => {
-    const newTopics = [
-      ...addedTopics.slice(0, index),
-      newObject,
-      ...addedTopics.slice(index + 1),
-    ];
-    setAddedTopics(newTopics);
-  };
-
-  const removeTopic = (index) => {
-    setAddedTopics((topics) => [
-      ...topics.slice(0, index),
-      ...topics.slice(index + 1),
-    ]);
-  };
-
-  const toggleTopicStar = (index) => {
-    const _topic = { ...addedTopics[index] };
-    _topic.isStarred = !_topic.isStarred;
-
-    const newTopics = [
-      ...addedTopics.slice(0, index),
-      _topic,
-      ...addedTopics.slice(index + 1),
-    ];
-    setAddedTopics(newTopics);
-  };
-
-  const moveTopicUp = (index) => {
-    if (index !== 0) {
-      const original = [...addedTopics];
-      const temp = addedTopics[index - 1];
-      original[index - 1] = original[index];
-      original[index] = temp;
-
-      setAddedTopics(original);
-    }
-  };
-  const moveTopicDown = (index) => {
-    if (index !== addedTopics.length - 1) {
-      const original = [...addedTopics];
-      const temp = addedTopics[index + 1];
-      original[index + 1] = original[index];
-      original[index] = temp;
-
-      setAddedTopics(original);
     }
   };
 
@@ -186,21 +128,23 @@ function Create() {
           </div>
 
           <div className="w-full flex flex-col lg:w-11/12 mt-4">
-            {addedTopics.map((topic, i) => (
+            {state.addedTopics.map((topic, i) => (
               <AddedTopic
                 topic={topic.topic}
-                removeHandler={removeTopic}
-                changeHandler={changeHandler}
-                moveUpHandler={moveTopicUp}
-                moveDownHandler={moveTopicDown}
-                toggleStar={toggleTopicStar}
+                removeHandler={() => dispatch({ type: "remove", index: i })}
+                changeHandler={(newObject) =>
+                  dispatch({ type: "change", index: i, newObject })
+                }
+                moveUpHandler={() => dispatch({ type: "moveup", index: i })}
+                moveDownHandler={() => dispatch({ type: "movedown", index: i })}
+                toggleStar={() => dispatch({ type: "star", index: i })}
                 isStarred={topic.isStarred}
                 noQuestions={topic.noQuestions ? topic.noQuestions : 10}
                 isRandom={topic.isRandom}
                 min={topic.min}
                 max={topic.max}
                 index={i}
-                isLast={i === addedTopics.length - 1}
+                isLast={i === state.addedTopics.length - 1}
                 key={i}
               />
             ))}
@@ -225,7 +169,12 @@ function Create() {
                 <CreateSearchResult
                   topic={result}
                   key={result.title}
-                  addHandler={addTopic}
+                  addHandler={(topic) =>
+                    dispatch({
+                      type: "add",
+                      topic,
+                    })
+                  }
                 />
               ))
             ) : (
