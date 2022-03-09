@@ -61,6 +61,23 @@ function PlaylistPage() {
     setPlaylist(newState);
   };
 
+  const changeTopic = async (newTopic, index) => {
+    const newState = {
+      ...playlist,
+      topics: [
+        ...playlist.topics.slice(0, index),
+        newTopic,
+        ...playlist.topics.slice(index + 1),
+      ],
+    };
+    console.log(newTopic);
+    console.log(newState);
+
+    await savePlaylist(newState.slug, newState.title, newState.topics);
+
+    setPlaylist(newState);
+  };
+
   const setTitle = async (newTitle) => {
     await savePlaylist(playlist.slug, newTitle, playlist.topics);
   };
@@ -197,10 +214,8 @@ function PlaylistPage() {
               <PlaylistItem
                 index={i}
                 ownsPlaylist={ownsPlaylist}
-                title={topic.topic.title}
-                example={topic.topic.example}
-                topicId={topic.topic.id}
-                starred={topic.isStarred}
+                topic={topic}
+                toSaveItem={changeTopic}
                 toggleStar={async (index) => await toggleStar(index)}
                 key={i}
               />
