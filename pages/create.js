@@ -37,7 +37,7 @@ function Create() {
   const [isSaving, setIsSaving] = useState(false);
 
   const [playlistNo, setPlaylistNo] = useState(null);
-  const [ownsPlaylist, setOwnsPlaylist] = useState(false);
+  const [ownsPlaylist, setOwnsPlaylist] = useState(true);
   const router = useRouter();
 
   const { data: session } = useSession();
@@ -57,7 +57,7 @@ function Create() {
         const { title, topics, creator } = playlist;
 
         console.log(creator);
-
+        console.log(session.userId);
         if (creator === session.userId) {
           setOwnsPlaylist(true);
         }

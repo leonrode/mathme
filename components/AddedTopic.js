@@ -112,6 +112,7 @@ function AddedTopic({
           >
             # questions
           </h5>
+
           <input
             className="bg-transparent outline-none transition ml-2 border-none border-b-2 focus:border-b-primary w-12 lg:w-24 "
             placeholder="#"
@@ -119,14 +120,14 @@ function AddedTopic({
             min={1}
             defaultValue={noQuestions ? noQuestions : 10}
             disabled={_isRandom}
-            onChange={(e) => {
-              setNoQuestions(parseInt(e.target.value));
+            onChange={(e) => {}}
+            onBlur={(e) => {
+              if (!isNaN(~~e.target.value) && ~~e.target.value >= 1) {
+                setNoQuestions(~~e.target.value);
+              } else {
+                e.target.value = noQuestions ? noQuestions : "";
+              }
             }}
-            onKeyDown={(e) =>
-              e.key === "Backspace" || e.key === "Delete"
-                ? true
-                : !isNaN(Number(e.key))
-            }
           />
         </div>
         <div className="flex items-center">
@@ -148,14 +149,17 @@ function AddedTopic({
               type="number"
               min={1}
               defaultValue={_min}
-              onChange={(e) => {
-                setMin(parseInt(e.target.value));
+              onBlur={(e) => {
+                if (!isNaN(~~e.target.value) && ~~e.target.value >= 1) {
+                  if (_max && ~~e.target.value >= _max) {
+                    e.target.value = _min ? _min : "";
+                  } else {
+                    setMin(~~e.target.value);
+                  }
+                } else {
+                  e.target.value = _min ? _min : "";
+                }
               }}
-              onKeyDown={(e) =>
-                e.key === "Backspace" || e.key === "Delete"
-                  ? true
-                  : !isNaN(Number(e.key))
-              }
             />
 
             <div className="ml-2 ">
@@ -165,14 +169,17 @@ function AddedTopic({
                 placeholder="to"
                 min={_min}
                 defaultValue={_max}
-                onChange={(e) => {
-                  setMax(parseInt(e.target.value));
+                onBlur={(e) => {
+                  if (!isNaN(~~e.target.value)) {
+                    if (_min && ~~e.target.value <= _min) {
+                      e.target.value = _max ? _max : "";
+                    } else {
+                      setMax(~~e.target.value);
+                    }
+                  } else {
+                    e.target.value = _max ? _max : "";
+                  }
                 }}
-                onKeyDown={(e) =>
-                  e.key === "Backspace" || e.key === "Delete"
-                    ? true
-                    : !isNaN(Number(e.key))
-                }
               />
             </div>
           </div>

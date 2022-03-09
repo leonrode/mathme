@@ -6,7 +6,7 @@ Goal: September 2022
 
 - [x] _fix mobile dropdown/latex overlaps_
 - [x] CREATE PAGE MOBILE RESPONSIVENESS \*\*
-- [ ] redo AddedTopics numerical inputs according to PlaylistItemModal revisions
+- [x] redo AddedTopics numerical inputs according to PlaylistItemModal revisions
 - [ ] refactor modal components
   - [ ] have close icon always there with modal title/header as prop
   - [ ] keep show state within modal component

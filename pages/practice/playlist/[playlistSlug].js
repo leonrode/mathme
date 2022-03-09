@@ -53,7 +53,7 @@ function PracticePlaylist() {
             <div className="text-text dark:text-darkText">
               <MdArrowBack size={25} />
             </div>
-            <h3 className="text-text ml-1 dark:text-darkText font-bold">
+            <h3 className="text-text ml-1 dark:text-darkText">
               {currentPlaylist ? (
                 <>
                   BACK TO{" "}

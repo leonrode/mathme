@@ -7,7 +7,6 @@ import {
   MdStar,
   MdStarOutline,
 } from "react-icons/md";
-import { useRouter } from "next/router";
 
 import Spinner from "./Spinner";
 
@@ -69,10 +68,10 @@ function PlaylistItemModal({ index, toSave, topic }) {
               defaultValue={topicState.noQuestions}
               disabled={topicState.isRandom}
               onBlur={(e) => {
-                if (!isNaN(parseInt(e.target.value))) {
+                if (!isNaN(~~e.target.value)) {
                   setTopicState({
                     ...topicState,
-                    noQuestions: parseInt(e.target.value),
+                    noQuestions: ~~e.target.value,
                   });
                 } else {
                   e.target.value = topicState.noQuestions
@@ -105,16 +104,13 @@ function PlaylistItemModal({ index, toSave, topic }) {
               max={topicState.max}
               defaultValue={topicState.min}
               onBlur={(e) => {
-                if (!isNaN(parseInt(e.target.value))) {
-                  if (
-                    topicState.max &&
-                    parseInt(e.target.value) >= topicState.max
-                  ) {
+                if (!isNaN(~~e.target.value)) {
+                  if (topicState.max && ~~e.target.value >= topicState.max) {
                     e.target.value = topicState.min ? topicState.min : "";
                   } else {
                     setTopicState({
                       ...topicState,
-                      min: parseInt(e.target.value),
+                      min: ~~e.target.value,
                     });
                   }
                 } else {
@@ -131,16 +127,13 @@ function PlaylistItemModal({ index, toSave, topic }) {
                 min={topicState.min}
                 defaultValue={topicState.max}
                 onBlur={(e) => {
-                  if (!isNaN(parseInt(e.target.value))) {
-                    if (
-                      topicState.min &&
-                      parseInt(e.target.value) <= topicState.min
-                    ) {
+                  if (!isNaN(~~e.target.value)) {
+                    if (topicState.min && ~~e.target.value <= topicState.min) {
                       e.target.value = topicState.max ? topicState.max : "";
                     } else {
                       setTopicState({
                         ...topicState,
-                        max: parseInt(e.target.value),
+                        max: ~~e.target.value,
                       });
                     }
                   } else {
