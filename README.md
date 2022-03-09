@@ -7,13 +7,10 @@ Goal: September 2022
 - [x] _fix mobile dropdown/latex overlaps_
 - [x] CREATE PAGE MOBILE RESPONSIVENESS \*\*
 - [x] redo AddedTopics numerical inputs according to PlaylistItemModal revisions
-- [ ] refactor modal components
-  - [ ] have close icon always there with modal title/header as prop
-  - [ ] keep show state within modal component
 - [ ] view popular playlists on the home page?
   - [ ] "like" people's playlists?
 - [ ] add auth to api routes that modify db in order to prevent a logged-in account from deleting another user's playlist
-- [ ] permissions when viewing someone's playlist
+- [x] permissions when viewing someone's playlist
 - [x] playlist summary last question not showing up
 - [ ] better login error handling
 - [x] fix absolute value verifier
@@ -25,7 +22,7 @@ Goal: September 2022
   - [x] on successful topic add to playlist
   - [x] on succcessful playlist delete
   - [x] etc (i.e. on all api calls) [MAYBE, HAVE TO TEST WITH TIME]
-- [ ] undo playlist delete\* (still deciding if wanted)
+- [ ] undo playlist delete\*
 - [x] content answers undefined
 - [x] study only starred topics
 - [x] fix color scheme (something not monochromatic)

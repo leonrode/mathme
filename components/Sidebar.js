@@ -18,10 +18,10 @@ function Sidebar({ activeIndex }) {
 
   return (
     <aside className="top-0 lg:visible lg:flex lg:w-fit lg:h-screen lg:items-center  lg:flex-col lg:justify-between w-1/3 lg:py-16 ">
-      <div className="flex flex-col h-2/5 items-center">
+      <div className="flex flex-col  h-full items-center">
         <Logo />
         <hr className="hidden border-divider dark:border-darkDivider lg:block lg:w-1/2 lg:my-4"></hr>
-        <div className="flex flex-col items-center justify-between h-full">
+        <div className="flex flex-col items-center justify-between h-1/3">
           <SidebarIcon
             Icon={MdHomeFilled}
             hoverText="Home"
