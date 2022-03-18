@@ -118,18 +118,23 @@ function PlaylistPage() {
                 <MdStarOutline size={35} />
               )}
             </div>
-            <input
-              className="ml-2 text-3xl lg:text-5xl text-text dark:text-darkText rounded-none font-bold outline-none bg-transparent w-full lg:w-1/2 border-transparent border-b-2 focus:border-b-primary dark:focus:border-b-darkPrimary transition"
+            <div
+              className="ml-2 text-3xl max-w-48 lg:text-5xl text-text dark:text-darkText rounded-none font-bold outline-none bg-transparent border-transparent border-b-2 focus:border-b-primary dark:focus:border-b-darkPrimary transition"
               type="text"
               disabled={!ownsPlaylist}
               placeholder="Playlist Name"
               onBlur={async (e) => {
-                if (ownsPlaylist) {
-                  await setTitle(e.target.value);
+                if (e.target.textContent.length > 0 && e.target.textContent.length < 25) {
+
+                  await setTitle(e.target.textContent);
+                } else {
+                  e.target.textContent = playlist.title;
                 }
               }}
-              defaultValue={playlist.title}
-            ></input>
+              contentEditable={ownsPlaylist}
+
+
+            >{playlist.title}</div>
           </div>
           <div className="flex items-center mt-4">
             <div className="flex items-center">

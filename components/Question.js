@@ -26,7 +26,7 @@ function Question({
   noIncorrect,
 }) {
   const [latexFields, setLatexFields] = useState([]);
-
+  console.log(question);
   const [isVerifyingResponse, setIsVerifyingResponse] = useState(false);
   const [questionStatus, setQuestionStatus] = useState("");
   const verifyResponse = async () => {
@@ -36,7 +36,8 @@ function Question({
       topicId,
       question.latex,
       question.stringVersion,
-      latexFields.map((field) => field.latex())
+      latexFields.map((field) => field.latex()),
+      question.solution
     );
 
     if (isCorrect) {

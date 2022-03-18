@@ -13,9 +13,9 @@ function fetchMeta(topicId) {
   return { title, example };
 }
 
-function verifyQuestion(topicId, question, response, stringVersion) {
+function verifyQuestion(topicId, question, response, stringVersion, providedSolution) {
   console.log(topicId);
-  return content[topicId].verify(question, response, stringVersion);
+  return content[topicId].verify(question, response, stringVersion, providedSolution);
 }
 
 function generateSearchResults(prompt) {

@@ -80,7 +80,8 @@ const verifyAnswer = async (
   topicId,
   questionLatex,
   questionString,
-  responseFields
+  responseFields,
+  providedSolution,
 ) => {
   console.log("tid", topicId);
   const result = await axios.post("/api/verify", {
@@ -88,6 +89,7 @@ const verifyAnswer = async (
     responseFields,
     questionLatex,
     questionString,
+    providedSolution,
   });
 
   const { isCorrect } = result.data;

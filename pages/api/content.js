@@ -28,12 +28,9 @@ export default [
       const latex = lhs.toTeX() + "=" + rhs.toTeX();
       return { solution, latex };
     },
-    verify: (question, userResponse) => {
-      const n_question = nerdamer.convertFromLaTeX(question);
-      const n_response = nerdamer.convertFromLaTeX(userResponse);
+    verify: (question, userResponse, _, providedSolution) => {
+      return nerdamer.convertFromLaTeX(userResponse).eq(nerdamer.convertFromLaTeX(providedSolution));
 
-      const solutions = n_question.solveFor("x");
-      return n_response.eq(solutions);
     },
   },
   {
@@ -67,12 +64,8 @@ export default [
       return { solution, latex };
     },
 
-    verify: (question, userResponses, questionString) => {
-      const n_question = nerdamer.convertFromLaTeX(question);
-      const n_response = nerdamer.convertFromLaTeX(userResponses[0]);
-
-      const solutions = n_question.solveFor("x");
-      return n_response.eq(solutions);
+    verify: (question, userResponses, questionString, providedSolution) => {
+      return nerdamer.convertFromLaTeX(userResponses).eq(nerdamer.convertFromLaTeX(providedSolution));
     },
   },
   {
@@ -108,12 +101,8 @@ export default [
       latex = latex.replace("\\cdot", "");
       return { solution, latex, stringVersion: lhs.toString() };
     },
-    verify: (question, userResponse) => {
-      const n_question = nerdamer.convertFromLaTeX(question);
-      const n_response = nerdamer.convertFromLaTeX(userResponse);
-
-      const solutions = n_question.solveFor("x");
-      return n_response.eq(solutions);
+    verify: (question, userResponse, _, providedSolution) => {
+      return nerdamer.convertFromLaTeX(userResponse).eq(nerdamer.convertFromLaTeX(providedSolution));
     },
   },
   {
@@ -146,13 +135,8 @@ export default [
       return { solution, latex, stringVersion: lhs.toString() };
     },
 
-    verify: (question, userResponse) => {
-      let n_question = nerdamer.convertFromLaTeX(question);
-      let n_response = nerdamer.convertFromLaTeX(userResponse);
-
-      n_response = n_response.expand();
-
-      return n_question.eq(n_response);
+    verify: (question, userResponse, _, providedSolution) => {
+      return nerdamer.convertFromLaTeX(providedSolution).eq(nerdamer.convertFromLaTeX(userResponse));
     },
   },
   {
@@ -167,44 +151,23 @@ export default [
     generate: () => {
       const symbol = "x";
 
-      const first = randomIntInRange(-10, 10, [0, 1, -1]);
-      const second = randomIntInRange(-10, 10, [0, 1, -1]);
+      let firstFactor = nerdamer(`${randomIntInRange(-5, 5, [0, 1])}x`);
 
-      let first_factor = nerdamer(symbol);
-      let second_factor = nerdamer(symbol);
+      firstFactor = firstFactor.add(randomIntInRange(-10, 10, [0]));
 
-      let first_m = randomIntInRange(-5, 5, [0, 1]);
-      const before = first_factor;
-      first_factor = first_factor.multiply(first_m);
+      let secondFactor = nerdamer(symbol).add(randomIntInRange(-10, 10, [0]));
 
-      first_factor = first_factor.add(first);
-      second_factor = second_factor.add(second);
+      let poly = firstFactor.multiply(secondFactor).expand();
 
-      let lhs = nerdamer(first_factor).multiply(second_factor);
-      lhs = lhs.expand();
-      let latex = lhs.toTeX();
-
-      // latex = latex.replaceAll("\\cdot", "");
+      let latex = poly.toTeX();
       latex = replaceAll(latex, "\\cdot", "");
-      const solution = `${first_m}(${before})(${second_factor})`;
-      return { solution, latex, stringVersion: lhs.toString() };
+      const solution = `(${replaceAll(firstFactor.toTeX(), "\\cdot", "")})(${secondFactor.toTeX()})`;
+      return { solution, latex, stringVersion: poly.toString() };
     },
 
-    verify: (question, userResponse) => {
-      let ok = true;
-      const qN = nerdamer.convertFromLaTeX(question);
-      const rN = nerdamer.convertFromLaTeX(userResponse);
+    verify: (question, userResponse, questionString, providedSolution) => {
 
-      for (let i = -5; i < 5; i++) {
-        const qE = qN.evaluate({ x: i });
-        const rE = rN.evaluate({ x: i });
-        if (qE.toString() !== rE.toString()) {
-          console.log(qE.toString(), rE.toString());
-          ok = false;
-        }
-      }
-
-      return ok;
+      return nerdamer.convertFromLaTeX(userResponse[0]).expand().eq(nerdamer.convertFromLaTeX(providedSolution).expand());
     },
   },
   {
@@ -246,28 +209,8 @@ export default [
       return { solution, latex, stringVersion: final.toString() };
     },
 
-    verify: (question, userResponse, questionString) => {
-      // console.log(question, userResponse, questionString);
-      // const questionResult = Algebrite.simplify(questionString);
-      // const userResult = Algebrite.simplify(
-      //   nerdamer.convertFromLaTeX(userResponse).toString()
-      // );
-      // return questionResult.toString() === userResult.toString();
-
-      let ok = false;
-      const qN = nerdamer(questionString);
-      const rN = nerdamer.convertFromLaTeX(userResponse);
-
-      for (let i = -5; i < 5; i++) {
-        const qE = qN.evaluate({ x: i });
-        const rE = rN.evaluate({ x: i });
-        if (qE.toString() !== rE.toString()) {
-          // console.log(qe.toString(), rE.toString());
-          ok = false;
-        }
-      }
-
-      return ok;
+    verify: (question, userResponses, questionString, providedSolution) => {
+      return nerdamer.convertFromLaTeX(providedSolution).eq(nerdamer.convertFromLaTeX(userResponses[0]));
     },
   },
   {
@@ -340,60 +283,8 @@ export default [
       return ok;
     },
   },
-  {
-    title: "(II) Simplify Rational Expressions",
-    instructions: "Simplify the rational expression",
-    descrption: "Divide two rational expressions",
-    example: "\\frac{x^3-2x^2-15x}{3x^2-15x}",
-    tags: ["Rational Expressions", "Algebra II"],
-    numFields: 1,
-    prompts: ["="],
-    buttons: [],
-    generate: () => {
-      const symbol = "x";
 
-      let n = nerdamer(symbol).add(randomIntInRange(-5, 5, [0, 1, -1]));
-      let d = randomIntInRange(-5, 5, [0, -1, 1]);
 
-      const solution = `\\frac{${n.toTeX()}}{${nerdamer(d).toTeX()}}`;
-
-      d = nerdamer(symbol).multiply(d);
-      let v0 = randomIntInRange(-5, 5, [0, -1, 1]);
-      n = n.multiply(symbol).multiply(nerdamer(symbol).add(v0));
-      d = d.multiply(nerdamer(symbol).add(v0));
-
-      // const nL = n.expand().toTeX().replaceAll("\\cdot", " ");
-      const nL = replaceAll(n.expand().toTeX(), "\\cdot", " ");
-      const dL = replaceAll(d.expand().toTeX(), "\\cdot", " ");
-      // const dL = d.expand().toTeX().replaceAll("\\cdot", " ");
-
-      const latex = `\\frac{${nL}}{${dL}}`;
-
-      const stringVersion = nerdamer.convertFromLaTeX(latex).toString();
-
-      return { solution, latex, stringVersion: stringVersion };
-    },
-
-    verify: (question, userResponse, questionString) => {
-      let ok = true;
-      // console.log(questionString);
-      const q = nerdamer(questionString);
-
-      const r = nerdamer.convertFromLaTeX(userResponse);
-
-      for (let i = -10; i < 10; i++) {
-        try {
-          const qE = q.evaluate({ x: i }).toString();
-          const rE = r.evaluate({ x: i }).toString();
-          if (qE !== rE) {
-            ok = false;
-          }
-        } catch (e) {}
-      }
-
-      return ok;
-    },
-  },
   {
     title: "Absolute Value Equations",
     instructions: "Solve for x",
@@ -426,19 +317,15 @@ export default [
       return { solution, latex, stringVersion };
     },
 
-    verify: (question, userResponses, questionString) => {
-      console.log(questionString);
-      const solutions = nerdamer.solve(questionString, "x");
-      console.log(solutions.toString());
-      const evalled = eval(solutions.toString());
-      let ok = true;
-      for (const value of evalled) {
-        if (!userResponses.includes(value.toString())) {
-          ok = false;
-        }
-      }
+    verify: (question, userResponses, questionString, providedSolution) => {
 
-      return ok;
+      // console.log(userResponses, providedSolution, typeof providedSolution)
+      const evalled = eval("[" + providedSolution + "]")
+
+      userResponses = userResponses.map(Number)
+
+
+      return evalled.sort().join(",") === userResponses.sort().join(",");
     },
   },
 
@@ -465,17 +352,9 @@ export default [
       return { solution, latex, stringVersion: "" };
     },
 
-    verify: (question, userResponses, questionString) => {
-      const response = userResponses[0];
+    verify: (question, userResponses, questionString, providedSolution) => {
 
-      const qN = nerdamer.convertFromLaTeX(question);
-
-      const value = nerdamer("1 + x").evaluate({ x: qN });
-      const uValue = nerdamer("1 + x").evaluate({
-        x: nerdamer.convertFromLaTeX(response),
-      });
-
-      return value.toString() === uValue.toString();
+      return nerdamer.convertFromLaTeX(userResponses[0]).eq(nerdamer.convertFromLaTeX(providedSolution));
     },
   },
   {
@@ -492,7 +371,7 @@ export default [
       const outside = randomIntInRange(2, 4, [0, 1, -1]);
       const index = 3;
 
-      const inside = randomIntInRange(2, 10, [0, 1, -1]);
+      const inside = randomIntInRange(2, 11, [0, 1, -1]);
 
       const solution = `${outside}\\sqrt[3]{${inside}}`;
 
@@ -503,16 +382,10 @@ export default [
       return { solution, latex, stringVersion: "" };
     },
 
-    verify: (question, userResponses, questionString) => {
-      const response = nerdamer.convertFromLaTeX(userResponses[0]);
+    verify: (question, userResponses, questionString, providedSolution) => {
 
-      const qN = nerdamer.convertFromLaTeX(question);
-      const value = nerdamer("1 + x").evaluate({ x: qN });
-      const uValue = nerdamer("1 + x").evaluate({
-        x: response,
-      });
-
-      return value.toString() === uValue.toString();
+      // console.log(nerdamer.convertFromLaTeX(providedSolution).eq(nerdamer.convertFromLaTeX(userResponses[0])))
+      return nerdamer.convertFromLaTeX(providedSolution).eq(nerdamer.convertFromLaTeX(userResponses[0]));
     },
   },
 
@@ -670,17 +543,8 @@ export default [
       };
     },
 
-    verify: (question, userResponses, questionString) => {
-      const response = userResponses[0];
-
-      const qN = nerdamer.convertFromLaTeX(question);
-
-      const value = nerdamer("1 + x").evaluate({ x: qN });
-      const uValue = nerdamer("1 + x").evaluate({
-        x: nerdamer.convertFromLaTeX(response),
-      });
-
-      return value.toString() === uValue.toString();
+    verify: (question, userResponses, questionString, providedSolution) => {
+      return nerdamer.convertFromLaTeX(providedSolution).eq(nerdamer.convertFromLaTeX(userResponses[0]));
     },
   },
   {
@@ -726,12 +590,49 @@ export default [
       };
     },
 
-    verify: (question, userResponses, questionString) => {
-      const n_question = nerdamer.convertFromLaTeX(question);
-      const n_response = nerdamer.convertFromLaTeX(userResponses[0]);
+    verify: (question, userResponses, questionString, providedSolution) => {
+      return nerdamer(providedSolution).eq(userResponses[0]);
+    },
+  },
+  {
+    title: "Find the remainder of polynomial division",
+    instructions: "Find the remainder after dividing",
+    description:
+      "Find the remainder of a polynomial being divided by a binomial.",
+    example: "\\frac{x^3-7x-6}{x-4} \\Rightarrow 30",
+    numFields: 1,
+    prompts: ["="],
+    tags: ["Polynomials", "Algebra II"],
+    buttons: [],
 
-      const solutions = n_question.solveFor("x");
-      return n_response.eq(solutions);
+    generate: () => {
+      const remainder = randomIntInRange(5, 30);
+
+      const b = randomIntInRange(-7, 7, [0, 1, -1]);
+      const c = randomIntInRange(-10, 10, [0, 1, -1]);
+
+      const v = randomIntInRange(-5, 5, [0, 1, -1]);
+      let polynomial = nerdamer.convertFromLaTeX(`x^2${b > 0 ? "+" : ""}${b}x${c > 0 ? "+" : ""}${c}`);
+
+      let binomial = nerdamer.convertFromLaTeX(`x${v > 0 ? "+" : ""}${v}`)
+
+      polynomial = polynomial.multiply(binomial).expand();
+
+      polynomial = polynomial.add(nerdamer(remainder));
+
+      const latex = `\\frac{${polynomial.toTeX()}}{${binomial.toTeX()}}`
+      const solution = `${remainder}`;
+
+      return {
+        solution: solution,
+        latex: replaceAll(latex, "\\cdot", ""),
+        stringVersion: "",
+      };
+    },
+
+    verify: (question, userResponses, questionString, providedSolution) => {
+      // console.log(nerdamer(providedSolution).eq(nerdamer(userResponses[0])))
+      return nerdamer(providedSolution).eq(nerdamer(userResponses[0]));
     },
   },
 ];
