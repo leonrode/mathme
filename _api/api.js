@@ -83,7 +83,6 @@ const verifyAnswer = async (
   responseFields,
   providedSolution,
 ) => {
-  console.log("tid", topicId);
   const result = await axios.post("/api/verify", {
     topicId,
     responseFields,
@@ -103,6 +102,18 @@ const signUp = async (username, password) => {
   return false;
 };
 
+const addLike = async (playlistSlug) => {
+  const result = await axios.post("/api/playlist/like", { playlistSlug });
+  console.log(result);
+  return result.data.newLikes;
+}
+
+const removeLike = async (playlistSlug) => {
+  const result = await axios.post("/api/playlist/unlike", { playlistSlug });
+
+  return result.data.newLikes;
+}
+
 export {
   searchTopics,
   getPlaylist,
@@ -116,4 +127,6 @@ export {
   fetchMixedQuestions,
   verifyAnswer,
   signUp,
+  addLike,
+  removeLike
 };

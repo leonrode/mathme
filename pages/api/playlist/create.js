@@ -25,6 +25,7 @@ async function handler(req, res) {
     creator: new ObjectId(userId),
     createdAt: Date.now(),
     isStarred: false,
+    likeCount: 0,
   };
 
   await db.collection("playlists").insertOne(playlistObject);

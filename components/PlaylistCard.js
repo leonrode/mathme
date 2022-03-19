@@ -116,9 +116,9 @@ function PlaylistCard({ playlist, toToggleStar }) {
 }
 
 function isInSubTree(tree, target) {
-  console.log(tree);
+
   const children = tree.getElementsByTagName("*");
-  console.log(children);
+
   return Array.from(children).includes(target);
 }
 

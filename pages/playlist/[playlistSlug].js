@@ -14,9 +14,11 @@ import {
   MdShuffle,
   MdStar,
   MdOutlineEdit,
+  MdThumbUpOffAlt,
+  MdThumbUpAlt
 } from "react-icons/md";
 
-import { savePlaylist, starPlaylist } from "../../_api/api";
+import { savePlaylist, starPlaylist, addLike, removeLike } from "../../_api/api";
 
 import notify from "../../lib/notifier";
 function PlaylistPage() {
@@ -25,6 +27,9 @@ function PlaylistPage() {
   const router = useRouter();
   const [ownsPlaylist, setOwnsPlaylist] = useState(false);
   const { data: session } = useSession();
+  const [likeCount, setLikeCount] = useState(null);
+  const [isLiked, setIsLiked] = useState(false);
+
 
   useEffect(() => {
     (async () => {
@@ -34,10 +39,10 @@ function PlaylistPage() {
       const creatorId = playlistRes.data.playlist.creator;
       const creatorRes = await axios.get(`/api/user/${creatorId}`);
       setPlaylist(playlistRes.data.playlist);
+      setLikeCount(playlistRes.data.playlist.likeCount);
       setCreator(creatorRes.data.user);
       if (creatorRes.data.user._id === session.userId) {
         setOwnsPlaylist(true);
-        console.log(true);
       }
     })();
   }, []);
@@ -166,6 +171,28 @@ function PlaylistPage() {
               playlistSlug={playlist.slug}
               playlistTitle={playlist.title}
             />
+            <div className="flex items-center ml-4">
+              <div onClick={async () => {
+                if (isLiked) {
+
+                  const newCount = await removeLike(router.query.playlistSlug);
+
+                  setLikeCount(newCount);
+                } else {
+                  const newCount = await addLike(router.query.playlistSlug);
+
+                  setLikeCount(newCount);
+
+                }
+                setIsLiked(prev => !prev);
+              }}>
+              {
+              isLiked ? <MdThumbUpAlt className="cursor-pointer text-darkPrimary" size={25} /> : <MdThumbUpOffAlt className="cursor-pointer text-darkPrimary" size={25} />
+            }
+                </div>
+
+              <span className="text-darkPrimary ml-2">{likeCount}</span>
+            </div>
           </div>
           <h6 className="text-textGrayed text-sm font-bold mt-4">STUDY</h6>
           <div className="flex items-center mt-2">

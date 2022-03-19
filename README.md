@@ -48,6 +48,8 @@ Goal: September 2022
 - [x] fix dropdown on PlaylistCard bugs
 - [x] profile card dynamic name and pfp
 - [ ] _implement categories/tagging of topics for analytics/collections(?)_
+- [ ] display like count in other places
+- [ ] show popular playlists
 - [ ] email login (magic link)
   - [ ] setup service provider
   - [ ] setup next auth provider
