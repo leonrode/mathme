@@ -5,7 +5,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import PlaylistItem from "../../components/PlaylistItem";
 import Link from "next/link";
-
+import SafeLink from "../../components/SafeLink";
 import SharePlaylistModal from "../../components/SharePlaylistModal";
 import DeletePlaylistModal from "../../components/DeletePlaylistModal";
 import {
@@ -190,15 +190,10 @@ function PlaylistPage() {
           </div>
           <div className="flex items-center mt-2">
             <MdStar className="text-warning dark:text-darkWarning" size={30} />
-            <Link href={`/practice/playlist/${playlist.slug}?starred=true`}>
-              <span
-                className={`${
-                  countStarredTopics() === 0 ? "text-textGrayed" : ""
-                } font-bold ml-2 cursor-pointer`}
-              >
-                Study starred topics
-              </span>
-            </Link>
+            <SafeLink className={`${
+                  countStarredTopics() === 0 ? "text-textGrayed cursor-default" : "cursor-pointer"
+                } font-bold ml-2`} href={`/practice/playlist/${playlist.slug}?starred=true`} disabled={countStarredTopics() === 0} text="Study starred topics" />
+
           </div>
           <div className="flex items-center mt-4">
             <h3 className="text-textGrayed text-sm font-bold">

@@ -107,8 +107,9 @@ function Create() {
         (ownsPlaylist ? (
           <>
             <div className="flex items-center">
+
               <input
-                className="text-3xl lg:text-5xl text-text dark:text-darkText rounded-none font-bold outline-none bg-transparent w-full lg:w-3/4 border-b-textGrayed border-b-2 focus:border-b-primary focus:dark:border-b-darkPrimary dark:placeholder:text-textGrayed  transition"
+                className=" text-3xl lg:text-5xl text-text dark:text-darkText rounded-none font-bold outline-none bg-transparent w-full lg:w-3/4 border-b-textGrayed border-b-2 focus:border-b-primary focus:dark:border-b-darkPrimary dark:placeholder:text-textGrayed  transition"
                 type="text"
                 defaultValue={playlistTitle}
                 placeholder={`My Playlist #${playlistNo + 1}`}
@@ -138,6 +139,7 @@ function Create() {
                 height={25}
               />
             </div>
+
 
             <div className="w-full flex flex-col lg:w-11/12 mt-4">
               {state.addedTopics.map((topic, i) => (
