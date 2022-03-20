@@ -25,7 +25,7 @@ function MobileSidebar({ isOpen, toClose, activeIndex }) {
     <div
       className={`${
         isOpen ? "mr-4" : "-ml-48"
-      } w-48 lg:hidden flex-shrink-0 py-20 pr-4 transition-all border-r-[2px] border-r-divider dark:border-r-darkDivider `}
+      }  w-48 lg:hidden flex-shrink-0 py-20 pr-4 transition-all border-r-[2px] border-r-divider dark:border-r-darkDivider `}
       ref={ref}
     >
       <h3 className="text-textGrayed font-bold my-2">ACCOUNT</h3>

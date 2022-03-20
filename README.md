@@ -5,6 +5,7 @@
 Goal: September 2022
 
 - [x] _fix mobile dropdown/latex overlaps_
+- [ ] copy another person's playlist
 - [x] CREATE PAGE MOBILE RESPONSIVENESS \*\*
 - [x] redo AddedTopics numerical inputs according to PlaylistItemModal revisions
 - [ ] view popular playlists on the home page?
@@ -54,8 +55,10 @@ Goal: September 2022
   - [ ] setup service provider
   - [ ] setup next auth provider
 - [ ] analytics page
-  - [ ] rank best topics
-  - [ ] show best categories
+  - [ ] best category (static text with ratio of right to wrong & total practiced)
+  - [ ] worst category (same as best category)
+  - [ ] most practiced (list of 5, category title with number of questions practiced)
+  - [ ] activity (line chart of customizable range (1yr, 6mo, 3mo, 1mo, 2wk, 1wk))
 - [ ] upgraded plan
   - [ ] features
     - [ ] generate worksheets with key
