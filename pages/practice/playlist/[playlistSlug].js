@@ -19,7 +19,6 @@ import PracticeManager from "../../../components/PracticeManager";
 
 function PracticePlaylist() {
   const router = useRouter();
-  const topicId = router.query.topicId;
   const starred = router.query.starred;
   const shuffle = router.query.shuffle;
 
@@ -86,7 +85,7 @@ function PracticePlaylist() {
 
         {fetchedPlaylist && (
           <PracticeManager
-            topicId={topicId}
+            topicId={null}
             playlist={currentPlaylist}
             hasPlaylist={currentPlaylist !== null}
             starred={!!starred}

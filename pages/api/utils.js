@@ -101,14 +101,14 @@ function getTopSolvedQuestions(questions) {
 
   // find topic id that is solved the most
   for (const question of questions) {
-    if (!table[question.topic.id]) {
-      table[question.topic.id] = 1;
+    if (!table[question.topicId]) {
+      table[question.topicId] = 1;
     } else {
-      table[question.topic.id] = table[question.topic.id] + 1;
+      table[question.topicId] = table[question.topicId] + 1;
     }
   }
 
-  const mostSolvedId = ~~Object.keys(table).reduce((prev, cur) =>
+  const mostSolvedId = ~~Object.keys(table).reduce((a, b) =>
     table[a] > table[b] ? a : b
   );
 
@@ -117,9 +117,9 @@ function getTopSolvedQuestions(questions) {
   let right = 0;
   let wrong = 0;
 
-  questions.forEach((q) => {
-    if (q.topic.id === mostSolvedId) {
-      q.isCorrect ? right++ : wrong++;
+  questions.forEach((question) => {
+    if (question.topicId === mostSolvedId) {
+      question.isCorrect ? right++ : wrong++;
     }
   });
   // fetch the title
@@ -133,6 +133,43 @@ function getTopSolvedQuestions(questions) {
   };
 }
 
+function getBestQuestion(questions) {
+  const table = {};
+
+  for (const question of questions) {
+    if (question.isCorrect) {
+      if (!table[question.topicId]) {
+        table[question.topicId] = 1;
+      } else {
+        table[question.topicId] = table[question.topicId] + 1;
+      }
+    }
+  }
+
+  const bestTopicId = Object.keys(table).reduce((a, b) => (a > b ? a : b));
+  const numCorrect = table[bestTopicId];
+
+  const topic = content.find((topic) => topic.id === ~~bestTopicId);
+  if (!topic) {
+    throw new Error("No title found for content id " + bestTopicId);
+  }
+
+  const title = topic.title;
+  let numTopicSolved = 0;
+  for (const question of questions) {
+    if (question.topicId === ~~bestTopicId) {
+      numTopicSolved++;
+    }
+  }
+
+  console.log(bestTopicId, numCorrect, title, numTopicSolved);
+  return {
+    title,
+    numCorrect,
+    numTopicSolved,
+  };
+}
+
 export {
   verifyQuestion,
   fetchMeta,
@@ -143,4 +180,5 @@ export {
   randomId,
   replaceAll,
   getTopSolvedQuestions,
+  getBestQuestion,
 };

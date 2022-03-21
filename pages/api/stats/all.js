@@ -2,7 +2,7 @@ import { getSession } from "next-auth/react";
 
 import clientPromise from "../../../lib/mongodb";
 import { ObjectId } from "mongodb";
-import { getTopSolvedQuestions } from "../utils";
+import { getTopSolvedQuestions, getBestQuestion } from "../utils";
 
 async function handler(req, res) {
   const session = await getSession({ req });
@@ -24,13 +24,13 @@ async function handler(req, res) {
   try {
     const result = await db.collection("users").findOne(filter);
     const questions = result.completed_questions;
-    console.log(questions);
+
     if (!questions) {
       return res.status(404).send();
     }
-    const topSolvedQuestion = getTopSolvedQuestions(questions);
-
-    return res.json({ topQuestion: topSolvedQuestion });
+    const mostSolvedQuestion = getTopSolvedQuestions(questions);
+    const bestQuestion = getBestQuestion(questions);
+    return res.json({ mostSolvedQuestion });
   } catch (e) {
     console.error(e);
     return res.status(500).send();

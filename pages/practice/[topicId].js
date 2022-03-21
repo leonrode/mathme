@@ -43,7 +43,7 @@ function TopicPage() {
           </div>
         </h3>
         <PracticeManager
-          topicId={topicId}
+          topicId={~~topicId}
           playlist={null}
           hasPlaylist={false}
           starred={false}

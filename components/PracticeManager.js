@@ -118,7 +118,7 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
           await postCompletedQuestions(
             c.map((question) => ({
               isCorrect: question.isCorrect,
-              topic: playlist.topics[topicIndex].topic,
+              topicId: playlist.topics[topicIndex].topic.id,
             }))
           );
         } else {
@@ -129,7 +129,7 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
             await postCompletedQuestions(
               c.map((question) => ({
                 isCorrect: question.isCorrect,
-                topic: playlist.topics[topicIndex].topic,
+                topicId: playlist.topics[topicIndex].topic.id,
               }))
             );
             return;
@@ -147,11 +147,15 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
     // if no playlist and reached past 10 questions,
     // fetch new 10 questions
     else {
-      if (index === nextQuestions.length - 2) {
+      if (index === nextQuestions.length - 1) {
         const questions = await fetchQuestions(topicId, 10);
         setNextQuestions(questions);
-      } else if (index === nextQuestions.length - 1) {
-        setIndex(0);
+        await postCompletedQuestions(
+          c.slice(c.length - 10).map((question) => ({
+            isCorrect: question.isCorrect,
+            topicId,
+          }))
+        );
       } else {
         setIndex((prev) => prev + 1);
       }

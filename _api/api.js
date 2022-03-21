@@ -118,9 +118,12 @@ const postCompletedQuestions = async (questions) => {
 };
 
 const fetchAllStats = async () => {
-  const result = await axios.get("/api/stats/all");
-
-  return result.data;
+  try {
+    const result = await axios.get("/api/stats/all");
+    return result.data;
+  } catch (e) {
+    return null;
+  }
 };
 
 export {
