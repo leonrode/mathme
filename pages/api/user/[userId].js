@@ -18,7 +18,7 @@ async function handler(req, res) {
   };
 
   const user = await db.collection("users").findOne(filter);
-  console.log(user);
+
   return res.json({ user });
 }
 

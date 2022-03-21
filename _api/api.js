@@ -114,6 +114,13 @@ const removeLike = async (playlistSlug) => {
   return result.data.newLikes;
 }
 
+const postCompletedQuestions = async (questions) => {
+  const result = await axios.post("/api/analytics/completed", {questions});
+
+  return result.status === 201;
+}
+
+
 export {
   searchTopics,
   getPlaylist,
@@ -128,5 +135,6 @@ export {
   verifyAnswer,
   signUp,
   addLike,
-  removeLike
+  removeLike,
+  postCompletedQuestions
 };
