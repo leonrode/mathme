@@ -55,15 +55,13 @@ const starPlaylist = async (playlistSlug) => {
 };
 
 const fetchNewQuestion = async (topicId) => {
-  const result = await axios.get(`/api/question/${parseInt(topicId)}`);
+  const result = await axios.get(`/api/question/${~~topicId}`);
 
   return result.data;
 };
 
 const fetchQuestions = async (topicId, count) => {
-  const result = await axios.get(
-    `/api/question/${parseInt(topicId)}?count=${parseInt(count)}`
-  );
+  const result = await axios.get(`/api/question/${~~topicId}?count=${~~count}`);
 
   return result.data.questions;
 };
@@ -81,7 +79,7 @@ const verifyAnswer = async (
   questionLatex,
   questionString,
   responseFields,
-  providedSolution,
+  providedSolution
 ) => {
   const result = await axios.post("/api/verify", {
     topicId,
@@ -104,22 +102,26 @@ const signUp = async (username, password) => {
 
 const addLike = async (playlistSlug) => {
   const result = await axios.post("/api/playlist/like", { playlistSlug });
-  console.log(result);
   return result.data.newLikes;
-}
+};
 
 const removeLike = async (playlistSlug) => {
   const result = await axios.post("/api/playlist/unlike", { playlistSlug });
 
   return result.data.newLikes;
-}
+};
 
 const postCompletedQuestions = async (questions) => {
-  const result = await axios.post("/api/analytics/completed", {questions});
+  const result = await axios.post("/api/stats/completed", { questions });
 
   return result.status === 201;
-}
+};
 
+const fetchAllStats = async () => {
+  const result = await axios.get("/api/stats/all");
+
+  return result.data;
+};
 
 export {
   searchTopics,
@@ -136,5 +138,6 @@ export {
   signUp,
   addLike,
   removeLike,
-  postCompletedQuestions
+  postCompletedQuestions,
+  fetchAllStats,
 };

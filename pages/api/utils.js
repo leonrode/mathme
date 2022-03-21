@@ -13,15 +13,22 @@ function fetchMeta(topicId) {
   return { title, example };
 }
 
-function verifyQuestion(topicId, question, response, stringVersion, providedSolution) {
-  console.log(topicId);
-  return content[topicId].verify(question, response, stringVersion, providedSolution);
+function verifyQuestion(
+  topicId,
+  question,
+  response,
+  stringVersion,
+  providedSolution
+) {
+  return content
+    .filter((q) => q.id === topicId)[0]
+    .verify(question, response, stringVersion, providedSolution);
 }
 
 function generateSearchResults(prompt) {
   if (prompt === "all") {
     return content.map((topic, index) => ({
-      id: index,
+      id: topic.id,
       instructions: topic.instructions,
       title: topic.title,
       description: topic.description,
@@ -32,7 +39,7 @@ function generateSearchResults(prompt) {
     }));
   }
   let results = content.map((topic, index) => ({
-    id: index,
+    id: topic.id,
     instructions: topic.instructions,
     title: topic.title,
     description: topic.description,
@@ -89,6 +96,43 @@ function replaceAll(string, search, replacement) {
   return string.split(search).join(replacement);
 }
 
+function getTopSolvedQuestions(questions) {
+  const table = {};
+
+  // find topic id that is solved the most
+  for (const question of questions) {
+    if (!table[question.topic.id]) {
+      table[question.topic.id] = 1;
+    } else {
+      table[question.topic.id] = table[question.topic.id] + 1;
+    }
+  }
+
+  const mostSolvedId = ~~Object.keys(table).reduce((prev, cur) =>
+    table[a] > table[b] ? a : b
+  );
+
+  // count the number of wrong to right
+
+  let right = 0;
+  let wrong = 0;
+
+  questions.forEach((q) => {
+    if (q.topic.id === mostSolvedId) {
+      q.isCorrect ? right++ : wrong++;
+    }
+  });
+  // fetch the title
+  const title = content.find((topic) => topic.id === mostSolvedId).title;
+
+  return {
+    title,
+    right,
+    wrong,
+    ratio: parseInt((right / wrong) * 100),
+  };
+}
+
 export {
   verifyQuestion,
   fetchMeta,
@@ -98,4 +142,5 @@ export {
   randomFactor,
   randomId,
   replaceAll,
+  getTopSolvedQuestions,
 };

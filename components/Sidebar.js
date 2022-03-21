@@ -36,8 +36,8 @@ function Sidebar({ activeIndex }) {
           />
           <SidebarIcon
             Icon={MdBarChart}
-            hoverText="Analytics"
-            href="/analytics"
+            hoverText="Stats"
+            href="/stats"
             isActive={activeIndex === 2}
           />
 

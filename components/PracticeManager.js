@@ -3,7 +3,11 @@ import TopicSummary from "./TopicSummary";
 import PlaylistSummary from "./PlaylistSummary";
 
 import { useState, useEffect } from "react";
-import { fetchQuestions, fetchMixedQuestions, postCompletedQuestions } from "../_api/api";
+import {
+  fetchQuestions,
+  fetchMixedQuestions,
+  postCompletedQuestions,
+} from "../_api/api";
 
 import { MdDone } from "react-icons/md";
 
@@ -110,14 +114,24 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
         ]);
         if (!shuffle && topicIndex === playlist.topics.length - 1) {
           // TODO: end of playlist
-          await postCompletedQuestions(c.map(question => ({isCorrect: question.isCorrect, topic: playlist.topics[topicIndex].topic})));
           setShowPlaylistSummary(true);
+          await postCompletedQuestions(
+            c.map((question) => ({
+              isCorrect: question.isCorrect,
+              topic: playlist.topics[topicIndex].topic,
+            }))
+          );
         } else {
           // else if reached end of topic
 
           if (!shuffle) {
-            await postCompletedQuestions(c.map(question => ({isCorrect: question.isCorrect, topic: playlist.topics[topicIndex].topic})));
             setShowTopicSummary(true);
+            await postCompletedQuestions(
+              c.map((question) => ({
+                isCorrect: question.isCorrect,
+                topic: playlist.topics[topicIndex].topic,
+              }))
+            );
             return;
           } else {
             const questions = await fetchMixedQuestions(playlist.slug, 10);
@@ -220,7 +234,6 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
     } else {
       questions = await fetchQuestions(topicId, 10);
     }
-
 
     setCompletedQuestions([]);
     setIndex(0);

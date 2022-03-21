@@ -17,28 +17,30 @@ async function handler(req, res) {
 
   // add date to questions
 
-  let mapped = questions.map(question => ({...question, dateSolved: new Date()}))
+  // console.log(questions);
+
+  let mapped = questions.map((question) => ({
+    ...question,
+    dateSolved: new Date(),
+  }));
 
   const filter = {
-      _id: new ObjectId(userId)
-  }
-
+    _id: new ObjectId(userId),
+  };
 
   const update = {
-      $push: {
-          completed_questions: {
-            $each: mapped
-          }
-      }
-  }
+    $push: {
+      completed_questions: {
+        $each: mapped,
+      },
+    },
+  };
   try {
-      await db.collection("users").updateOne(filter, update);
-      return res.status(201).send();
+    await db.collection("users").updateOne(filter, update);
+    return res.status(201).send();
   } catch (e) {
-      return res.status(500).send();
+    return res.status(500).send();
   }
-
-
 }
 
 export default handler;

@@ -5,6 +5,7 @@ import { randomIntInRange, gcd, replaceAll, randomFactor } from "./utils";
 
 export default [
   {
+    id: 0,
     instructions: "Solve for x",
     title: "Solve one step linear equations",
     description: "Solve very basic linear equations.",
@@ -29,11 +30,13 @@ export default [
       return { solution, latex };
     },
     verify: (question, userResponse, _, providedSolution) => {
-      return nerdamer.convertFromLaTeX(userResponse).eq(nerdamer.convertFromLaTeX(providedSolution));
-
+      return nerdamer
+        .convertFromLaTeX(userResponse)
+        .eq(nerdamer.convertFromLaTeX(providedSolution));
     },
   },
   {
+    id: 1,
     title: "Solve two step linear equations",
     instructions: "Solve for x",
     description: "Solve more complex linear equations",
@@ -65,10 +68,13 @@ export default [
     },
 
     verify: (question, userResponses, questionString, providedSolution) => {
-      return nerdamer.convertFromLaTeX(userResponses).eq(nerdamer.convertFromLaTeX(providedSolution));
+      return nerdamer
+        .convertFromLaTeX(userResponses)
+        .eq(nerdamer.convertFromLaTeX(providedSolution));
     },
   },
   {
+    id: 2,
     title: "Solve multi-step linear equations",
     instructions: "Solve for x",
     description: "Solve multi-step linear equations",
@@ -102,10 +108,13 @@ export default [
       return { solution, latex, stringVersion: lhs.toString() };
     },
     verify: (question, userResponse, _, providedSolution) => {
-      return nerdamer.convertFromLaTeX(userResponse).eq(nerdamer.convertFromLaTeX(providedSolution));
+      return nerdamer
+        .convertFromLaTeX(userResponse)
+        .eq(nerdamer.convertFromLaTeX(providedSolution));
     },
   },
   {
+    id: 3,
     title: "Factor quadratics where a = 1",
     instructions: "Factor the quadratic",
     descrption: "Factor basic quadratics into binomials",
@@ -136,10 +145,13 @@ export default [
     },
 
     verify: (question, userResponse, _, providedSolution) => {
-      return nerdamer.convertFromLaTeX(providedSolution).eq(nerdamer.convertFromLaTeX(userResponse));
+      return nerdamer
+        .convertFromLaTeX(providedSolution)
+        .eq(nerdamer.convertFromLaTeX(userResponse));
     },
   },
   {
+    id: 4,
     title: "Factor quadratics where a ≠ 1",
     instructions: "Factor the quadratic",
     description: "Factor a quadratic where a ≠ 1",
@@ -161,16 +173,23 @@ export default [
 
       let latex = poly.toTeX();
       latex = replaceAll(latex, "\\cdot", "");
-      const solution = `(${replaceAll(firstFactor.toTeX(), "\\cdot", "")})(${secondFactor.toTeX()})`;
+      const solution = `(${replaceAll(
+        firstFactor.toTeX(),
+        "\\cdot",
+        ""
+      )})(${secondFactor.toTeX()})`;
       return { solution, latex, stringVersion: poly.toString() };
     },
 
     verify: (question, userResponse, questionString, providedSolution) => {
-
-      return nerdamer.convertFromLaTeX(userResponse[0]).expand().eq(nerdamer.convertFromLaTeX(providedSolution).expand());
+      return nerdamer
+        .convertFromLaTeX(userResponse[0])
+        .expand()
+        .eq(nerdamer.convertFromLaTeX(providedSolution).expand());
     },
   },
   {
+    id: 5,
     title: "Simplify Rational Expressions",
     instructions: "Simplify the rational expression",
     descrption: "Simplify more complex rational expresions",
@@ -210,10 +229,13 @@ export default [
     },
 
     verify: (question, userResponses, questionString, providedSolution) => {
-      return nerdamer.convertFromLaTeX(providedSolution).eq(nerdamer.convertFromLaTeX(userResponses[0]));
+      return nerdamer
+        .convertFromLaTeX(providedSolution)
+        .eq(nerdamer.convertFromLaTeX(userResponses[0]));
     },
   },
   {
+    id: 6,
     title: "Multiply Rational Expressions",
     instructions: "Simplify the rational expression",
     descrption: "Multiply two rational expressions",
@@ -284,8 +306,8 @@ export default [
     },
   },
 
-
   {
+    id: 7,
     title: "Absolute Value Equations",
     instructions: "Solve for x",
     descrption: "Solve absolute value equations",
@@ -318,18 +340,16 @@ export default [
     },
 
     verify: (question, userResponses, questionString, providedSolution) => {
-
       // console.log(userResponses, providedSolution, typeof providedSolution)
-      const evalled = eval("[" + providedSolution + "]")
+      const evalled = eval("[" + providedSolution + "]");
 
-      userResponses = userResponses.map(Number)
-
+      userResponses = userResponses.map(Number);
 
       return evalled.sort().join(",") === userResponses.sort().join(",");
     },
   },
-
   {
+    id: 8,
     title: "2nd Root Radicals",
     instructions: "Simplify the radical",
     description: "Simplify square root radical expressions",
@@ -353,11 +373,13 @@ export default [
     },
 
     verify: (question, userResponses, questionString, providedSolution) => {
-
-      return nerdamer.convertFromLaTeX(userResponses[0]).eq(nerdamer.convertFromLaTeX(providedSolution));
+      return nerdamer
+        .convertFromLaTeX(userResponses[0])
+        .eq(nerdamer.convertFromLaTeX(providedSolution));
     },
   },
   {
+    id: 9,
     title: "3rd Root Radicals",
     instructions: "Simplify the radical",
     description: "Simplify 3rd root radical expressions",
@@ -383,13 +405,15 @@ export default [
     },
 
     verify: (question, userResponses, questionString, providedSolution) => {
-
       // console.log(nerdamer.convertFromLaTeX(providedSolution).eq(nerdamer.convertFromLaTeX(userResponses[0])))
-      return nerdamer.convertFromLaTeX(providedSolution).eq(nerdamer.convertFromLaTeX(userResponses[0]));
+      return nerdamer
+        .convertFromLaTeX(providedSolution)
+        .eq(nerdamer.convertFromLaTeX(userResponses[0]));
     },
   },
 
   {
+    id: 10,
     title: "Rationalize 2nd-root denominators",
     instructions: "Simplify the radical",
     description: "Rationalize denominators containing 2nd-root radicals ",
@@ -427,6 +451,7 @@ export default [
     },
   },
   {
+    id: 11,
     title: "Rationalize 3rd-root denominators",
     instructions: "Simplify the radical",
     description: "Rationalize denominators containing 3rd-root radicals ",
@@ -464,6 +489,7 @@ export default [
     },
   },
   {
+    id: 12,
     title: "Variables in Radicals",
     instructions: "Simplify the radical",
     description: "Simplify radicals containing variables.",
@@ -509,6 +535,7 @@ export default [
     },
   },
   {
+    id: 13,
     title: "Simplifying Square Roots",
     instructions: "Simplify",
     description: "Simplify operations with square roots.",
@@ -544,10 +571,13 @@ export default [
     },
 
     verify: (question, userResponses, questionString, providedSolution) => {
-      return nerdamer.convertFromLaTeX(providedSolution).eq(nerdamer.convertFromLaTeX(userResponses[0]));
+      return nerdamer
+        .convertFromLaTeX(providedSolution)
+        .eq(nerdamer.convertFromLaTeX(userResponses[0]));
     },
   },
   {
+    id: 14,
     title: "Solve linear equations with x on both sides",
     instructions: "Solve for x",
     description:
@@ -595,6 +625,7 @@ export default [
     },
   },
   {
+    id: 15,
     title: "Find the remainder of polynomial division",
     instructions: "Find the remainder after dividing",
     description:
@@ -612,15 +643,17 @@ export default [
       const c = randomIntInRange(-10, 10, [0, 1, -1]);
 
       const v = randomIntInRange(-5, 5, [0, 1, -1]);
-      let polynomial = nerdamer.convertFromLaTeX(`x^2${b > 0 ? "+" : ""}${b}x${c > 0 ? "+" : ""}${c}`);
+      let polynomial = nerdamer.convertFromLaTeX(
+        `x^2${b > 0 ? "+" : ""}${b}x${c > 0 ? "+" : ""}${c}`
+      );
 
-      let binomial = nerdamer.convertFromLaTeX(`x${v > 0 ? "+" : ""}${v}`)
+      let binomial = nerdamer.convertFromLaTeX(`x${v > 0 ? "+" : ""}${v}`);
 
       polynomial = polynomial.multiply(binomial).expand();
 
       polynomial = polynomial.add(nerdamer(remainder));
 
-      const latex = `\\frac{${polynomial.toTeX()}}{${binomial.toTeX()}}`
+      const latex = `\\frac{${polynomial.toTeX()}}{${binomial.toTeX()}}`;
       const solution = `${remainder}`;
 
       return {

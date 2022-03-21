@@ -5,20 +5,24 @@ function handler(req, res) {
   const count = req.query.count;
   try {
     if (count) {
+      const topic = content.filter((topic) => topic.id === ~~topicId)[0];
+      if (!topic) {
+        return res.status(400).send();
+      }
       let questions = [];
       for (let i = 0; i < count; i++) {
-        const { latex, stringVersion, solution } = content[topicId].generate();
+        const { latex, stringVersion, solution } = topic.generate();
 
         questions.push({
           latex: latex,
           stringVersion,
           solution,
 
-          title: content[topicId].title,
-          instructions: content[topicId].instructions,
-          numFields: content[topicId].numFields,
-          prompts: content[topicId].prompts,
-          buttons: content[topicId].buttons,
+          title: topic.title,
+          instructions: topic.instructions,
+          numFields: topic.numFields,
+          prompts: topic.prompts,
+          buttons: topic.buttons,
         });
       }
 
@@ -27,23 +31,26 @@ function handler(req, res) {
         warning: "Yes, you can see the solution, but that defeats the point :)",
       });
     } else {
-      const { latex, stringVersion, solution } = content[topicId].generate();
+      const topic = content.filter((topic) => topic.id === ~~topicId)[0];
+      if (!topic) {
+        return res.status(400).send();
+      }
+      const { latex, stringVersion, solution } = topic.generate();
 
       return res.json({
         latex: latex,
         stringVersion,
         solution,
 
-        title: content[topicId].title,
-        instructions: content[topicId].instructions,
-        numFields: content[topicId].numFields,
-        prompts: content[topicId].prompts,
-        buttons: content[topicId].buttons,
+        title: topic.title,
+        instructions: topic.instructions,
+        numFields: topic.numFields,
+        prompts: topic.prompts,
+        buttons: topic.buttons,
         warning: "Yes, you can see the solution, but that defeats the point :)",
       });
     }
   } catch (e) {
-    console.log(e);
     return res.json({
       isError: true,
       error: e.message,

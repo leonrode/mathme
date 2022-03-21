@@ -58,8 +58,8 @@ function MobileSidebar({ isOpen, toClose, activeIndex }) {
         />
         <SidebarIcon
           Icon={MdBarChart}
-          hoverText={"Analytics"}
-          href="/analytics"
+          hoverText={"Stats"}
+          href="/stats"
           isActive={activeIndex === 2}
         />
         <SidebarIcon
