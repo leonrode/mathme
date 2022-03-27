@@ -4,7 +4,7 @@
 
 Goal: September 2022
 
-- [ ] copy another person's playlist
+- [x] copy another person's playlist
 - [ ] search by tags
 - [ ] save creation of a playlist inside localstorage
 - [ ] view popular playlists on the home page?

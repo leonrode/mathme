@@ -15,10 +15,11 @@ import {
   MdStar,
   MdOutlineEdit,
   MdThumbUpOffAlt,
-  MdThumbUpAlt
+  MdThumbUpAlt,
+  MdContentCopy
 } from "react-icons/md";
 
-import { savePlaylist, starPlaylist, addLike, removeLike } from "../../_api/api";
+import { createPlaylist, savePlaylist, starPlaylist, addLike, removeLike } from "../../_api/api";
 
 import notify from "../../lib/notifier";
 function PlaylistPage() {
@@ -192,8 +193,16 @@ function PlaylistPage() {
                 </div>
 
               <span className="text-darkPrimary ml-2">{likeCount}</span>
+
             </div>
-          </div>
+          </div>{!ownsPlaylist && <div onClick={async () => {
+            const slug = await createPlaylist(null, `Copy of ${playlist.title}`, playlist.topics);
+
+            await router.push(`/playlist/${slug}`);
+            router.reload();
+            notify(`Copied ${playlist.title}`, "success");
+          }}className="flex items-center max-w-fit cursor-pointer mt-4 bg-primary dark:bg-darkPrimary text-darkText rounded p-2"><MdContentCopy className="text-darkText mr-2" size={20} /> Copy this playlist</div>}
+
           <h6 className="text-textGrayed text-sm font-bold mt-4">STUDY</h6>
           <div className="flex items-center mt-2">
             <MdAssignment

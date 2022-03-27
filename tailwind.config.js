@@ -20,7 +20,7 @@ module.exports = {
         error: "#EA1601",
         success: "#64BC26",
         warning: "#FAD40F",
-        darkBg: "#051419",
+        darkBg: "#041014",
         darkText: "#DEEDF2",
         darkPrimary: "#317f9b",
         darkSkeleton: "#0F3C4C",
