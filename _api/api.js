@@ -112,8 +112,8 @@ const removeLike = async (playlistSlug) => {
 };
 
 const postCompletedQuestions = async (questions) => {
+  console.log(questions.length)
   const result = await axios.post("/api/stats/completed", { questions });
-
   return result.status === 201;
 };
 

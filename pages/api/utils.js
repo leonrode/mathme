@@ -162,7 +162,6 @@ function getBestQuestion(questions) {
     }
   }
 
-  console.log(bestTopicId, numCorrect, title, numTopicSolved);
   return {
     title,
     numCorrect,
@@ -173,10 +172,43 @@ function getBestQuestion(questions) {
 const getPercentCorrect = (questions) => {
   const total = questions.length;
 
-  const correct = questions.filter(question => question.isCorrect).length;
+  const correct = questions.filter((question) => question.isCorrect).length;
 
-  return correct / total;
+  return {
+    percentage: correct / total,
+    correct: correct,
+    incorrect: total - correct,
+    total: total,
+  };
+};
 
+const getAverageTimeToAnswer = (questions) => {
+  // total, correct, incorrect
+
+  const total = questions.reduce((a, b) => a + b.seconds, questions[0].seconds) / questions.length;
+  const correctQuestions = questions.filter(q => q.isCorrect);
+  const correct = correctQuestions.reduce((a, b) => a + b.seconds, correctQuestions[0].seconds) / correctQuestions.length;
+
+  const incorrectQuestions = questions.filter(q => !q.isCorrect);
+  const incorrect = incorrectQuestions.reduce((a, b) => a + b.seconds, incorrectQuestions[0].seconds) / incorrectQuestions.length;
+
+  return {totalAvg: total, correctAvg: correct, incorrectAvg: incorrect}
+}
+
+const getCumulativeAccuracyGraph = (questions) => {
+  let v = 0;
+
+  let points = [];
+  for (const q of questions) {
+    if (q.isCorrect) {
+      v += 1;
+    } else {
+      v -= 1;
+    }
+    points.push(v);
+  }
+  console.log(points);
+  return points;
 }
 
 export {
@@ -190,5 +222,7 @@ export {
   replaceAll,
   getTopSolvedQuestions,
   getBestQuestion,
-  getPercentCorrect
+  getPercentCorrect,
+  getAverageTimeToAnswer,
+  getCumulativeAccuracyGraph
 };

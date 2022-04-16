@@ -2,7 +2,13 @@ import { getSession } from "next-auth/react";
 
 import clientPromise from "../../../lib/mongodb";
 import { ObjectId } from "mongodb";
-import { getTopSolvedQuestions, getBestQuestion, getPercentCorrect } from "../utils";
+import {
+  getTopSolvedQuestions,
+  getBestQuestion,
+  getPercentCorrect,
+  getAverageTimeToAnswer,
+  getCumulativeAccuracyGraph
+} from "../utils";
 
 async function handler(req, res) {
   const session = await getSession({ req });
@@ -30,9 +36,19 @@ async function handler(req, res) {
     }
     const mostSolvedQuestion = getTopSolvedQuestions(questions);
     const bestQuestion = getBestQuestion(questions);
-    const correctPercentage = getPercentCorrect(questions);
+    const { percentage, correct, incorrect, total } =
+      getPercentCorrect(questions);
+    const { totalAvg, correctAvg, incorrectAvg } =
+      getAverageTimeToAnswer(questions);
 
-    return res.json({ mostSolvedQuestion, correctPercentage: {percentage: correctPercentage, total: questions.length} });
+    const points = getCumulativeAccuracyGraph(questions);
+
+    return res.json({
+      mostSolvedQuestion,
+      correctPercentage: { percentage, total, correct, incorrect },
+      avgTimes: { totalAvg, correctAvg, incorrectAvg },
+      cumulativePoints: {cumulativePoints: points}
+    });
   } catch (e) {
     console.error(e);
     return res.status(500).send();

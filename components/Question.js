@@ -26,7 +26,6 @@ function Question({
   noIncorrect,
 }) {
   const [latexFields, setLatexFields] = useState([]);
-  console.log(question);
   const [isVerifyingResponse, setIsVerifyingResponse] = useState(false);
   const [questionStatus, setQuestionStatus] = useState("");
   const verifyResponse = async () => {

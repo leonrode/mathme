@@ -19,6 +19,8 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
   const [index, setIndex] = useState(0);
   const [topicIndex, setTopicIndex] = useState(0);
 
+  const [problemTimer, setProblemTimer] = useState(0);
+
   const [noCorrect, setNoCorrect] = useState(0);
   const [noIncorrect, setNoIncorrect] = useState(0);
 
@@ -56,6 +58,11 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
     })();
   }, []);
 
+  useEffect(() => {
+    const timeout = setTimeout(() => setProblemTimer(prev => prev + 1), 1000)
+    return () => clearTimeout(timeout);
+  }, [problemTimer])
+
   const getNextStarredTopicIndex = (topics, start) => {
     for (let i = start; i < topics.length; i++) {
       if (topics[i].isStarred) {
@@ -80,6 +87,7 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
           return "Skipped";
         }),
         solution: question.solution,
+        seconds: problemTimer
       },
     ];
 
@@ -93,8 +101,10 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
           return "Skipped";
         }),
         solution: question.solution,
+        seconds: problemTimer
       },
     ]);
+    setProblemTimer(0);
     isCorrect
       ? setNoCorrect((prev) => prev + 1)
       : setNoIncorrect((prev) => prev + 1);
@@ -118,9 +128,11 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
           await postCompletedQuestions(
             c.map((question) => ({
               isCorrect: question.isCorrect,
+              seconds: question.seconds,
               topicId: playlist.topics[topicIndex].topic.id,
             }))
           );
+          return;
         } else {
           // else if reached end of topic
 
@@ -129,6 +141,7 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
             await postCompletedQuestions(
               c.map((question) => ({
                 isCorrect: question.isCorrect,
+                seconds: question.seconds,
                 topicId: playlist.topics[topicIndex].topic.id,
               }))
             );
@@ -150,9 +163,11 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
       if (index === nextQuestions.length - 1) {
         const questions = await fetchQuestions(topicId, 10);
         setNextQuestions(questions);
+        setIndex(0);
         await postCompletedQuestions(
           c.slice(c.length - 10).map((question) => ({
             isCorrect: question.isCorrect,
+            seconds: question.seconds,
             topicId,
           }))
         );
@@ -195,6 +210,7 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
 
     setNoCorrect(0);
     setNoIncorrect(0);
+    setProblemTimer(0);
     setIndex(0);
 
     setShowTopicSummary(false);
@@ -211,6 +227,7 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
 
     setNoCorrect(0);
     setNoIncorrect(0);
+    setProblemTimer(0);
     setIndex(0);
 
     setShowTopicSummary(false);
@@ -243,6 +260,7 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
     setIndex(0);
     setNoCorrect(0);
     setNoIncorrect(0);
+    setProblemTimer(0);
 
     setCompletedTopics([]);
 
