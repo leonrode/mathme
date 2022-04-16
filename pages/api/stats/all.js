@@ -2,7 +2,7 @@ import { getSession } from "next-auth/react";
 
 import clientPromise from "../../../lib/mongodb";
 import { ObjectId } from "mongodb";
-import { getTopSolvedQuestions, getBestQuestion } from "../utils";
+import { getTopSolvedQuestions, getBestQuestion, getPercentCorrect } from "../utils";
 
 async function handler(req, res) {
   const session = await getSession({ req });
@@ -30,7 +30,9 @@ async function handler(req, res) {
     }
     const mostSolvedQuestion = getTopSolvedQuestions(questions);
     const bestQuestion = getBestQuestion(questions);
-    return res.json({ mostSolvedQuestion });
+    const correctPercentage = getPercentCorrect(questions);
+
+    return res.json({ mostSolvedQuestion, correctPercentage: {percentage: correctPercentage, total: questions.length} });
   } catch (e) {
     console.error(e);
     return res.status(500).send();

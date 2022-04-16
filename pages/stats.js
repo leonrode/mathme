@@ -2,6 +2,8 @@ import Layout from "../components/Layout";
 
 import { getSession, useSession } from "next-auth/react";
 
+import {MdCheck, MdClose} from "react-icons/md"
+
 import { fetchAllStats } from "../_api/api";
 
 import { useState, useEffect } from "react";
@@ -10,6 +12,7 @@ function Stats() {
   useEffect(() => {
     (async () => {
       const res = await fetchAllStats();
+      console.log(res);
       setStats(res);
     })();
   }, []);
@@ -20,7 +23,7 @@ function Stats() {
       </h1>
       <div className="mt-8 h-screen">
         <div className="flex-col md:flex-row flex h-full md:h-1/2">
-          <div className="w-full h-full flex flex-col items-center">
+          <div className="w-full h-full flex flex-col justify-center items-center">
             <h3 className="text-textGrayed font-bold">
               YOUR MOST STUDIED TOPIC
             </h3>
@@ -35,16 +38,30 @@ function Stats() {
                     stats.mostSolvedQuestion.wrong}{" "}
                   questions
                 </span>
-                <span className="text-error dark:text-darkError">
-                  {stats.mostSolvedQuestion.wrong} wrong
+                <span className="flex items-center text-error dark:text-darkError">
+                  {stats.mostSolvedQuestion.wrong} <MdClose className="text-error dark:text-darkError" size={20} />
                 </span>
-                <span className="text-success">
-                  {stats.mostSolvedQuestion.right} right
+                <span className="flex items-center text-success">
+                  {stats.mostSolvedQuestion.right}  <MdCheck className="text-success" size={20} />
                 </span>
               </>
             )}
           </div>
-          <div className="border-2 w-full h-full  border-primary"></div>
+          <div className=" w-full h-full  flex flex-col justify-center items-center">
+            <h3 className="text-textGrayed font-bold">ACCURACY PERCENTAGE</h3>
+            <h1
+              className={`my-4 text-8xl font-bold ${
+                stats.correctPercentage.percentage < 0.3
+                  ? "text-error dark:text-darkError"
+                  : stats.correctPercentage.percentage < 0.7
+                  ? "text-warning dark:text-darkWarning"
+                  : "text-success"
+              }`}
+            >
+              {~~Math.round(stats.correctPercentage.percentage * 100)}%
+            </h1>
+            <p className="text-2xl text-textGrayed">{stats.correctPercentage.total} questions</p>
+          </div>
         </div>
         <div className="flex-col md:flex-row  flex  h-full md:h-1/2">
           <div className="border-2  w-full h-full border-primary"></div>

@@ -170,6 +170,15 @@ function getBestQuestion(questions) {
   };
 }
 
+const getPercentCorrect = (questions) => {
+  const total = questions.length;
+
+  const correct = questions.filter(question => question.isCorrect).length;
+
+  return correct / total;
+
+}
+
 export {
   verifyQuestion,
   fetchMeta,
@@ -181,4 +190,5 @@ export {
   replaceAll,
   getTopSolvedQuestions,
   getBestQuestion,
+  getPercentCorrect
 };
