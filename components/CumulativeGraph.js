@@ -33,6 +33,7 @@ const CumulativeGraph = ({ points }) => {
           {
             label: 0,
             data: points,
+            pointRadius: 0,
             borderColor: points[points.length - 1] < 0 ? "#EA1601" : "#64BC26",
           },
         ],

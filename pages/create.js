@@ -31,7 +31,6 @@ function Create() {
   const [inputPrompt, setInputPrompt] = useState("");
 
   const [state, dispatch] = useReducer(reducer, { addedTopics: [] });
-  // const addedTopics = state.addedTopics; // TODO: change to state.addedTopcis throughout JSX
 
   const [playlistTitle, setPlaylistTitle] = useState("");
   const [isSaving, setIsSaving] = useState(false);
@@ -49,6 +48,25 @@ function Create() {
     })();
   }, [inputPrompt]);
 
+  const saveToLocalStorage = () => {
+    const stringified = JSON.stringify(state.addedTopics);
+
+    localStorage.setItem("__create_progress__", stringified);
+  };
+
+  const loadFromLocalStorage = () => {
+    const loaded = localStorage.getItem("__create_progress__");
+
+    if (!loaded) return;
+
+    const parsed = JSON.parse(loaded);
+
+    if (parsed.length !== 0) {
+      dispatch({ type: "set", addedTopics: JSON.parse(loaded) });
+      notify("Loaded playlist from local storage", "success");
+    }
+  };
+
   useEffect(() => {
     (async () => {
       if (router.query.playlistSlug) {
@@ -56,15 +74,14 @@ function Create() {
 
         const { title, topics, creator } = playlist;
 
-        console.log(creator);
-        console.log(session.userId);
         if (creator === session.userId) {
           setOwnsPlaylist(true);
         }
 
         setPlaylistTitle(title);
         dispatch({ type: "set", addedTopics: topics });
-        // setAddedTopics(topics);
+      } else {
+        loadFromLocalStorage();
       }
 
       const playlists = await getUserPlaylists();
@@ -72,6 +89,11 @@ function Create() {
       setPlaylistNo(playlists.length);
     })();
   }, []);
+
+  useEffect(() => {
+    // initiate saving process
+    saveToLocalStorage();
+  }, [state]);
 
   const _createPlaylist = async () => {
     if (state.addedTopics.length === 0) return;
@@ -107,7 +129,6 @@ function Create() {
         (ownsPlaylist ? (
           <>
             <div className="flex items-center">
-
               <input
                 className=" text-3xl lg:text-5xl text-text dark:text-darkText rounded-none font-bold outline-none bg-transparent w-full lg:w-3/4 border-b-textGrayed border-b-2 focus:border-b-primary focus:dark:border-b-darkPrimary dark:placeholder:text-textGrayed  transition"
                 type="text"
@@ -140,6 +161,14 @@ function Create() {
               />
             </div>
 
+            {state.addedTopics.length !== 0 && <h1
+              onClick={() => {
+                dispatch({ type: "set", addedTopics: [] });
+              }}
+              className="text-error dark:text-darkError font-bold mt-2 cursor-pointer"
+            >
+              Clear Playlist
+            </h1>}
 
             <div className="w-full flex flex-col lg:w-11/12 mt-4">
               {state.addedTopics.map((topic, i) => (

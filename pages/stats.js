@@ -78,14 +78,14 @@ function Stats() {
               </div>
             </div>
           </div>
-          <div className="flex-col md:flex-row  flex  h-full md:h-1/2">
-            <div className="w-full h-full flex flex-col justify-center items-center ">
+          <div className="flex-col md:flex-row  flex md:justify-center h-fit md:h-1/2">
+            <div className=" w-full md:w-1/2 h-full flex flex-col justify-center items-center ">
               <h1 className="text-textGrayed mb-4 font-bold">CUMULATIVE CORRECT/INCORRECT RATIO</h1>
               <CumulativeGraph
                 points={stats.cumulativePoints.cumulativePoints}
               />
             </div>
-            <div className="border-2  w-full h-full border-primary"></div>
+            {/* <div className="border-2  w-full h-full border-primary"></div> */}
           </div>
         </div>
       )}

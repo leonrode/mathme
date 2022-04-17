@@ -6,7 +6,7 @@ Goal: September 2022
 
 - [x] copy another person's playlist
 - [ ] search by tags
-- [ ] save creation of a playlist inside localstorage
+- [x] save creation of a playlist inside localstorage
 - [ ] add auth to api routes that modify db in order to prevent a logged-in account from deleting another user's playlist
 - [ ] better login error handling
 - [ ] undo playlist delete\*
@@ -18,11 +18,7 @@ Goal: September 2022
 - [ ] email login (magic link)
   - [ ] setup service provider
   - [ ] setup next auth provider
-- [ ] analytics page
-  - [x] best category (static text with ratio of right to wrong & total practiced)
-  - [ ] worst category (same as best category)
-  - [ ] most practiced (list of 5, category title with number of questions practiced)
-  - [ ] activity (line chart of customizable range (1yr, 6mo, 3mo, 1mo, 2wk, 1wk))
+- [x] analytics page
 - [ ] upgraded plan
   - [ ] features
     - [ ] generate worksheets with key
