@@ -8,8 +8,7 @@ Goal: September 2022
 - [ ] search by tags
 - [x] save creation of a playlist inside localstorage
 - [ ] add auth to api routes that modify db in order to prevent a logged-in account from deleting another user's playlist
-- [ ] better login error handling
-- [ ] undo playlist delete\*
+- [ ] better login error handling (eh)
 - [x] fix color scheme (something not monochromatic)
   - [ ] fix color names in tailwind config (later)
 - [ ] pagination of search & create results
@@ -19,6 +18,7 @@ Goal: September 2022
   - [ ] setup service provider
   - [ ] setup next auth provider
 - [x] analytics page
+- [ ] reset analytics by clearing completed questions
 - [ ] upgraded plan
   - [ ] features
     - [ ] generate worksheets with key
