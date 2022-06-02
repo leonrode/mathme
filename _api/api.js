@@ -74,6 +74,12 @@ const fetchMixedQuestions = async (playlistSlug, count) => {
   return result.data.questions;
 };
 
+const fetchCategories = async () => {
+  const result = await axios.get("/api/content/content");
+
+  return result.data.content;
+};
+
 const verifyAnswer = async (
   topicId,
   questionLatex,
@@ -112,7 +118,6 @@ const removeLike = async (playlistSlug) => {
 };
 
 const postCompletedQuestions = async (questions) => {
-  console.log(questions.length)
   const result = await axios.post("/api/stats/completed", { questions });
   return result.status === 201;
 };
@@ -137,6 +142,7 @@ export {
   fetchNewQuestion,
   fetchQuestions,
   fetchMixedQuestions,
+  fetchCategories,
   verifyAnswer,
   signUp,
   addLike,

@@ -3,6 +3,7 @@ import {
   MdOutlineSearch,
   MdBarChart,
   MdAdd,
+  MdOutlineBook,
 } from "react-icons/md";
 
 import { useSession } from "next-auth/react";
@@ -21,7 +22,7 @@ function Sidebar({ activeIndex }) {
       <div className="flex flex-col  h-full items-center">
         <Logo />
         <hr className="hidden border-divider dark:border-darkDivider lg:block lg:w-1/2 lg:my-4"></hr>
-        <div className="flex flex-col items-center justify-between h-1/3">
+        <div className="flex flex-col items-center justify-between h-2/5">
           <SidebarIcon
             Icon={MdHomeFilled}
             hoverText="Home"
@@ -35,17 +36,23 @@ function Sidebar({ activeIndex }) {
             isActive={activeIndex === 1}
           />
           <SidebarIcon
+            Icon={MdOutlineBook}
+            hoverText="Categories"
+            href="/categories"
+            isActive={activeIndex === 2}
+          />
+          <SidebarIcon
             Icon={MdBarChart}
             hoverText="Stats"
             href="/stats"
-            isActive={activeIndex === 2}
+            isActive={activeIndex === 3}
           />
 
           <SidebarIcon
             Icon={MdAdd}
             hoverText="Create"
             href="/create"
-            isActive={activeIndex === 3}
+            isActive={activeIndex === 4}
           />
         </div>
       </div>

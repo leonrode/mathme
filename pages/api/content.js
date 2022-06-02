@@ -10,7 +10,8 @@ export default [
     title: "Solve one step linear equations",
     description: "Solve very basic linear equations.",
     example: "x+17=34",
-    tags: ["Algebra I"],
+    category: "Algebra I",
+    subcategory: "Linear Equations",
     numFields: 1,
     prompts: ["x ="],
     buttons: [],
@@ -41,7 +42,8 @@ export default [
     instructions: "Solve for x",
     description: "Solve more complex linear equations",
     example: "2(x+5)=10",
-    tags: ["Algebra I", "Linear Equations"],
+    category: "Algebra I",
+    subcategory: "Linear Equations",
     numFields: 1,
     prompts: ["x ="],
     buttons: [],
@@ -79,7 +81,8 @@ export default [
     instructions: "Solve for x",
     description: "Solve multi-step linear equations",
     example: "2x+10=50",
-    tags: ["Algebra I", "Linear Equations"],
+    category: "Algebra I",
+    subcategory: "Linear Equations",
     numFields: 1,
     prompts: ["x ="],
     buttons: [],
@@ -119,7 +122,8 @@ export default [
     instructions: "Factor the quadratic",
     descrption: "Factor basic quadratics into binomials",
     example: "x^2 + 5x + 6",
-    tags: ["Quadratics", "Algebra I"],
+    category: "Algebra I",
+    subcategory: "Quadratics",
     numFields: 1,
     prompts: ["="],
     buttons: [],
@@ -156,7 +160,8 @@ export default [
     instructions: "Factor the quadratic",
     description: "Factor a quadratic where a ≠ 1",
     example: "2x^2+10x+12",
-    tags: ["Quadratics", "Algebra I", "Factoring"],
+    category: "Algebra I",
+    subcategory: "Quadratics",
     numFields: 1,
     prompts: ["="],
     buttons: [],
@@ -194,7 +199,8 @@ export default [
     instructions: "Simplify the rational expression",
     descrption: "Simplify more complex rational expresions",
     example: "\\frac{x^3-7x^2+12x}{2x^2-8x}",
-    tags: ["Rational Expressions", "Algebra II"],
+    category: "Algebra II",
+    subcategory: "Rational Expressions",
     numFields: 1,
     prompts: ["="],
     buttons: [],
@@ -240,7 +246,8 @@ export default [
     instructions: "Simplify the rational expression",
     descrption: "Multiply two rational expressions",
     example: "\\frac{4x+8}{4x^2-25}\\cdot\\frac{6x+15}{2x^2+4x}",
-    tags: ["Rational Expressions", "Algebra II"],
+    category: "Algebra II",
+    subcategory: "Rational Expressions",
     numFields: 1,
     prompts: ["="],
     buttons: [],
@@ -314,7 +321,8 @@ export default [
     example: "|x+5|=7",
     numFields: 2,
     prompts: ["x_1=", "x_2="],
-    tags: ["Absolute Value", "Algebra II"],
+    category: "Algebra II",
+    subcategory: "Absolute Value",
     buttons: [],
     generate: () => {
       const symbol = "x";
@@ -356,7 +364,8 @@ export default [
     example: "\\sqrt{75}",
     numFields: 1,
     prompts: ["="],
-    tags: ["Radicals", "Algebra I"],
+    category: "Algebra I",
+    subcategory: "Radicals",
     buttons: [{ cmd: "\\sqrt{}", ui: "\\sqrt{}" }],
 
     generate: () => {
@@ -386,7 +395,8 @@ export default [
     example: "\\sqrt[3]{128}",
     numFields: 1,
     prompts: ["="],
-    tags: ["Radicals", "Algebra I"],
+    category: "Algebra I",
+    subcategory: "Radicals",
     buttons: [{ cmd: "\\nthroot3{}", ui: "\\sqrt[3]{}" }],
 
     generate: () => {
@@ -420,7 +430,8 @@ export default [
     example: "\\frac{4}{\\sqrt{32}}",
     numFields: 1,
     prompts: ["="],
-    tags: ["Radicals", "Algebra II"],
+    category: "Algebra I",
+    subcategory: "Radicals",
     buttons: [{ cmd: "\\sqrt{}", ui: "\\sqrt{}" }],
 
     generate: () => {
@@ -458,7 +469,8 @@ export default [
     example: "\\frac{10}{\\sqrt[3]{2}}",
     numFields: 1,
     prompts: ["="],
-    tags: ["Radicals", "Algebra II"],
+    category: "Algebra II",
+    subcategory: "Radicals",
     buttons: [{ cmd: "\\nthroot3{}", ui: "\\sqrt[3]{}" }],
 
     generate: () => {
@@ -496,7 +508,8 @@ export default [
     example: "\\sqrt{x^5}",
     numFields: 1,
     prompts: ["="],
-    tags: ["Radicals", "Algebra I"],
+    category: "Algebra I",
+    subcategory: "Radicals",
     buttons: [
       { cmd: "\\sqrt{}", ui: "\\sqrt{\\ }" },
       { cmd: "\\nthroot3{}", ui: "\\sqrt[3]{\\ }" },
@@ -542,7 +555,8 @@ export default [
     example: "2\\sqrt{12}+9\\sqrt{3}",
     numFields: 1,
     prompts: ["="],
-    tags: ["Radicals", "Algebra I"],
+    category: "Algebra I",
+    subcategory: "Radicals",
     buttons: [{ cmd: "\\sqrt{}", ui: "\\sqrt{\\ }" }],
 
     generate: () => {
@@ -585,7 +599,8 @@ export default [
     example: "9x=10x+8",
     numFields: 1,
     prompts: ["="],
-    tags: ["Radicals", "Algebra I"],
+    category: "Algebra I",
+    subcategory: "Linear Equations",
     buttons: [],
 
     generate: () => {
@@ -633,7 +648,8 @@ export default [
     example: "\\frac{x^3-7x-6}{x-4} \\Rightarrow 30",
     numFields: 1,
     prompts: ["="],
-    tags: ["Polynomials", "Algebra II"],
+    category: "Algebra II",
+    subcategory: "Polynomials",
     buttons: [],
 
     generate: () => {
@@ -664,6 +680,50 @@ export default [
     },
 
     verify: (question, userResponses, questionString, providedSolution) => {
+      // console.log(nerdamer(providedSolution).eq(nerdamer(userResponses[0])))
+      return nerdamer(providedSolution).eq(nerdamer(userResponses[0]));
+    },
+  },
+  {
+    id: 16,
+    title: "Determine minimum/maximum of parabola",
+    instructions: "Determine the minimum or maximum of the function",
+    description: "Determine the minimum/maximum point of a polynomial function",
+    example: "-x^2+10x-8 \\Rightarrow (5, 17)",
+    numFields: 1,
+    prompts: ["(x, y) = "],
+    category: "Algebra II",
+    subcategory: "Polynomials",
+    buttons: [],
+
+    generate: () => {
+      const x = randomIntInRange(-10, 10);
+      const y = randomIntInRange(-15, 15);
+      console.log(x, y);
+      // construct vertex form
+      const latex = `(x${x > 0 ? `-${x}` : `+${Math.abs(x)}`})^2${
+        y > 0 ? `+${y}` : y
+      }`;
+      let n = nerdamer.convertFromLaTeX(latex);
+
+      n = n.expand();
+
+      return {
+        solution: [x, y],
+        latex: replaceAll(n.toTeX(), "\\cdot", ""),
+        stringVersion: "",
+      };
+    },
+
+    verify: (question, userResponses, questionString, providedSolution) => {
+      console.log(userResponses, providedSolution, question, questionString);
+
+      console.log(
+        questionString.substring(
+          questionString.indexOf("}") + 1,
+          questionString.substring(1).indexOf("x")
+        )
+      );
       // console.log(nerdamer(providedSolution).eq(nerdamer(userResponses[0])))
       return nerdamer(providedSolution).eq(nerdamer(userResponses[0]));
     },

@@ -8,6 +8,7 @@ import {
   MdBarChart,
   MdAdd,
   MdMenu,
+  MdOutlineBook,
 } from "react-icons/md";
 
 import SidebarIcon from "./SidebarIcon";
@@ -57,16 +58,22 @@ function MobileSidebar({ isOpen, toClose, activeIndex }) {
           isActive={activeIndex === 1}
         />
         <SidebarIcon
+          Icon={MdOutlineBook}
+          hoverText="Categories"
+          href="/categories"
+          isActive={activeIndex === 2}
+        />
+        <SidebarIcon
           Icon={MdBarChart}
           hoverText={"Stats"}
           href="/stats"
-          isActive={activeIndex === 2}
+          isActive={activeIndex === 3}
         />
         <SidebarIcon
           Icon={MdAdd}
           hoverText={"Create"}
           href="/create"
-          isActive={activeIndex === 3}
+          isActive={activeIndex === 4}
         />
       </div>
       <h3 className="text-textGrayed font-bold mt-4 my-2">MORE</h3>
