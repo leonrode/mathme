@@ -8,6 +8,7 @@ Goal: September 2022
 - [ ] search by tags
 - [x] save creation of a playlist inside localstorage
 - [ ] add auth to api routes that modify db in order to prevent a logged-in account from deleting another user's playlist
+- [ ] fix playlist summary message switching after 1 sec
 - [ ] better login error handling (eh)
 - [x] fix color scheme (something not monochromatic)
   - [ ] fix color names in tailwind config (later)

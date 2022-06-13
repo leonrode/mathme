@@ -10,9 +10,11 @@ function PlaylistSummary({
   toPlaylist,
   toPracticeAgain,
 }) {
+  const message = randomCompletetionMessage();
+
   return (
     <div className="w-full md:w-5/6">
-      <h1 className="font-bold text-3xl">{randomCompletetionMessage()}</h1>
+      <h1 className="font-bold text-3xl">{message}</h1>
       <h3 className="text-textGrayed mt-2">
         You finished all the topics! Let&apos;s review what you got wrong.
       </h3>

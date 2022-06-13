@@ -53,15 +53,14 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
       } else {
         questions = await fetchQuestions(topicId, 10);
       }
-      console.log(questions);
       setNextQuestions(questions);
     })();
   }, []);
 
   useEffect(() => {
-    const timeout = setTimeout(() => setProblemTimer(prev => prev + 1), 1000)
+    const timeout = setTimeout(() => setProblemTimer((prev) => prev + 1), 1000);
     return () => clearTimeout(timeout);
-  }, [problemTimer])
+  }, [problemTimer]);
 
   const getNextStarredTopicIndex = (topics, start) => {
     for (let i = start; i < topics.length; i++) {
@@ -87,7 +86,7 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
           return "Skipped";
         }),
         solution: question.solution,
-        seconds: problemTimer
+        seconds: problemTimer,
       },
     ];
 
@@ -101,7 +100,7 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
           return "Skipped";
         }),
         solution: question.solution,
-        seconds: problemTimer
+        seconds: problemTimer,
       },
     ]);
     setProblemTimer(0);
