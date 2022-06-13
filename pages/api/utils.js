@@ -1,4 +1,4 @@
-import content from "./content";
+import content from "../../lib/content/content";
 
 import stringSimilarity from "string-similarity";
 
@@ -55,37 +55,6 @@ function generateSearchResults(prompt) {
   results.sort((a, b) => (a.rating < b.rating ? 1 : -1));
 
   return results;
-}
-
-function randomIntInRange(min, max, excludeValues) {
-  let value = Math.floor(min + Math.random() * (max - min));
-
-  while (excludeValues && excludeValues.includes(value)) {
-    value = Math.floor(min + Math.random() * (max - min));
-  }
-  return value;
-}
-
-function gcd(a, b) {
-  if (!b) return Math.abs(a);
-
-  return gcd(b, a % b);
-}
-
-function randomFactor(number) {
-  let factors = [];
-  console.log("n", number);
-  for (let i = Math.floor(-number / 2); i < number / 2; i++) {
-    console.log(i);
-    if (number % i === 0) {
-      factors.push(i);
-    }
-  }
-  console.log("f", factors);
-  console.log("t", -6 % -3, 0 === -0);
-  if (factors.length === 0) return null;
-
-  return factors[Math.floor(Math.random() * factors.length)];
 }
 
 function randomId() {
@@ -185,15 +154,25 @@ const getPercentCorrect = (questions) => {
 const getAverageTimeToAnswer = (questions) => {
   // total, correct, incorrect
 
-  const total = questions.reduce((a, b) => a + b.seconds, questions[0].seconds) / questions.length;
-  const correctQuestions = questions.filter(q => q.isCorrect);
-  const correct = correctQuestions.reduce((a, b) => a + b.seconds, correctQuestions[0].seconds) / correctQuestions.length;
+  const total =
+    questions.reduce((a, b) => a + b.seconds, questions[0].seconds) /
+    questions.length;
+  const correctQuestions = questions.filter((q) => q.isCorrect);
+  const correct =
+    correctQuestions.reduce(
+      (a, b) => a + b.seconds,
+      correctQuestions[0].seconds
+    ) / correctQuestions.length;
 
-  const incorrectQuestions = questions.filter(q => !q.isCorrect);
-  const incorrect = incorrectQuestions.reduce((a, b) => a + b.seconds, incorrectQuestions[0].seconds) / incorrectQuestions.length;
+  const incorrectQuestions = questions.filter((q) => !q.isCorrect);
+  const incorrect =
+    incorrectQuestions.reduce(
+      (a, b) => a + b.seconds,
+      incorrectQuestions[0].seconds
+    ) / incorrectQuestions.length;
 
-  return {totalAvg: total, correctAvg: correct, incorrectAvg: incorrect}
-}
+  return { totalAvg: total, correctAvg: correct, incorrectAvg: incorrect };
+};
 
 const getCumulativeAccuracyGraph = (questions) => {
   let v = 0;
@@ -209,20 +188,17 @@ const getCumulativeAccuracyGraph = (questions) => {
   }
   console.log(points);
   return points;
-}
+};
 
 export {
   verifyQuestion,
   fetchMeta,
   generateSearchResults,
-  randomIntInRange,
-  gcd,
-  randomFactor,
   randomId,
   replaceAll,
   getTopSolvedQuestions,
   getBestQuestion,
   getPercentCorrect,
   getAverageTimeToAnswer,
-  getCumulativeAccuracyGraph
+  getCumulativeAccuracyGraph,
 };

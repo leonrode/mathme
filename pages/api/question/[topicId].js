@@ -1,4 +1,4 @@
-import content from "../content";
+import content from "../../../lib/content/content";
 
 function handler(req, res) {
   const topicId = req.query.topicId;

@@ -1,4 +1,4 @@
-import content from "../content";
+import content from "../../../lib/content/content";
 async function handler(req, res) {
   if (req.method === "GET") {
     let list = [];

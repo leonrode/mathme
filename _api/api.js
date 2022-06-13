@@ -62,7 +62,7 @@ const fetchNewQuestion = async (topicId) => {
 
 const fetchQuestions = async (topicId, count) => {
   const result = await axios.get(`/api/question/${~~topicId}?count=${~~count}`);
-
+  console.log(result)
   return result.data.questions;
 };
 

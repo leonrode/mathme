@@ -53,7 +53,7 @@ function PracticeManager({ topicId, playlist, hasPlaylist, starred, shuffle }) {
       } else {
         questions = await fetchQuestions(topicId, 10);
       }
-
+      console.log(questions);
       setNextQuestions(questions);
     })();
   }, []);

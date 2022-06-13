@@ -167,7 +167,7 @@ function Create() {
               }}
               className="text-error dark:text-darkError font-bold mt-2 cursor-pointer"
             >
-              Clear Playlist
+              Clear
             </h1>}
 
             <div className="w-full flex flex-col lg:w-11/12 mt-4">

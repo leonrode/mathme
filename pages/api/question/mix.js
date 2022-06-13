@@ -1,4 +1,4 @@
-import content from "../content";
+import content from "../../../lib/content/content";
 import clientPromise from "../../../lib/mongodb";
 
 async function handler(req, res) {
