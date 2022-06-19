@@ -15,6 +15,7 @@ async function handler(req, res) {
     const searchResults = generateSearchResults(prompt);
     return res.json({ error: false, results: searchResults });
   } catch (e) {
+    console.error(e);
     return res.json({ error: true, error: e.message });
   }
 }

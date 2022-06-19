@@ -55,6 +55,7 @@ function generateSearchResults(prompt) {
   results.sort((a, b) => (a.rating < b.rating ? 1 : -1));
 
   return results;
+  return [];
 }
 
 function randomId() {
