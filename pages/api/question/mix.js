@@ -25,17 +25,19 @@ async function handler(req, res) {
 
       // get one question from the topic id
       try {
-        const { latex, stringVersion, solution } =
+        const { latex, stringVersion, solution, instructions, prompts } =
           content[topic.topic.id].generate();
         questions.push({
           latex: latex,
           stringVersion,
           solution,
+          instructions,
+          prompts,
 
           title: content[topic.topic.id].title,
-          instructions: content[topic.topic.id].instructions,
+
           numFields: content[topic.topic.id].numFields,
-          prompts: content[topic.topic.id].prompts,
+
           buttons: content[topic.topic.id].buttons,
         });
       } catch (e) {
@@ -48,18 +50,20 @@ async function handler(req, res) {
     const topic = topics[Math.floor(Math.random() * topics.length)];
 
     // get one question from the topic id
-    const { latex, stringVersion, solution } =
+    const { latex, stringVersion, solution, instructions, prompts } =
       content[topic.topic.id].generate();
 
     questions.push({
       latex: latex,
       stringVersion,
       solution,
+      instructions,
+      prompts,
 
       title: content[topic.topic.id].title,
-      instructions: content[topic.topic.id].instructions,
+
       numFields: content[topic.topic.id].numFields,
-      prompts: content[topic.topic.id].prompts,
+
       buttons: content[topic.topic.id].buttons,
     });
   }

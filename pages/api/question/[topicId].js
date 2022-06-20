@@ -11,17 +11,19 @@ function handler(req, res) {
       }
       let questions = [];
       for (let i = 0; i < count; i++) {
-        const { latex, stringVersion, solution } = topic.generate();
-
+        const { latex, stringVersion, solution, instructions, prompts } = topic.generate();
+        console.log(instructions, prompts)
         questions.push({
           latex: latex,
           stringVersion,
           solution,
+          instructions,
+          prompts,
 
           title: topic.title,
-          instructions: topic.instructions,
+
           numFields: topic.numFields,
-          prompts: topic.prompts,
+
           buttons: topic.buttons,
         });
       }
@@ -35,17 +37,19 @@ function handler(req, res) {
       if (!topic) {
         return res.status(400).send();
       }
-      const { latex, stringVersion, solution } = topic.generate();
+      const { latex, stringVersion, solution, instructions, prompts } = topic.generate();
 
       return res.json({
         latex: latex,
         stringVersion,
         solution,
+        instructions,
+        prompts,
 
         title: topic.title,
-        instructions: topic.instructions,
+
         numFields: topic.numFields,
-        prompts: topic.prompts,
+
         buttons: topic.buttons,
         warning: "Yes, you can see the solution, but that defeats the point :)",
       });
