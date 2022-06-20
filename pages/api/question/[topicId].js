@@ -51,6 +51,7 @@ function handler(req, res) {
       });
     }
   } catch (e) {
+    console.error(e);
     return res.json({
       isError: true,
       error: e.message,

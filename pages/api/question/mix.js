@@ -24,20 +24,23 @@ async function handler(req, res) {
       const topic = topics[Math.floor(Math.random() * topics.length)];
 
       // get one question from the topic id
-      const { latex, stringVersion, solution } =
-        content[topic.topic.id].generate();
+      try {
+        const { latex, stringVersion, solution } =
+          content[topic.topic.id].generate();
+        questions.push({
+          latex: latex,
+          stringVersion,
+          solution,
 
-      questions.push({
-        latex: latex,
-        stringVersion,
-        solution,
-
-        title: content[topic.topic.id].title,
-        instructions: content[topic.topic.id].instructions,
-        numFields: content[topic.topic.id].numFields,
-        prompts: content[topic.topic.id].prompts,
-        buttons: content[topic.topic.id].buttons,
-      });
+          title: content[topic.topic.id].title,
+          instructions: content[topic.topic.id].instructions,
+          numFields: content[topic.topic.id].numFields,
+          prompts: content[topic.topic.id].prompts,
+          buttons: content[topic.topic.id].buttons,
+        });
+      } catch (e) {
+        console.error(e);
+      }
     }
   } else {
     // choose random topic
